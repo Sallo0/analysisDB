@@ -6,5 +6,19 @@
 </head>
 <body>
     <h1>OrientDB</h1>
+    <button type="button" onclick="request()">Test</button>
+    <div class="data"></div>
+    <script>
+        function request(){
+            fetch(`http://127.0.0.1:8000/` + `api/orientdb/getdata`, {
+                headers: {},
+                method: "GET",
+            })
+            .then(response => response.json())
+            .then(data =>{
+                alert(data['1'])
+            })
+        }
+    </script>
 </body>
 </html>
