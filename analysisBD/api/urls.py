@@ -4,8 +4,12 @@ from . import views
 from django.http import HttpResponse
 
 urlpatterns = [
-    path('main/', views.hello),
-    path('orientdb/', admin.site.urls),
-    path('postgresql/', admin.site.urls),
-    path('neo4j/', admin.site.urls),
+    path('', views.hello),
+    path('orientdb/', views.orient),
+    path('postgresql/', views.postgre),
+    path('neo4j/', views.Neo4j),
+
+    path('neo4j/getdata', views.getNeo4jData),
+    path('orientdb/getdata', views.getOrientDBData),
+    path('postgresql/getdata', views.getPostgreSQLData)
 ]
