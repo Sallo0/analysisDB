@@ -16,7 +16,17 @@
             })
             .then(response => response.json())
             .then(data =>{
-                alert(data['1'])
+                let parent = document.querySelector(".data")
+                let time = document.createElement("div")
+                time.innerHTML = data[25]['time']
+                time.classList.add("time")
+                parent.append(time)
+
+                data.forEach(e => {
+                    let el = document.createElement("div");
+                    el.innerHTML = e['ee']['name'];
+                    parent.appendChild(el);
+                })
             })
         }
     </script>
