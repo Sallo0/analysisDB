@@ -16,7 +16,9 @@
             })
             .then(response => response.json())
             .then(data =>{
-                alert(data['1'])
+                let el = document.createElement("div");
+                el.innerHTML = data;
+                document.querySelector('body').append(el);
             })
         }
     </script>

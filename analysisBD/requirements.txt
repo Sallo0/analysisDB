@@ -3,3 +3,5 @@ Django==3.1.7
 gunicorn==19.6.0
 psycopg2==2.6.2
 whitenoise==3.2.2
+pyorient==1.5.5
+python-decouple==3.6
