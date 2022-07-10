@@ -27,6 +27,11 @@ def getNeo4jData(request):
 
 
 @api_view(['GET'])
+def createNeo4jTestData(request):
+    return Response(data=neo4j.createTestDataNe04j(request), status=200)
+
+
+@api_view(['GET'])
 def getOrientDBData(request):
     return Response(data=orientdb.getDataOrientDB(request), status=200)
 
