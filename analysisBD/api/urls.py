@@ -10,6 +10,8 @@ urlpatterns = [
     path('neo4j/', views.Neo4j),
 
     path('neo4j/getdata', views.getNeo4jData),
+    path('neo4j/createtestdata', views.createNeo4jTestData),
+
     path('orientdb/getdata', views.getOrientDBData),
     path('postgresql/getdata', views.getPostgreSQLData)
 ]
