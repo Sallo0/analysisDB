@@ -7,7 +7,7 @@ def getDataPostgreSQL(request):
     host = "127.0.0.1"
     user = "postgres"
     password = "postgres"
-    db_name = "links"
+    db_name = "test"
     try:
         connection = psycopg2.connect(
             host=host,
@@ -16,7 +16,7 @@ def getDataPostgreSQL(request):
             database=db_name
             )
         with connection.cursor(cursor_factory=RealDictCursor) as cursor:
-            cursor.execute("SELECT * FROM links WHERE pk='1'")
+            cursor.execute("SELECT * FROM test WHERE LIMIT 10")
             result = cursor.fetchall()
             for record in result:
                 print(record)
