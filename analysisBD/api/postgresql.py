@@ -2,11 +2,12 @@ import psycopg2
 import json
 from psycopg2.extras import RealDictCursor
 
+
 def getDataPostgreSQL(request):
     host = "127.0.0.1"
     user = "postgres"
-    password = "12345678"
-    db_name = "testdb"
+    password = "postgres"
+    db_name = "links"
     try:
         connection = psycopg2.connect(
             host=host,
@@ -15,7 +16,7 @@ def getDataPostgreSQL(request):
             database=db_name
             )
         with connection.cursor(cursor_factory=RealDictCursor) as cursor:
-            cursor.execute("SELECT * FROM test WHERE city='Ekb'")
+            cursor.execute("SELECT * FROM links WHERE pk='1'")
             result = cursor.fetchall()
             for record in result:
                 print(record)
