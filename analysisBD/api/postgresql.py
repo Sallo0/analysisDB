@@ -22,6 +22,7 @@ def getDataPostgreSQL(request):
             result = cursor.fetchall()
             print(result)
             to_json = json.dumps(
+                result,
                 resultsort_keys=True,
                 indent=1,
                 cls=DjangoJSONEncoder)
