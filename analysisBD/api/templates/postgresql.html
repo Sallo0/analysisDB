@@ -10,8 +10,6 @@
     <div class="data"></div>
     <script>
         function request(){
-            console.log(window.location.hostname)
-            console.log(window.location.host)
             fetch(`http://46.48.3.74:8000/` + `api/postgresql/getdata`, {
                 headers: {},
                 method: "GET",

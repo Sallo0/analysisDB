@@ -4,6 +4,7 @@ from psycopg2.extras import RealDictCursor
 
 
 def getDataPostgreSQL(request):
+    to_json = {}
     host = "127.0.0.1"
     user = "postgres"
     password = "postgres"
