@@ -23,8 +23,8 @@ def getDataPostgreSQL(request):
                 print(result)
             to_json = json.dumps(result)
             print(to_json)
-    #except Exception as _ex:
-        #print("Error : ", _ex)
+    except Exception as _ex:
+        print("Error : ", _ex)
     finally:
         if connection:
             connection.close()
