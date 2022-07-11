@@ -23,8 +23,6 @@ def getDataPostgreSQL(request):
             print(result)
             to_json = json.dumps(
                 result,
-                resultsort_keys=True,
-                indent=1,
                 cls=DjangoJSONEncoder)
     except Exception as _ex:
         print("Error : ", _ex)
