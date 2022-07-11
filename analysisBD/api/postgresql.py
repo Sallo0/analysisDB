@@ -1,6 +1,7 @@
 import psycopg2
 import json
 from psycopg2.extras import RealDictCursor
+from django.core.serializers.json import DjangoJSONEncoder
 
 
 def getDataPostgreSQL(request):
@@ -20,7 +21,10 @@ def getDataPostgreSQL(request):
             cursor.execute("SELECT * FROM links LIMIT 10")
             result = cursor.fetchall()
             print(result)
-            to_json = json.dumps(result)
+            to_json = json.dumps(
+                resultsort_keys=True,
+                indent=1,
+                cls=DjangoJSONEncoder)
     except Exception as _ex:
         print("Error : ", _ex)
     finally:
