@@ -12,7 +12,7 @@
         function request(){
             console.log(window.location.hostname)
             console.log(window.location.host)
-            fetch(window.location.host + `api/postgresql/getdata`, {
+            fetch(`http://46.48.3.74:8000/` + `api/postgresql/getdata`, {
                 headers: {},
                 method: "GET",
             })
