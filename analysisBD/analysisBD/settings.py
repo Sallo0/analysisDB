@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-
+from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -22,10 +22,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '%u6=z$1(ivr%q51b=v0on$bwtg0i@^p9&x-ur-*)-i+4*augp9'
 
+ORIENTDB_PASS = config('orientdb_pass')
+ORIENTDB_LOGIN = config('orientdb_login')
+ORIENTDB_IP = config('orientdb_ip')
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["46.48.3.74", "46.48.3.74:8000", 'localhost', '0.0.0.0:8000', '127.0.0.1', '127.0.0.1:8000']
+ALLOWED_HOSTS = ["46.48.3.74", "46.48.3.74:4001", "46.48.3.74:8000", 'localhost', '0.0.0.0:8000', '127.0.0.1', '127.0.0.1:8000']
 
 
 # Application definition

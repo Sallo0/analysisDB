@@ -5,3 +5,5 @@ gunicorn==19.6.0
 psycopg2==2.6.2
 whitenoise==6.2.0
 neo4j==4.4.5
+pyorient==1.5.5
+python-decouple==3.6
