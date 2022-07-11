@@ -17,13 +17,9 @@ def getDataPostgreSQL(request):
             database=db_name
             )
         with connection.cursor(cursor_factory=RealDictCursor) as cursor:
-            cursor.execute("SELECT * FROM links WHERE LIMIT 10")
+            cursor.execute("SELECT * FROM links LIMIT 10;")
             result = cursor.fetchall()
-            for record in result:
-                print(record)
-                print(result)
             to_json = json.dumps(result)
-            print(to_json)
     except Exception as _ex:
         print("Error : ", _ex)
     finally:
