@@ -1,13 +1,14 @@
 import psycopg2
 import json
+import config
 from psycopg2.extras import RealDictCursor
 
 
 def getDataPostgreSQL(request):
-    host = "127.0.0.1"
-    user = "postgres"
-    password = "postgres"
-    db_name = "postgres"
+    host = config.postgres_host
+    user = config.postgres_user
+    password = config.postgres_password
+    db_name = config.postgres_db_name
     try:
         connection = psycopg2.connect(
             host=host,
