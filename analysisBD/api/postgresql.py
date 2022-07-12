@@ -20,6 +20,11 @@ def queryConstructor(data):
     elif data['mainfilter']['Child'] != "":
         query += "child=" + data['mainfilter']['Child']
 
+    else:
+        query += "pk=0"
+
+
+
     query += " LIMIT 25"
     return query
 
