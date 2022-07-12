@@ -22,7 +22,8 @@
 
                 records.forEach(record => {
                     let record_data = document.createElement("div");
-                    record.innerHTML = record;
+                    record_data.innerHTML = record;
+
                     document.querySelector('body').append(record_data)
                 })
 
@@ -30,5 +31,6 @@
             })
         }
     </script>
+
 </body>
 </html>
