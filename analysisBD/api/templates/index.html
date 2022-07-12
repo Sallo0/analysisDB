@@ -122,10 +122,10 @@
                 body: JSON.stringify(result)
             })
             .then(response => {
-                alert(ok)
-                console.log(response)
-                console.log(response.json())
-            })
+                if (response.ok) {
+                        console.log("ok");
+                    }
+            });
             /*
             .then(data => {
                 let records = document.createElement("div");

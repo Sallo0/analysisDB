@@ -10,6 +10,7 @@ timer = 0
 
 def getDataPostgreSQL(request):
     print(request.data['dbtype'])
+    print(request.data['mainfilter']['Child'])
 
     to_json = {}
     host = "127.0.0.1"
