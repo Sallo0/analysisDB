@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="ru">
- <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>Пример веб-страницы</title>
+<head>
+    {% load static %}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Пример веб-страницы</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
  </head>
  <body>
   <h1>Анализ баз данных</h1>
@@ -13,17 +15,22 @@
       <a href="neo4j"><button type="button">Neo4j</button></a>
 
        <form method="post" class="requestForm">
-           <select class="select-db">
+           <select class="select-db" required>
                <option selected value="PostgreSQL">PostgreSQL</option>
                <option value="OrientDB">OrientDB</option>
                <option value="Neo4j">Neo4j</option>
            </select>
 
-           <select class="select-mainFilter">
-               <option selected value="Child">Child</option>
+           <select class="select-mainFilter" required>
+               <option value="Child" onclick="">Child</option>
                <option value="Parent">Parent</option>
                <option value="All">All</option>
            </select>
+
+           <div class="filter-imput">
+               <input class="child" type="text">
+               <input class="parent" type="text">
+           </div>
 
            <select class="select-kind">
                <option value="1">1</option>
