@@ -8,3 +8,7 @@
     background-color: #2562aa;
     color: #fff1eb;
 }
+
+body {
+    background: url("background.jpg");
+}

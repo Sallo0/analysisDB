@@ -28,6 +28,10 @@
 
                     let record_arr = record.split(",");
                     //record_arr.splice(0,1)
+                    console.log(record_arr[-1])
+                    //if (record_arr[-1] == ".") {
+                       // record_arr.splice(-1, 1)
+                    //}
                     record_arr.forEach(e =>{
                         let block = document.createElement("div");
                         block.classList.add("recordItem");
