@@ -37,13 +37,12 @@
                        // record_arr.splice(-1, 1)
                     //}
                     record_arr.forEach(e =>{
-                        let block = document.createElement("div");
-                        block.classList.add("recordItem");
-                        block.innerHTML = e;
-                        if (e == " "){
-                            console.log("true")
+                        if (e != " "){
+                            let block = document.createElement("div");
+                            block.classList.add("recordItem");
+                            block.innerHTML = e;
+                            record_container.append(block);
                         }
-                        record_container.append(block);
                     })
                     //record_container.innerHTML = record;
 
