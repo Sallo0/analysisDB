@@ -19,12 +19,21 @@
                 let records = document.createElement("div");
 
                 records = data.split("{")
-
+                records.splice(0,1);
                 records.forEach(record => {
-                    let record_data = document.createElement("div");
-                    record_data.innerHTML = record;
+                    let record_container = document.createElement("div");
 
-                    document.querySelector('body').append(record_data)
+                    let record_arr = record.split(",");
+                    //record_arr.splice(0,1)
+                    record_arr.forEach(e =>{
+                        let block = document.createElement("div");
+                        block.classList.add("recordItem");
+                        block.innerHTML = e;
+                        record_container.append(block);
+                    })
+                    //record_container.innerHTML = record;
+
+                    document.querySelector('body').append(record_container)
                 })
 
                 //document.querySelector('body').append(records);
