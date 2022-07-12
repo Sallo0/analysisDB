@@ -23,7 +23,7 @@ def queryConstructor(data):
     else:
         query += "pk=0"
 
-    if data['kind'] != "":
+    if data['kind'] != "-":
         query += " AND kind=" + data['kind']
 
 
@@ -33,7 +33,7 @@ def queryConstructor(data):
 
 def getDataPostgreSQL(request):
     print(request.data['dbtype'])
-    print(request.data['mainfilter']['Child'])
+    print(request.data['date_begin'])
     data = request.data
     to_json = {}
     host = "127.0.0.1"
