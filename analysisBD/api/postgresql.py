@@ -9,12 +9,18 @@ timer = 0
 
 
 def queryConstructor(data):
-    query = "SELECT * FROM links WHERE " \
-            "child=" + data['mainfilter']['Child'] + \
-            "parent=" + data['mainfilter']['Parent'] + \
-            " LIMIT 10"
-    if data['mainfilter']['Child'] != 0:
+    query = "SELECT * FROM links WHERE "
+
+    if data['mainfilter']['Child'] != "" and data['mainfilter']['Parent'] != "":
+        query += "child=" + data['mainfilter']['Child'] + " AND parent=" + data['mainfilter']['Parent']
+
+    elif data['mainfilter']['Parent'] != "":
+        query += "parent=" + data['mainfilter']['Parent']
+
+    elif data['mainfilter']['Child'] != "":
         query += "child=" + data['mainfilter']['Child']
+
+    query += " LIMIT 25"
     return query
 
 
@@ -36,10 +42,7 @@ def getDataPostgreSQL(request):
             )
         with connection.cursor(cursor_factory=RealDictCursor) as cursor:
             time_start = t.perf_counter()
-            query = "SELECT * FROM links WHERE " \
-                    "child=" + data['mainfilter']['Child'] + \
-                    "parent=" + data['mainfilter']['Parent'] + \
-                    " LIMIT 10"
+            query = queryConstructor(data)
             cursor.execute(query)
             time_end = t.perf_counter()
             result = cursor.fetchall()
