@@ -26,6 +26,8 @@ def queryConstructor(data):
     if data['kind'] != "-":
         query += " AND kind=" + data['kind']
 
+    if data['date_begin'] != "":
+        query += " AND date_begin=" + data['date_begin']
 
     query += " LIMIT 25"
     return query
