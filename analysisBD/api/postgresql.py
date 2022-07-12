@@ -26,7 +26,8 @@ def getDataPostgreSQL(request):
             )
         with connection.cursor(cursor_factory=RealDictCursor) as cursor:
             time_start = t.perf_counter()
-            cursor.execute("SELECT * FROM links LIMIT 10")
+            query = "SELECT * FROM links LIMIT 10"
+            cursor.execute(query)
             time_end = t.perf_counter()
             result = cursor.fetchall()
             timer = time_end - time_start
