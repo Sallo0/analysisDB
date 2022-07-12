@@ -22,7 +22,7 @@
            </select>
 
            <select class="select-mainFilter" required>
-               <option value="Child" onclick="displayInput()">Child</option>
+               <option value="Child" onclick="alert('ok')">Child</option>
                <option value="Parent">Parent</option>
                <option value="All">All</option>
            </select>
@@ -58,7 +58,7 @@
     <script>
         function displayInput(){
             alert("ok")
-            document.querySelector(".filter-imput").style.display = "inline-block";
+            document.querySelector(".filter-input").style.display = "inline-block";
             document.querySelector(".child").style.display = "block";
 
         }
