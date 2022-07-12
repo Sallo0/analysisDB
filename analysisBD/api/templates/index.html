@@ -21,7 +21,7 @@
                <option value="Neo4j">Neo4j</option>
            </select>
 
-           <select class="select-mainFilter" required>
+           <select class="select-mainFilter" onchange="displayInput()" required>
                <option value="Child" onclick="alert('ok')">Child</option>
                <option value="Parent">Parent</option>
                <option value="All">All</option>
@@ -57,7 +57,9 @@
   </div>
     <script>
         function displayInput(){
-            alert("ok")
+            let selectBox = document.querySelector(".select-mainFilter");
+            let selectedValue = selectBox.options[selectBox.selectedIndex].value;
+            alert(selectedValue)
             document.querySelector(".filter-input").style.display = "inline-block";
             document.querySelector(".child").style.display = "block";
 
