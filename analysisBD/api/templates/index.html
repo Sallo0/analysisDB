@@ -77,19 +77,48 @@
             }
         }
 
+        function getInputValue(data){
+            let result = data;
+            let selectDB = document.querySelector(".select-db");
+            let selectKind = document.querySelector(".select-kind");
+            let selectChildLiq = document.querySelector(".select-childLiquidated");
+
+            result['dbtype'] = selectDB.options[selectDB.selectedIndex].value;
+            result['mainfilter']['Child'] = document.querySelector(".child").value;
+            result['mainfilter']['Parent'] = document.querySelector(".parent").value;
+            result['kind'] = selectKind.options[selectKind.selectedIndex].value;
+            result['date_begin'] = document.querySelector(".date-begin").value;
+            result['date_end'] = document.querySelector(".date-end").value;
+            result['cost'] = document.querySelector(".cost").value;
+            result['share'] = document.querySelector(".share").value;
+            result['child_liquidated'] = selectChildLiq.options[selectChildLiq.selectedIndex].value;
+
+            return result
+        }
+
         function sendRequest(){
+            let data = {
+                'dbtype': '',
+                'mainfilter': {
+                    'Child': 0,
+                    'Parent': 0
+                },
+                'kind': '',
+                'date_begin': '',
+                'date_end': '',
+                'cost': '',
+                'share': '',
+                'child_liquidated': ''
+            }
 
-            let selectBox = document.querySelector(".select-db");
-            let selectedValue = selectBox.options[selectBox.selectedIndex].value;
+            let result = getInputValue(data)
 
-            let data = { 'dbtype': selectedValue }
-
-            fetch(`http://46.48.3.74:8000/` + "api/postgresql/getdata", {
+            fetch(`http://46.48.3.74:8000/` + "api/getdata", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8'
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(result)
             })
             .then(response => {
                 if (response.ok) {

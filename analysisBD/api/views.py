@@ -1,9 +1,8 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from . import neo4j
-from . import orientdb
-from . import postgresql
+from . import neo4j, orientdb, postgresql, controller
+
 
 def hello(request):
     return render(request, 'index.html')
@@ -39,3 +38,8 @@ def getOrientDBData(request):
 @api_view(['POST'])
 def getPostgreSQLData(request):
     return Response(data=postgresql.getDataPostgreSQL(request), status=200)
+
+
+@api_view(['POST'])
+def getData(request):
+    return Response(data=controller.getData(request), status=200)
