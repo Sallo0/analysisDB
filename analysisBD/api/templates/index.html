@@ -22,7 +22,7 @@
            </select>
 
            <select class="select-mainFilter" required>
-               <option value="Child" onclick="">Child</option>
+               <option value="Child" onclick="displayInput()">Child</option>
                <option value="Parent">Parent</option>
                <option value="All">All</option>
            </select>
@@ -55,5 +55,12 @@
            <input type="submit" value="Отправить">
        </form>
   </div>
+    <script>
+        function displayInput(){
+            document.querySelector(".filter-imput").style.display = "inline-block";
+            document.querySelector(".child").style.display = "block";
+
+        }
+    </script>
  </body>
 </html>
