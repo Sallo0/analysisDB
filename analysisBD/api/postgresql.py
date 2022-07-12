@@ -11,7 +11,7 @@ timer = 0
 def getDataPostgreSQL(request):
     print(request.data['dbtype'])
     print(request.data['mainfilter']['Child'])
-
+    data = request.data
     to_json = {}
     host = "127.0.0.1"
     user = "postgres"
@@ -26,7 +26,7 @@ def getDataPostgreSQL(request):
             )
         with connection.cursor(cursor_factory=RealDictCursor) as cursor:
             time_start = t.perf_counter()
-            query = "SELECT * FROM links LIMIT 10"
+            query = "SELECT * FROM links WHERE child=" + data['mainfilter']['Child'] + " LIMIT 10"
             cursor.execute(query)
             time_end = t.perf_counter()
             result = cursor.fetchall()
