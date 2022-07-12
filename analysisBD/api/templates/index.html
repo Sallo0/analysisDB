@@ -22,7 +22,7 @@
            </select>
 
            <select class="select-mainFilter" onchange="displayInput()" required>
-               <option value="-">-</option>
+               <option class="option-none" value="-">-</option>
                <option value="Child">Child</option>
                <option value="Parent">Parent</option>
                <option value="All">All</option>
@@ -61,6 +61,7 @@
             let selectBox = document.querySelector(".select-mainFilter");
             let selectedValue = selectBox.options[selectBox.selectedIndex].value;
             document.querySelector(".filter-input").style.display = "inline-block";
+            document.querySelector(".option-none").remove();
 
             if (selectedValue === "Child") {
                 document.querySelector(".parent").style.display = "none";
