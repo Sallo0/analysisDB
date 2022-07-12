@@ -29,6 +29,9 @@ def queryConstructor(data):
     if data['date_begin'] != "":
         query += " AND date_begin >= " + "'" + data['date_begin'] + "'"
 
+    if data['date_end'] != "":
+        query += " AND date_end <= " + "'" + data['date_end'] + "'"
+
     query += " LIMIT 25"
     return query
 
