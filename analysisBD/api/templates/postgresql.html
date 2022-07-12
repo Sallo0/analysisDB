@@ -40,7 +40,9 @@
                         let block = document.createElement("div");
                         block.classList.add("recordItem");
                         block.innerHTML = e;
-                        console.log(e);
+                        if (e == " "){
+                            console.log("true")
+                        }
                         record_container.append(block);
                     })
                     //record_container.innerHTML = record;
