@@ -16,9 +16,11 @@
             })
             .then(response => response.json())
             .then(data =>{
-                let el = document.createElement("div");
-                el.innerHTML = data;
-                document.querySelector('body').append(el);
+                let records = document.createElement("div");
+
+                records = data.split("{")
+
+                document.querySelector('body').append(records);
             })
         }
     </script>
