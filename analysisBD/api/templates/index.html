@@ -86,7 +86,9 @@
 
             fetch(`http://46.48.3.74:8000/` + "api/postgresql/getdata", {
                 method: 'POST',
-                headers: {},
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
                 body: JSON.stringify(data)
             })
             .then(response => {
