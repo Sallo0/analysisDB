@@ -1,3 +1,10 @@
-body{
-    background-color: red;
+.recordContainer{
+
+}
+.recordItem{
+    display: inline-block;
+    margin-right: 15px;
+    border: 2px solid #153f6f;
+    background-color: #2562aa;
+    color: #fff1eb;
 }
