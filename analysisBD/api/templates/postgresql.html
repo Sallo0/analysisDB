@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/postgresStyles.css' %}">
 </head>
 <body>
     <h1>PostgreSQL</h1>
@@ -22,6 +24,7 @@
                 records.splice(0,1);
                 records.forEach(record => {
                     let record_container = document.createElement("div");
+                    record_container.classList.add("recordContainer");
 
                     let record_arr = record.split(",");
                     //record_arr.splice(0,1)
