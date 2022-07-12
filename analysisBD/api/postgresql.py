@@ -32,6 +32,9 @@ def queryConstructor(data):
     if data['date_end'] != "":
         query += " AND date_end <= " + "'" + data['date_end'] + "'"
 
+    if data['cost'] != "":
+        query += " AND cost=" + data['cost']
+
     query += " LIMIT 25"
     return query
 
