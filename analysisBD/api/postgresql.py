@@ -9,7 +9,9 @@ timer = 0
 
 
 def getDataPostgreSQL(request):
-    print(request.data['dbtype'])
+    for p in request.data:
+        print(p)
+
     to_json = {}
     host = "127.0.0.1"
     user = "postgres"
