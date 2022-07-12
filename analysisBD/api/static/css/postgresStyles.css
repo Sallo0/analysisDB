@@ -1,12 +1,14 @@
 .recordContainer{
-
+    margin-bottom: 15px;
 }
 .recordItem{
     display: inline-block;
-    margin-right: 15px;
+    margin-right: 10px;
     border: 2px solid #153f6f;
     background-color: #2562aa;
     color: #fff1eb;
+    border-radius: 5px;
+    padding: 5px;
 }
 
 body {
