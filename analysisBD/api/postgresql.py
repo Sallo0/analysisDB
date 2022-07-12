@@ -23,6 +23,8 @@ def queryConstructor(data):
     else:
         query += "pk=0"
 
+    if data['kind'] != "":
+        query += " AND kind=" + data['kind']
 
 
     query += " LIMIT 25"
