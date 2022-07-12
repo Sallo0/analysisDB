@@ -121,12 +121,9 @@
                 },
                 body: JSON.stringify(result)
             })
-            .then(response => {
-                if (response.ok) {
-                    return response.json()
-                }
-            })
+            .then(response => response.json())
             .then(data => {
+                console.log(data)
                 let records = document.createElement("div");
 
                 let temp = data.split(']')
