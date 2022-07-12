@@ -136,6 +136,8 @@
                 records = temp[0].split("{")
                 records.splice(0,1);
 
+                document.querySelector('.data').innerHTML = ""
+
                 records.forEach(record => {
                     let record_container = document.createElement("div");
                     record_container.classList.add("recordContainer");
