@@ -36,6 +36,6 @@ def getOrientDBData(request):
     return Response(data=orientdb.getDataOrientDB(request), status=200)
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def getPostgreSQLData(request):
     return Response(data=postgresql.getDataPostgreSQL(request), status=200)

@@ -14,7 +14,7 @@
       <a href="orientdb"><button type="button">OrientDB</button></a>
       <a href="neo4j"><button type="button">Neo4j</button></a>
 
-       <form method="GET" class="requestForm">
+       <form class="requestForm">
            <select class="select-db" required>
                <option selected value="PostgreSQL">PostgreSQL</option>
                <option value="OrientDB">OrientDB</option>
@@ -53,7 +53,7 @@
                <option value="true">Да</option>
            </select>
 
-           <input type="submit" value="Отправить">
+           <input type="submit" value="Отправить" onclick="sendRequest()">
        </form>
   </div>
     <script>
@@ -75,6 +75,27 @@
                 document.querySelector(".child").style.display = "block";
                 document.querySelector(".parent").style.display = "block";
             }
+        }
+
+        function sendRequest(){
+
+            let selectBox = document.querySelector(".select-db");
+            let selectedValue = selectBox.options[selectBox.selectedIndex].value;
+
+            let data = {
+                "dbtype": selectedValue
+            }
+
+            fetch(`http://46.48.3.74:8000/` + "api/postgresql/getdata", {
+                method: 'POST',
+                headers: {},
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("ok")
+                }
+            });
         }
     </script>
  </body>
