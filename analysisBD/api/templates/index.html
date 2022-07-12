@@ -22,14 +22,15 @@
            </select>
 
            <select class="select-mainFilter" onchange="displayInput()" required>
-               <option value="Child" onclick="alert('ok')">Child</option>
+               <option value="-">-</option>
+               <option value="Child">Child</option>
                <option value="Parent">Parent</option>
                <option value="All">All</option>
            </select>
 
            <div class="filter-input">
-               <input class="child" type="text">
-               <input class="parent" type="text">
+               <input class="child" type="text" placeholder="child...">
+               <input class="parent" type="text" placeholder="parent...">
            </div>
 
            <select class="select-kind">
@@ -59,10 +60,18 @@
         function displayInput(){
             let selectBox = document.querySelector(".select-mainFilter");
             let selectedValue = selectBox.options[selectBox.selectedIndex].value;
-            alert(selectedValue)
-            document.querySelector(".filter-input").style.display = "inline-block";
-            document.querySelector(".child").style.display = "block";
 
+            if (selectedValue === "Child") {
+                document.querySelector(".filter-input").style.display = "inline-block";
+                document.querySelector(".child").style.display = "block";
+            }else if (selectedValue === "Parent"){
+                document.querySelector(".filter-input").style.display = "inline-block";
+                document.querySelector(".parent").style.display = "block";
+            }else if (selectedValue === "All"){
+                document.querySelector(".filter-input").style.display = "inline-block";
+                document.querySelector(".child").style.display = "block";
+                document.querySelector(".parent").style.display = "block";
+            }
         }
     </script>
  </body>
