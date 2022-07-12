@@ -20,7 +20,11 @@
 
                 records = data.split("{")
 
-                document.querySelector('body').append(records);
+                records.forEach(record => {
+                    document.querySelector('body').append(document.createElement("div").innerHTML = record)
+                })
+
+                //document.querySelector('body').append(records);
             })
         }
     </script>
