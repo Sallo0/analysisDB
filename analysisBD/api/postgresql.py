@@ -35,6 +35,12 @@ def queryConstructor(data):
     if data['cost'] != "":
         query += " AND cost=" + data['cost']
 
+    if data['share'] != "":
+        query += " AND share=" + data['share']
+
+    if data['child_liquidated'] != "-":
+        query += " AND child_liquidated=" + data['child_liquidated']
+
     query += " LIMIT 25"
     return query
 
