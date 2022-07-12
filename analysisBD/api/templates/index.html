@@ -56,6 +56,7 @@
            <input type="submit" value="Отправить" onclick="sendRequest()">
        </form>
   </div>
+  <div class="data"></div>
     <script>
         function displayInput(){
             let selectBox = document.querySelector(".select-mainFilter");
@@ -122,8 +123,34 @@
             })
             .then(response => {
                 if (response.ok) {
-                    alert("ok")
+                    return response.json()
                 }
+            })
+            .then(data => {
+                let records = document.createElement("div");
+
+                let temp = data.split(']')
+                let timer = temp[1]
+
+                records = temp[0].split("{")
+                records.splice(0,1);
+
+                records.forEach(record => {
+                    let record_container = document.createElement("div");
+                    record_container.classList.add("recordContainer");
+                    let record_arr = record.split(",");
+                    record_arr.forEach(e =>{
+                        if (e != " "){
+                            let block = document.createElement("div");
+                            block.classList.add("recordItem");
+                            block.innerHTML = e;
+                            record_container.append(block);
+                        }
+                    })
+
+                    document.querySelector('body').append(record_container)
+                })
+                document.querySelector('body').append(timer)
             });
         }
     </script>

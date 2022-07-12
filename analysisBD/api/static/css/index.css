@@ -1,11 +1,30 @@
-.filter-input{
-    display: none;
-
+body {
+    background: url("background.jpg");
 }
 
+.filter-input{
+    display: none;
+}
 .child{
     display: none;
 }
 .parent{
     display: none;
 }
+.recordContainer{
+    margin-bottom: 15px;
+    padding: 3px;
+    border: 2px solid #355780;
+    background-color: #79A3D4;
+    border-radius: 5px;
+}
+.recordItem{
+    display: inline-block;
+    margin-right: 10px;
+    border: 2px solid #153f6f;
+    background-color: #2562aa;
+    color: #fff1eb;
+    border-radius: 5px;
+    padding: 5px;
+}
+
