@@ -1,5 +1,9 @@
 .recordContainer{
     margin-bottom: 15px;
+    padding: 3px;
+    border: 2px solid #B7B7B7;
+    background-color: #f4f4f4;
+    border-radius: 5px;
 }
 .recordItem{
     display: inline-block;
