@@ -60,15 +60,15 @@
         function displayInput(){
             let selectBox = document.querySelector(".select-mainFilter");
             let selectedValue = selectBox.options[selectBox.selectedIndex].value;
+            document.querySelector(".filter-input").style.display = "inline-block";
 
             if (selectedValue === "Child") {
-                document.querySelector(".filter-input").style.display = "inline-block";
+                document.querySelector(".parent").style.display = "none";
                 document.querySelector(".child").style.display = "block";
             }else if (selectedValue === "Parent"){
-                document.querySelector(".filter-input").style.display = "inline-block";
                 document.querySelector(".parent").style.display = "block";
+                document.querySelector(".child").style.display = "none";
             }else if (selectedValue === "All"){
-                document.querySelector(".filter-input").style.display = "inline-block";
                 document.querySelector(".child").style.display = "block";
                 document.querySelector(".parent").style.display = "block";
             }
