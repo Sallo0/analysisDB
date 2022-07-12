@@ -2,6 +2,9 @@ body {
     background: url("background.jpg");
 }
 
+.data{
+    margin: 25px;
+}
 .filter-input{
     display: none;
 }
