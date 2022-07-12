@@ -61,7 +61,9 @@
             let selectBox = document.querySelector(".select-mainFilter");
             let selectedValue = selectBox.options[selectBox.selectedIndex].value;
             document.querySelector(".filter-input").style.display = "inline-block";
-            document.querySelector(".option-none").remove();
+
+            let option = document.querySelector(".option-none");
+            if (option != null) document.querySelector(".option-none").remove();
 
             if (selectedValue === "Child") {
                 document.querySelector(".parent").style.display = "none";
