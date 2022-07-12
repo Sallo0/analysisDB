@@ -82,7 +82,7 @@
             let selectBox = document.querySelector(".select-db");
             let selectedValue = selectBox.options[selectBox.selectedIndex].value;
 
-            let data = { 'dbtype': 'xui' }
+            let data = { 'dbtype': selectedValue }
 
             fetch(`http://46.48.3.74:8000/` + "api/postgresql/getdata", {
                 method: 'POST',
