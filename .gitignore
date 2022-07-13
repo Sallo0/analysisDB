@@ -1,2 +1,3 @@
 .idea
-/analysisBD/.env
+.env
+/analysisBD/analysisBD/__pycache__

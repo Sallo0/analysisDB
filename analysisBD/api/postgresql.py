@@ -2,6 +2,7 @@ import psycopg2
 import json
 import time
 from psycopg2.extras import RealDictCursor
+from dotenv import load_dotenv, dotenv_values
 from django.core.serializers.json import DjangoJSONEncoder
 
 t = time
@@ -9,6 +10,14 @@ timer = 0
 
 
 def queryConstructor(data):
+    """Создаёт sql запрос в виде строки по полученным фильтрам с сайта
+
+        :param data: arg1
+        :type data: object
+
+        :rtype: str
+        :return: SQL-строка
+    """
     query = "SELECT * FROM links WHERE "
 
     if data['mainfilter']['Child'] != "" and data['mainfilter']['Parent'] != "":
@@ -46,13 +55,21 @@ def queryConstructor(data):
 
 
 def getDataPostgreSQL(request):
-    print(request.data['dbtype'])
-    print(request.data['date_begin'])
+    """Получает данные по запросу request из базы данных postgres и возвращает их вместе с временем,
+         за которое он эти данные получил
+
+            :param request: arg1
+            :type request: object
+
+            :rtype: dict
+            :return: словарь с данными из базы postgres
+    """
+    config = dotenv_values(".env")
     data = request.data
     to_json = {}
     host = "127.0.0.1"
-    user = "postgres"
-    password = "postgres"
+    user = config['postgres_user']
+    password = config['postgres_password']
     db_name = "postgres"
     try:
         connection = psycopg2.connect(
