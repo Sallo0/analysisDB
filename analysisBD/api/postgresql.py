@@ -24,44 +24,34 @@ def queryConstructor(data):
     sql_args = []
 
     if data['mainfilter']['Child'] != "" and data['mainfilter']['Parent'] != "":
-        #query += "child=" + data['mainfilter']['Child'] + " AND parent=" + data['mainfilter']['Parent']
         sql_args.append(f'child={data["mainfilter"]["Child"]}')
         sql_args.append(f'parent={data["mainfilter"]["Parent"]}')
 
     elif data['mainfilter']['Parent'] != "":
-        #query += "parent=" + data['mainfilter']['Parent']
         sql_args.append(f'parent={data["mainfilter"]["Parent"]}')
 
     elif data['mainfilter']['Child'] != "":
-        #query += "child=" + data['mainfilter']['Child']
         sql_args.append(f'child={data["mainfilter"]["Child"]}')
 
     else:
-        #query += "pk=0"
         sql_args.append(f'pk=0')
 
     if data['kind'] != "-":
-        #query += " AND kind=" + data['kind']
         sql_args.append(f'kind={data["kind"]}')
 
     if data['date_begin'] != "":
-        #query += " AND date_begin >= " + "'" + data['date_begin'] + "'"
         sql_args.append(f"date_begin >= '{data['date_begin']}'")
 
     if data['date_end'] != "":
-        #query += " AND date_end <= " + "'" + data['date_end'] + "'"
         sql_args.append(f"date_end <= '{data['date_end']}'")
 
     if data['cost'] != "":
-        #query += " AND cost=" + data['cost']
         sql_args.append(f'cost={data["cost"]}')
 
     if data['share'] != "":
-        #query += " AND share=" + data['share']
         sql_args.append(f'share={data["share"]}')
 
     if data['child_liquidated'] != "-":
-        #query += " AND child_liquidated=" + data['child_liquidated']
         sql_args.append(f'child_liquidated={data["child_liquidated"]}')
 
     query.append(" AND ".join(sql_args))
