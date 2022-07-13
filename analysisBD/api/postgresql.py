@@ -13,12 +13,13 @@ load_dotenv()
 
 def queryConstructor(data):
     """Создаёт sql запрос в виде строки по полученным фильтрам с сайта
+         
+    Args:
+        data (dict): Json словарь полученый с фронта.
 
-        :param data: arg1
-        :type data: object
+    Returns:
+        str: Готовый SQL запрос.
 
-        :rtype: str
-        :return: SQL-строка
     """
     query = ["SELECT * FROM links WHERE "]
     sql_args = []
@@ -65,11 +66,16 @@ def getDataPostgreSQL(request):
     """Получает данные по запросу request из базы данных postgres и возвращает их вместе с временем,
          за которое он эти данные получил
 
-            :param request: arg1
-            :type request: object
+    Args:
+        request (object): Объект, в котором хранится json словарь с данными из запроса.
 
-            :rtype: dict
-            :return: словарь с данными из базы postgres
+    Keyword Args:
+        data (dict): Словарь с данными из запроса.
+        to_json (dict): Хранит результат обращения к базе данных в формате json.
+        
+    Returns:
+        json: Возвращает данные из базы PostgreSQL по запросу. 
+
     """
 
     data = request.data
