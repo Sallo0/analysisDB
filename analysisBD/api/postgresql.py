@@ -1,12 +1,14 @@
 import psycopg2
 import json
 import time
+import os
 from psycopg2.extras import RealDictCursor
 from dotenv import load_dotenv, dotenv_values
 from django.core.serializers.json import DjangoJSONEncoder
 
 t = time
 timer = 0
+load_dotenv()
 
 
 def queryConstructor(data):
@@ -64,12 +66,12 @@ def getDataPostgreSQL(request):
             :rtype: dict
             :return: словарь с данными из базы postgres
     """
-    config = dotenv_values(".env")
+
     data = request.data
     to_json = {}
     host = "127.0.0.1"
-    user = config['postgres_user']
-    password = config['postgres_password']
+    user = os.getenv('postgres_user')
+    password = os.getenv('postgres_password')
     db_name = "postgres"
     try:
         connection = psycopg2.connect(
