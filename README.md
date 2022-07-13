@@ -9,8 +9,15 @@
 
 ## Запуск
 ```shell
-python manage.py runserver
+cd analysisbd/
+cd analysisDB/
+cd analysisBD/
+python3 manage.py runserver 192.168.1.174:8000
 ```
+
+## Тестирование
+- Открыть браузер и зайти на сайт: http://46.48.3.74:8000/api/
+- На сайте выбираете базу posgres и заполняете фильтры, например child = 11721855
 
 ## Подробности реализации
 - Проект состоит из двух частей - все что связанно с Django и модули отвечающие за работу с базами данных: 'neo4j.py', 'oriendb.py', 'postgresql.py'.
