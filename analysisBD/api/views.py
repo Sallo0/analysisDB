@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from . import neo4j, orientdb, postgresql, controller
+from . import neo4jDB, orientdb, postgresql, controller
 
 
 def hello(request):
@@ -22,12 +22,12 @@ def Neo4j(request):
 
 @api_view(['GET'])
 def getNeo4jData(request):
-    return Response(data=neo4j.getDataNeo4j(request), status=200)
+    return Response(data=neo4jDB.getDataNeo4j(request), status=200)
 
 
 @api_view(['GET'])
 def createNeo4jTestData(request):
-    return Response(data=neo4j.createTestDataNe04j(request), status=200)
+    return Response(data=neo4jDB.createTestDataNe04j(request), status=200)
 
 
 @api_view(['GET'])

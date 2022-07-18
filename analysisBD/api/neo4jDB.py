@@ -1,5 +1,6 @@
 import neo4j
 import time
+"""
 from neo4j import GraphDatabase, basic_auth
 
 t = time
@@ -49,3 +50,4 @@ def createTestDataNe04j(request):
     driver.close()
 
     return results
+"""
