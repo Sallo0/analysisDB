@@ -70,11 +70,15 @@
             if (option != null) document.querySelector(".option-none").remove();
 
             if (selectedValue === "Child") {
-                document.querySelector(".parent").style.display = "none";
+                let parent = document.querySelector(".parent")
+                parent.style.display = "none";
+                parent.value = ""
                 document.querySelector(".child").style.display = "block";
             }else if (selectedValue === "Parent"){
+                let child = document.querySelector(".child")
                 document.querySelector(".parent").style.display = "block";
-                document.querySelector(".child").style.display = "none";
+                child.style.display = "none";
+                child.value = ""
             }else if (selectedValue === "All"){
                 document.querySelector(".child").style.display = "block";
                 document.querySelector(".parent").style.display = "block";
