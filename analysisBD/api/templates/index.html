@@ -193,6 +193,8 @@
 
                 document.querySelector('.data').append(time_block)
                 document.querySelector('.data').append(records)
+
+                document.getElementById("spinner").remove()
             }
 
             function parserDataPostgres(data){
@@ -220,13 +222,8 @@
 
                     document.querySelector('.data').append(record_container)
                 })
-                let form = document.querySelector(".requestForm")
-                console.log(form)
-                form.removeChild(form.lastChild)
-                console.log(form.lastChild)
-                console.log("работает")
+
                 document.querySelector('.data').append(timer);
-                console.log(document.querySelector('.data'))
             }
 
 
