@@ -36,6 +36,7 @@ def queryConstructor(data):
 def getDataNeo4j(request):
     data = request.data
     cypher_query = queryConstructor(data)
+    print(cypher_query)
     """
     # match ()-[r]->() return count(r);
     # match (r) return count(r);
