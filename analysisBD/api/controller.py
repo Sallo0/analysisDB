@@ -1,5 +1,5 @@
 from django.core.serializers.json import DjangoJSONEncoder
-from . import neo4j, orientdb, postgresql
+from . import neo4jDB, orientdb, postgresql
 
 
 def getData(request):
@@ -8,4 +8,4 @@ def getData(request):
     elif request.data['dbtype'] == "OrientDB":
         return orientdb.getDataOrientDB(request)
     elif request.data['dbtype'] == "Neo4j":
-        return neo4j.getDataNeo4j(request)
+        return neo4jDB.getDataNeo4j(request)

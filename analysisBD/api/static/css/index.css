@@ -31,3 +31,72 @@ body {
     padding: 5px;
 }
 
+.parentContainer, .propertiesContainer{
+    display: inline-block;
+}
+
+.parentContainer{
+    background-color: #2562aa;
+    padding: 15px;
+    border-radius: 50%;
+}
+
+.propertiesContainer{
+    position: relative;
+    bottom: 18px;
+    padding: 25px;
+    background-color: #2562aa;
+    color: white;
+    border-radius: 10px;
+}
+
+.parentItem{
+    text-align: center;
+    color: #fff1eb;
+}
+
+.propertiesItem{
+    display: inline-block;
+    padding: 0 10px;
+    border-right: solid white 2px;
+}
+
+.child-liquidated{
+    border: none;
+}
+
+.time{
+    background-color: white;
+    display: inline-block;
+    border: solid black 2px;
+    border-radius: 4px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.spinner {
+  color: grey;
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner:after {
+  animation: changeContent .8s linear infinite;
+  display: block;
+  content: "⠋";
+  font-size: 35px;
+}
+
+@keyframes changeContent {
+  10% { content: "⠙"; }
+  20% { content: "⠹"; }
+  30% { content: "⠸"; }
+  40% { content: "⠼"; }
+  50% { content: "⠴"; }
+  60% { content: "⠦"; }
+  70% { content: "⠧"; }
+  80% { content: "⠇"; }
+  90% { content: "⠏"; }
+}
+

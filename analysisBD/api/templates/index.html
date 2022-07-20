@@ -56,6 +56,7 @@
            </select>
 
            <button type="button" value="Отправить" onclick="sendRequest()">Отправить</button>
+
        </form>
   </div>
   <div class="data"></div>
@@ -69,11 +70,15 @@
             if (option != null) document.querySelector(".option-none").remove();
 
             if (selectedValue === "Child") {
-                document.querySelector(".parent").style.display = "none";
+                let parent = document.querySelector(".parent")
+                parent.style.display = "none";
+                parent.value = ""
                 document.querySelector(".child").style.display = "block";
             }else if (selectedValue === "Parent"){
+                let child = document.querySelector(".child")
                 document.querySelector(".parent").style.display = "block";
-                document.querySelector(".child").style.display = "none";
+                child.style.display = "none";
+                child.value = ""
             }else if (selectedValue === "All"){
                 document.querySelector(".child").style.display = "block";
                 document.querySelector(".parent").style.display = "block";
@@ -100,6 +105,11 @@
         }
 
         function sendRequest(){
+            let spinner = document.createElement("div")
+            spinner.classList.add("spinner");
+            spinner.setAttribute("id", "spinner")
+            document.querySelector(".requestForm").append(spinner)
+
             let data = {
                 'dbtype': '',
                 'mainfilter': {
@@ -116,7 +126,7 @@
 
             let result = getInputValue(data)
 
-            fetch(`http://46.48.3.74:8000/` + "api/getdata", {
+            fetch(`http://46.48.3.74:8000/` + "getdata", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8'
@@ -129,8 +139,70 @@
                     }
             })
             .then(data => {
+
+                let selectDB = document.querySelector(".select-db");
+
+                if (selectDB.options[selectDB.selectedIndex].value === "PostgreSQL"){
+                    parserDataPostgres(data)
+                }
+                else if (selectDB.options[selectDB.selectedIndex].value === "Neo4j"){
+                    parserDataNeo4j(data)
+                }
+
+
+            });
+
+            function parserDataNeo4j(data){
+                console.log(data)
+                document.querySelector('.data').innerHTML = ""
+
                 let records = document.createElement("div");
 
+                data['result'].forEach(record => {
+                    let node_type = ''
+
+                    let record_container = document.createElement("div");
+
+                    if (Object.keys(record).length !== 1) {
+                        node_type = Object.keys(record)[1]
+                        let parent_container = document.createElement("div");
+                        parent_container.classList.add("parentContainer")
+                        parent_container.innerHTML = `
+                            <div class="parentItem pk">pk: ${record[node_type]['pk']}</div>
+                            <div class="parentItem face-name">name: ${record[node_type]['face_name']}</div>
+                            <div class="parentItem face-type">type: ${record[node_type]['face_type']}</div>
+                        `
+                        record_container.append(parent_container)
+                    }
+
+                    let properties = document.createElement("div");
+                    properties.classList.add("propertiesContainer")
+                    properties.innerHTML = `
+                        <div class="propertiesItem kind">тип связи: ${record['PROPERTIES(r)']['kind']}</div>
+                        <div class="propertiesItem date-begin">начало: ${record['PROPERTIES(r)']['date_begin']}</div>
+                        <div class="propertiesItem date-end">конец: ${record['PROPERTIES(r)']['date_end']}</div>
+                        <div class="propertiesItem share">доля: ${record['PROPERTIES(r)']['share']}</div>
+                        <div class="propertiesItem cost">стоимость: ${record['PROPERTIES(r)']['cost']}</div>
+                        <div class="propertiesItem child-liquidated">child-liquidated: ${record['PROPERTIES(r)']['child_liquidated']}</div>
+
+                    `
+                    record_container.append(properties)
+
+                    records.append(record_container)
+                })
+
+                let time_block = document.createElement("div");
+                time_block.classList.add("time");
+                time_block.innerHTML =`Найдено за ${data['time']} сек`
+
+                document.querySelector('.data').append(time_block)
+                document.querySelector('.data').append(records)
+
+                document.getElementById("spinner").remove()
+            }
+
+            function parserDataPostgres(data){
+                let records = document.createElement("div");
                 let temp = data.split(']')
                 let timer = temp[1]
 
@@ -154,8 +226,9 @@
 
                     document.querySelector('.data').append(record_container)
                 })
-                document.querySelector('.data').append(timer)
-            });
+
+                document.querySelector('.data').append(timer);
+            }
 
 
         }
