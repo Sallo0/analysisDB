@@ -15,11 +15,11 @@ def queryConstructor(data):
     if data['mainfilter']['Child'] != "":
         query.append("match (p)-[r:Properties]->(c{pk: '")
         query.append(data['mainfilter']['Child'])
-        query.append("'}) return r, p")
+        query.append("'}) return PROPERTIES(r), p")
     elif data['mainfilter']['Parent'] != "":
         query.append("match (p{pk: '")
         query.append(data['mainfilter']['Parent'])
-        query.append("'})-[r]->(c) return r, c")
+        query.append("'})-[r]->(c) return PROPERTIES(r), c")
 
     query.append(" LIMIT 25")
 
