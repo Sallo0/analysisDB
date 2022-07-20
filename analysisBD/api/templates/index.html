@@ -144,6 +144,8 @@
 
             function parserDataNeo4j(data){
                 console.log(data)
+                document.querySelector('.data').innerHTML = ""
+
                 let records = document.createElement("div");
 
                 data.forEach(record => {

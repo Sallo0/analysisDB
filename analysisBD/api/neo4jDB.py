@@ -12,23 +12,44 @@ connection = GraphDatabase.driver(
 
 def queryConstructor(data):
     query = []
+    filters = []
+    if data['kind'] != "-":
+        filters.append(f'kind: "{data["kind"]}"')
+    if data['date_begin'] != "":
+        filters.append(f'date_begin: "{data["date_begin"]}"')
+    if data['date_end'] != "":
+        filters.append(f'date_end: "{data["date_end"]}"')
+    if data['cost'] != "":
+        filters.append(f'cost: "{data["cost"]}"')
+    if data['share'] != "":
+        filters.append(f'share: "{data["share"]}"')
+    if data['child_liquidated'] == "true":
+        filters.append(f'child_liquidated: "t"')
+    elif data['child_liquidated'] == "false":
+        filters.append(f'child_liquidated: "f"')
+
     if data['mainfilter']['Child'] != "" and data['mainfilter']['Parent'] != "":
         query.append("match (p{pk: '")
         query.append(data['mainfilter']['Parent'])
-        query.append("'})-[r]->(c{pk: '")
+        query.append("'})-[r:Properties{")
+        query.append(",".join(filters))
+        query.append("}]->(c{pk: '")
         query.append(data['mainfilter']['Child'])
         query.append("'}) return PROPERTIES(r) ")
     elif data['mainfilter']['Child'] != "":
-        query.append("match (p)-[r:Properties]->(c{pk: '")
+        query.append("match (p)-[r:Properties{")
+        query.append(",".join(filters))
+        query.append("}]->(c{pk: '")
         query.append(data['mainfilter']['Child'])
         query.append("'}) return PROPERTIES(r), p")
     elif data['mainfilter']['Parent'] != "":
         query.append("match (p{pk: '")
         query.append(data['mainfilter']['Parent'])
-        query.append("'})-[r]->(c) return PROPERTIES(r), c")
+        query.append("'})-[r:Properties{")
+        query.append(",".join(filters))
+        query.append("}]->(c) return PROPERTIES(r), c")
 
-
-    query.append(" LIMIT 10")
+    query.append(" LIMIT 25")
 
     return "".join(query)
 
