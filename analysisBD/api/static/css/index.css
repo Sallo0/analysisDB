@@ -38,15 +38,29 @@ body {
 .parentContainer{
     background-color: #2562aa;
     padding: 15px;
-    border-radius: 20px;
+    border-radius: 50%;
 }
 
-.pk, .face-name, .face-type{
+.propertiesContainer{
+    position: relative;
+    bottom: 18px;
+    padding: 25px;
+    background-color: #2562aa;
+    color: white;
+    border-radius: 10px;
+}
+
+.parentItem{
     text-align: center;
     color: #fff1eb;
 }
 
-.kind, .date-begin, .date-end, .share, .cost, .child-liquidated{
+.propertiesItem{
     display: inline-block;
-    margin-right: 10px;
+    padding: 0 10px;
+    border-right: solid white 2px;
+}
+
+.child-liquidated{
+    border: none;
 }

@@ -156,18 +156,18 @@
                     properties.classList.add("propertiesContainer")
 
                     parent_container.innerHTML = `
-                        <div class="pk">pk: ${record['p']['pk']}</div>
-                        <div class="face-name">name: ${record['p']['face_name']}</div>
-                        <div class="face-type">type: ${record['p']['face_type']}</div>
+                        <div class="parentItem pk">pk: ${record['p']['pk']}</div>
+                        <div class="parentItem face-name">name: ${record['p']['face_name']}</div>
+                        <div class="parentItem face-type">type: ${record['p']['face_type']}</div>
                     `
 
                     properties.innerHTML = `
-                        <div class="kind">тип связи: ${record['PROPERTIES(r)']['kind']}</div>
-                        <div class="date-begin">начало: ${record['PROPERTIES(r)']['date_begin']}</div>
-                        <div class="date-end">конец: ${record['PROPERTIES(r)']['date_end']}</div>
-                        <div class="share">доля: ${record['PROPERTIES(r)']['share']}</div>
-                        <div class="cost">стоимость: ${record['PROPERTIES(r)']['cost']}</div>
-                        <div class="child-liquidated">child-liquidated: ${record['PROPERTIES(r)']['child_liquidated']}</div>
+                        <div class="propertiesItem kind">тип связи: ${record['PROPERTIES(r)']['kind']}</div>
+                        <div class="propertiesItem date-begin">начало: ${record['PROPERTIES(r)']['date_begin']}</div>
+                        <div class="propertiesItem date-end">конец: ${record['PROPERTIES(r)']['date_end']}</div>
+                        <div class="propertiesItem share">доля: ${record['PROPERTIES(r)']['share']}</div>
+                        <div class="propertiesItem cost">стоимость: ${record['PROPERTIES(r)']['cost']}</div>
+                        <div class="propertiesItem child-liquidated">child-liquidated: ${record['PROPERTIES(r)']['child_liquidated']}</div>
 
                     `
 
