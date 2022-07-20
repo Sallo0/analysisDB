@@ -1,21 +1,27 @@
 import neo4j
 import time
-"""
+
 from neo4j import GraphDatabase, basic_auth
 
 t = time
+"""
 connection = GraphDatabase.driver(
         "bolt://localhost:7687",
         auth=basic_auth("neo4j", "123"))
+"""
+connection = GraphDatabase.driver(
+        "bolt://46.48.3.74:5332",
+        auth=basic_auth("neo4j", "12345678"))
 
 
 def getDataNeo4j(request):
-    driver = connection
 
     cypher_query = '''
-    MATCH (ee:Person) WHERE ee.name = 'Emil' RETURN ee LIMIT 25;
+    match ()-[r]->() return count(r);
     '''
-
+    """
+    # match ()-[r]->() return count(r);
+    # match (r) return count(r);
     def get_node_tx(tx, name):
         time_start = t.perf_counter()
         result = tx.run(cypher_query, name=name)
@@ -23,15 +29,17 @@ def getDataNeo4j(request):
         value = result.data()
         timer = time_end - time_start
         return value, timer
+    """
+    with connection.session(database="neo4j") as session:
+        results = session.run(cypher_query)
 
-    with driver.session(database="neo4j") as session:
-        results, timer = session.read_transaction(get_node_tx, "name")
+        print(results.data())
+        return results.data()
 
-    driver.close()
 
-    results.append({'time': timer, 'name': "time"})
+    #results.append({'time': timer, 'name': "time"})
 
-    return results #{1: "Neo4j", 2: "тест"}   Это обязательно JSON
+     #{1: "Neo4j", 2: "тест"}   Это обязательно JSON
 
 
 def createTestDataNe04j(request):
@@ -50,4 +58,6 @@ def createTestDataNe04j(request):
     driver.close()
 
     return results
-"""
+
+getDataNeo4j("")
+connection.close()
