@@ -34,7 +34,7 @@ def getDataNeo4j(request):
     with connection.session(database="neo4j") as session:
         results = session.run(cypher_query)
         result_json = {'n': results.data()[0]}
-        print(results.data()[0])
+        #print(results.data()[0])
         return result_json
 
 
