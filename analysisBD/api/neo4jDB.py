@@ -4,15 +4,16 @@ import time
 from neo4j import GraphDatabase, basic_auth
 
 t = time
-"""
+
 connection = GraphDatabase.driver(
-        "bolt://localhost:7687",
-        auth=basic_auth("neo4j", "123"))
+        "bolt://localhost:5332",
+        auth=basic_auth("neo4j", "12345678"))
+
 """
 connection = GraphDatabase.driver(
         "bolt://46.48.3.74:5332",
         auth=basic_auth("neo4j", "12345678"))
-
+"""
 
 def getDataNeo4j(request):
 
@@ -59,5 +60,5 @@ def createTestDataNe04j(request):
 
     return results
 
-getDataNeo4j("")
-connection.close()
+#getDataNeo4j("")
+#connection.close()

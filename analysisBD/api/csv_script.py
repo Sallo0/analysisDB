@@ -1,4 +1,4 @@
-mport psycopg2
+import psycopg2
 import json
 import time
 import os
@@ -6,7 +6,7 @@ from neo4j import GraphDatabase, basic_auth
 from psycopg2.extras import RealDictCursor
 from dotenv import load_dotenv, dotenv_values
 from django.core.serializers.json import DjangoJSONEncoder
-
+"""
 time_obj = time
 timer = 0.0
 
@@ -16,7 +16,7 @@ connection_Neo = GraphDatabase.driver(
 
 driver = connection_Neo
 
-"""
+
 connection = psycopg2.connect(
             host="127.0.0.1", 
             port="5432",
@@ -40,7 +40,7 @@ with connection.cursor(cursor_factory=RealDictCursor) as cursor:
         cursor.copy_expert(sql, file)
 
 cursor.close()
-"""
+
 
 with connection_Neo.session(database="neo4j") as session:
     time_start = time_obj.perf_counter()
@@ -57,10 +57,11 @@ with connection_Neo.session(database="neo4j") as session:
     session.run(query_create_links)
 
     time_end = time_obj.perf_counter()
-
+"""
 """
 connection.close()
-"""
+
 connection_Neo.close()
 print(time_end - time_start)
 
+"""
