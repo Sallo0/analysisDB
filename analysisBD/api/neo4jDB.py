@@ -15,8 +15,8 @@ connection = GraphDatabase.driver(
         auth=basic_auth("neo4j", "12345678"))
 """
 
-def getDataNeo4j(request):
 
+def getDataNeo4j(request):
     cypher_query = '''
     match ()-[r]->() return count(r);
     '''
