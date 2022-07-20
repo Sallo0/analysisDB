@@ -35,8 +35,8 @@ def getDataNeo4j(request):
         results = session.run(cypher_query)
 
         print("ok")
-        print(results.data())
-        return results.data()
+        print(results.data()[0])
+        return results.data()[0]
 
 
     #results.append({'time': timer, 'name': "time"})
