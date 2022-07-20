@@ -13,7 +13,7 @@ connection = GraphDatabase.driver(
 def queryConstructor(data):
     query = []
     if data['mainfilter']['Child'] != "":
-        query.append("match (p)-[r]->(c{pk: '")
+        query.append("match (p)-[r:Properties]->(c{pk: '")
         query.append(data['mainfilter']['Child'])
         query.append("'}) return r, p")
     elif data['mainfilter']['Parent'] != "":
