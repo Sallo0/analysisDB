@@ -144,6 +144,39 @@
 
             function parserDataNeo4j(data){
                 console.log(data)
+                let records = document.createElement("div");
+
+                data.forEach(record => {
+                    let record_container = document.createElement("div");
+
+                    let parent_container = document.createElement("div");
+                    parent_container.classList.add("parentContainer")
+
+                    let properties = document.createElement("div");
+                    properties.classList.add("propertiesContainer")
+
+                    parent_container.innerHTML = `
+                        <div class="pk">${record['p']['pk']}</div>
+                        <div class="face-name">${record['p']['face_name']}</div>
+                        <div class="face-type">${record['p']['face_type']}</div>
+                    `
+
+                    properties.innerHTML = `
+                        <div class="kind">${record['PROPERTIES(r)']['kind']}</div>
+                        <div class="face-begin">${record['PROPERTIES(r)']['date_begin']}</div>
+                        <div class="date-end">${record['PROPERTIES(r)']['date_end']}</div>
+                        <div class="share">${record['PROPERTIES(r)']['share']}</div>
+                        <div class="cost">${record['PROPERTIES(r)']['cost']}</div>
+                        <div class="child-liquidated">${record['PROPERTIES(r)']['child_liquidated']}</div>
+
+                    `
+
+                    record_container.append(parent_container)
+                    record_container.append(properties)
+                    records.append(record_container)
+                })
+
+                document.querySelector('.data').append(records)
             }
 
             function parserDataPostgres(data){
