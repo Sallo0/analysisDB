@@ -35,3 +35,18 @@ body {
     display: inline-block;
 }
 
+.parentContainer{
+    background-color: #2562aa;
+    padding: 15px;
+    border-radius: 20px;
+}
+
+.pk, .face-name, .face-type{
+    text-align: center;
+    color: #fff1eb;
+}
+
+.kind, .date-begin, .date-end, .share, .cost, .child-liquidated{
+    display: inline-block;
+    margin-right: 10px;
+}
