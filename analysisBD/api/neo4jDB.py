@@ -9,17 +9,23 @@ connection = GraphDatabase.driver(
         "bolt://localhost:5332",
         auth=basic_auth("neo4j", "12345678"))
 
-"""
-connection = GraphDatabase.driver(
-        "bolt://46.48.3.74:5332",
-        auth=basic_auth("neo4j", "12345678"))
-"""
+
+def queryConstructor(data):
+    query = []
+    if data['mainfilter']['Child'] != "":
+        query.append("match (p)-[r]->(c{pk: '")
+        query.append(data['mainfilter']['Child'])
+        query.append("'}) return r, p")
+    elif data['mainfilter']['Parent'] != "":
+        query.append("match (p{pk: '")
+        query.append(data['mainfilter']['Parent'])
+        query.append("'})-[r]->(c) return r, c")
+    return "".join(query)
 
 
 def getDataNeo4j(request):
-    cypher_query = '''
-    match (n) return n LIMIT 25;
-    '''
+    data = request.data
+    cypher_query = queryConstructor(data)
     """
     # match ()-[r]->() return count(r);
     # match (r) return count(r);
