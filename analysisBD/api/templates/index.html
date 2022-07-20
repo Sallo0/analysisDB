@@ -102,7 +102,10 @@
         }
 
         function sendRequest(){
-            document.querySelector(".spinner").style.display = "inline-block";
+            let spinner = document.createElement("div")
+            spinner.classList.add("spinner");
+            spinner.setAttribute("id", "spinner")
+            document.querySelector(".requestForm").append(spinner)
 
             let data = {
                 'dbtype': '',
@@ -218,8 +221,8 @@
 
                     document.querySelector('.data').append(record_container)
                 })
-                document.querySelector(".spinner").style.display = "none";
-                document.querySelector('.data').append(timer)
+                document.getElementById("spinner").remove();
+                document.querySelector('.data').append(timer);
             }
 
 

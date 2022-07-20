@@ -85,7 +85,7 @@ body {
   animation: changeContent .8s linear infinite;
   display: block;
   content: "⠋";
-  font-size: 80px;
+  font-size: 35px;
 }
 
 @keyframes changeContent {
