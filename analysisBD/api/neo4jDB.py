@@ -18,7 +18,7 @@ connection = GraphDatabase.driver(
 
 def getDataNeo4j(request):
     cypher_query = '''
-    match (n{pk: '11721855'}) return n;
+    match (n) return n LIMIT 25;
     '''
     """
     # match ()-[r]->() return count(r);
@@ -33,9 +33,8 @@ def getDataNeo4j(request):
     """
     with connection.session(database="neo4j") as session:
         results = session.run(cypher_query)
-        result_json = {'n': results.data()[0]}
-        #print(results.data()[0])
-        return result_json
+        #result_json = {results.data()[0]}
+        return results.data()[0]
 
 
     #results.append({'time': timer, 'name': "time"})
