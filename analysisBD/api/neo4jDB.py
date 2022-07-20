@@ -18,7 +18,7 @@ connection = GraphDatabase.driver(
 
 def getDataNeo4j(request):
     cypher_query = '''
-    match ()-[r]->() return count(r);
+    match (n{pk: '11721855'}) return n;
     '''
     """
     # match ()-[r]->() return count(r);
