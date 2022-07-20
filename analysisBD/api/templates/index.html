@@ -147,6 +147,7 @@
                 let records = document.createElement("div");
 
                 data.forEach(record => {
+                    let node_type = Object.keys(record)[1]
                     let record_container = document.createElement("div");
 
                     let parent_container = document.createElement("div");
@@ -156,9 +157,9 @@
                     properties.classList.add("propertiesContainer")
 
                     parent_container.innerHTML = `
-                        <div class="parentItem pk">pk: ${record['p']['pk']}</div>
-                        <div class="parentItem face-name">name: ${record['p']['face_name']}</div>
-                        <div class="parentItem face-type">type: ${record['p']['face_type']}</div>
+                        <div class="parentItem pk">pk: ${record[node_type]['pk']}</div>
+                        <div class="parentItem face-name">name: ${record[node_type]['face_name']}</div>
+                        <div class="parentItem face-type">type: ${record[node_type]['face_type']}</div>
                     `
 
                     properties.innerHTML = `
