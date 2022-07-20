@@ -129,10 +129,25 @@
                     }
             })
             .then(data => {
-                let records = document.createElement("div");
 
+                let selectDB = document.querySelector(".select-db");
+
+                if (selectDB.options[selectDB.selectedIndex].value === "PostgreSQL"){
+                    parserDataPostgres(data)
+                }
+                else if (selectDB.options[selectDB.selectedIndex].value === "Neo4j"){
+                    parserDataNeo4j(data)
+                }
+
+
+            });
+
+            function parserDataNeo4j(data){
                 console.log(data)
+            }
 
+            function parserDataPostgres(data){
+                let records = document.createElement("div");
                 let temp = data.split(']')
                 let timer = temp[1]
 
@@ -157,7 +172,7 @@
                     document.querySelector('.data').append(record_container)
                 })
                 document.querySelector('.data').append(timer)
-            });
+            }
 
 
         }
