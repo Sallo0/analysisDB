@@ -148,7 +148,7 @@
 
                 let records = document.createElement("div");
 
-                data.forEach(record => {
+                data['result'].forEach(record => {
                     let node_type = ''
 
                     let record_container = document.createElement("div");
@@ -181,6 +181,11 @@
                     records.append(record_container)
                 })
 
+                let time_block = document.createElement("div");
+                time_block.classList.add("time");
+                time_block.innerHTML = data['time'];
+
+                document.querySelector('.data').append(time_block)
                 document.querySelector('.data').append(records)
             }
 
