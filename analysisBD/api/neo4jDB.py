@@ -20,6 +20,9 @@ def queryConstructor(data):
         query.append("match (p{pk: '")
         query.append(data['mainfilter']['Parent'])
         query.append("'})-[r]->(c) return r, c")
+
+    query.append(" LIMIT 25")
+
     return "".join(query)
 
 
@@ -38,9 +41,10 @@ def getDataNeo4j(request):
         return value, timer
     """
     with connection.session(database="neo4j") as session:
-        results = session.run(cypher_query)
+        results = session.run(cypher_query).data()
+        print(results)
         #result_json = {results.data()[0]}
-        return results.data()
+        return results
 
 
     #results.append({'time': timer, 'name': "time"})
