@@ -37,12 +37,12 @@
                </select>
             </div>
 
-           <div class="filter-input">
-               <div class="input-container">
+           <div class="filter-input ">
+               <div class="input-container child-container">
                    <label for="child" class="label child-label">ID дочернего объекта</label>
                    <input class="child select" id="child" type="text" placeholder="child...">
                </div>
-               <div class="input-container">
+               <div class="input-container parent-container">
                    <label for="parent" class="label parent-label">ID родительского объекта</label>
                    <input class="parent select" id="parent" type="text" placeholder="parent...">
                </div>
@@ -107,23 +107,17 @@
 
             if (selectedValue === "Child") {
                 let parent = document.querySelector(".parent")
-                document.querySelector(".parent-label").style.display = "none"
-                document.querySelector(".child-label").style.display = "block"
-                parent.style.display = "none";
+                document.querySelector(".parent-container").style.display = "none"
+                document.querySelector(".child-container").style.display = "block"
                 parent.value = ""
-                document.querySelector(".child").style.display = "block";
             }else if (selectedValue === "Parent"){
                 let child = document.querySelector(".child")
-                document.querySelector(".child-label").style.display = "none"
-                document.querySelector(".parent-label").style.display = "block"
-                document.querySelector(".parent").style.display = "block";
-                child.style.display = "none";
+                document.querySelector(".child-container").style.display = "none"
+                document.querySelector(".parent-container").style.display = "block"
                 child.value = ""
             }else if (selectedValue === "All"){
-                document.querySelector(".child").style.display = "block";
-                document.querySelector(".child-label").style.display = "block"
-                document.querySelector(".parent").style.display = "block";
-                document.querySelector(".parent-label").style.display = "block";
+                document.querySelector(".child-container").style.display = "block";
+                document.querySelector(".parent-container").style.display = "block";
             }
         }
 
