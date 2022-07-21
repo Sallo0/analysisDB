@@ -19,25 +19,31 @@
       <a href="neo4j"><button type="button">Neo4j</button></a>
       -->
        <form class="requestForm">
-           <select class="select-db" required>
+           <label for="db-type">База данных</label>
+           <select class="select-db" id="db-type" required>
                <option selected value="PostgreSQL">PostgreSQL</option>
                <option value="OrientDB">OrientDB</option>
                <option value="Neo4j">Neo4j</option>
            </select>
 
-           <select class="select-mainFilter" onchange="displayInput()" required>
+           <label for="main-filter">Укажите child или parent</label>
+           <select class="select-mainFilter" id="main-filter" onchange="displayInput()" required>
                <option class="option-none" value="-">-</option>
                <option value="Child">Child</option>
                <option value="Parent">Parent</option>
                <option value="All">All</option>
            </select>
 
+
            <div class="filter-input">
-               <input class="child" type="text" placeholder="child...">
-               <input class="parent" type="text" placeholder="parent...">
+               <label for="child">ID дочернего объекта</label>
+               <input class="child" id="child" type="text" placeholder="child...">
+               <label for="parent">ID родительского объекта</label>
+               <input class="parent" id="parent" type="text" placeholder="parent...">
            </div>
 
-           <select class="select-kind">
+           <label for="kind">Тип связи (необязательно)</label>
+           <select id="kind" class="select-kind">
                <option value="-">-</option>
                <option value="1">1</option>
                <option value="2">2</option>
@@ -47,12 +53,20 @@
                <option value="6">6</option>
            </select>
 
-           <input type="date" class="date-begin">
-           <input type="date" class="date-end">
-           <input type="text" class="cost" placeholder="cost">
-           <input type="text" class="share" placeholder="share">
+           <label for="date-begin">Дата начала (необязательно)</label>
+           <input type="date" class="date-begin" id="date-begin">
 
-           <select class="select-childLiquidated">
+           <label for="date-end">Дата конца (необязательно)</label>
+           <input type="date" class="date-end" id="date-end">
+
+           <label for="cost">Стоимость (необязательно)</label>
+           <input type="text" class="cost" placeholder="cost" id="cost">
+
+           <label for="share">Доля (необязательно)</label>
+           <input type="text" class="share" placeholder="share" id="share">
+
+           <label for="child-liq">Ликвидация (необязательно)</label>
+           <select class="select-childLiquidated" id="child-liq">
                <option selected value="-">-</option>
                <option value="false">Нет</option>
                <option value="true">Да</option>
