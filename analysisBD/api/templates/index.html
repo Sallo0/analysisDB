@@ -178,7 +178,7 @@
                     records.setAttribute("id", i.toString())
 
                     for (let j = (i-1)*25; j < 25 + (i-1)*25; j++) {
-                        if (j + 1 === data.result.length){
+                        if (j === data.result.length){
                             break;
                         }
                         let record = data['result'][j]
@@ -195,11 +195,11 @@
                             <div class="parentItem face-name">name: ${record[node_type]['face_name']}</div>
                             <div class="parentItem face-type">type: ${record[node_type]['face_type']}</div>
                         `
-                            record_container.append(parent_container)
+                            record_container.append(parent_container);
                         }
 
                         let properties = document.createElement("div");
-                        properties.classList.add("propertiesContainer")
+                        properties.classList.add("propertiesContainer");
                         properties.innerHTML = `
                         <div class="propertiesItem kind">тип связи: ${record['PROPERTIES(r)']['kind']}</div>
                         <div class="propertiesItem date-begin">начало: ${record['PROPERTIES(r)']['date_begin']}</div>
@@ -209,27 +209,30 @@
                         <div class="propertiesItem child-liquidated">child-liquidated: ${record['PROPERTIES(r)']['child_liquidated']}</div>
 
                     `
-                        record_container.append(properties)
-                        records.append(record_container)
+                        record_container.append(properties);
+                        records.append(record_container);
+                        if (i > 1){
+                            records.style.display = "none";
+                        }
                     }
-                    document.querySelector('.data').append(records)
+                    document.querySelector('.data').append(records);
 
                 }
-                document.getElementById("spinner").remove()
+                document.getElementById("spinner").remove();
             }
 
             function parserDataPostgres(data){
-                let all_records = document.createElement("div")
+                let all_records = document.createElement("div");
                 let records = document.createElement("div");
-                let temp = data.split(']')
-                let timer = document.createElement("div")
+                let temp = data.split(']');
+                let timer = document.createElement("div");
                 timer.classList.add("time");
-                timer.innerHTML = `Найдено за ${temp[1]} сек`
+                timer.innerHTML = `Найдено за ${temp[1]} сек`;
 
-                records = temp[0].split("{")
+                records = temp[0].split("{");
                 records.splice(0,1);
 
-                document.querySelector('.data').innerHTML = ""
+                document.querySelector('.data').innerHTML = "";
 
                 records.forEach(record => {
                     let record_container = document.createElement("div");
