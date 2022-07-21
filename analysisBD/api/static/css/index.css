@@ -88,6 +88,18 @@ body {
   font-size: 35px;
 }
 
+.img-urfu{
+    max-height: 50px;
+    position: absolute;
+    right: 150px;
+}
+
+.img-sbis{
+    max-height: 50px;
+    position: absolute;
+    right: 0;
+}
+
 @keyframes changeContent {
   10% { content: "⠙"; }
   20% { content: "⠹"; }
