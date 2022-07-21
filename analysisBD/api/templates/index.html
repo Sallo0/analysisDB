@@ -202,9 +202,12 @@
             }
 
             function parserDataPostgres(data){
+                let all_records = document.createElement("div")
                 let records = document.createElement("div");
                 let temp = data.split(']')
-                let timer = temp[1]
+                let timer = document.createElement("div")
+                timer.classList.add("time");
+                timer.innerHTML = `Найдено за ${temp[1]} сек`
 
                 records = temp[0].split("{")
                 records.splice(0,1);
@@ -224,14 +227,13 @@
                         }
                     })
 
-                    document.querySelector('.data').append(record_container)
+                    all_records.append(record_container)
                 })
 
                 document.querySelector('.data').append(timer);
+                document.querySelector('.data').append(all_records);
                 document.getElementById("spinner").remove()
             }
-
-
         }
     </script>
  </body>
