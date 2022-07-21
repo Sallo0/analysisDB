@@ -178,14 +178,12 @@
                 let page_count = Math.ceil(data['result'].length / 25)
                 for (let i = 1; i <= page_count; i++) {
                     let page_btn = document.createElement("button");
-                    page_btn.setAttribute("id", i.toString());
-                    //page_btn.setAttribute("onClick", `setPage(${i})`);
                     page_btn.addEventListener("click", () =>{
                         let btns = document.querySelectorAll(".page-btn");
                         btns.forEach(btn => {
                             btn.style.display = "none";
                         })
-                        document.getElementById(id).style.display = "block";
+                        document.getElementById(i.toString()).style.display = "block";
                     })
                     page_btn.setAttribute("class", `page-btn`);
                     page_btn.innerHTML = `${i}`;
