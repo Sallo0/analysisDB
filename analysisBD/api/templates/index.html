@@ -156,9 +156,18 @@
 
             });
 
+            function setPage(id){
+                let btns = document.querySelectorAll(".page-btn");
+                btns.forEach(btn => {
+                    btn.style.display = "none";
+                })
+                document.getElementById(id).style.display = "block";
+            }
+
             function parserDataNeo4j(data){
-                console.log(data)
-                document.querySelector('.data').innerHTML = ""
+                console.log(data);
+                document.querySelector('.data').innerHTML = "";
+                document.querySelector('.pages').innerHTML = "";
 
                 let time_block = document.createElement("div");
                 time_block.classList.add("time");
@@ -168,14 +177,15 @@
 
                 let page_count = Math.ceil(data['result'].length / 25)
                 for (let i = 1; i <= page_count; i++) {
-                    let page_btn = document.createElement("button")
-                    page_btn.setAttribute("id", i.toString())
-                    page_btn.setAttribute("onClick", `setPage(${i})`)
-                    page_btn.innerHTML = `${i}`
-                    document.querySelector(".pages").append(page_btn)
+                    let page_btn = document.createElement("button");
+                    page_btn.setAttribute("id", i.toString());
+                    page_btn.setAttribute("onClick", `setPage(${i})`);
+                    page_btn.setAttribute("class", `page-btn`);
+                    page_btn.innerHTML = `${i}`;
+                    document.querySelector(".pages").append(page_btn);
 
                     let records = document.createElement("div");
-                    records.setAttribute("id", i.toString())
+                    records.setAttribute("id", i.toString());
 
                     for (let j = (i-1)*25; j < 25 + (i-1)*25; j++) {
                         if (j === data.result.length){
