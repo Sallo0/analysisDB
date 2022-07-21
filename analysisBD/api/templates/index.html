@@ -21,15 +21,15 @@
        <form class="requestForm">
            <div class="db-type input-container">
                <label class="label db-type-label" for="db-type">База данных</label>
-               <select class="select-db" id="db-type" required>
+               <select class="select-db select" id="db-type" required>
                    <option selected value="PostgreSQL">PostgreSQL</option>
                    <option value="OrientDB">OrientDB</option>
                    <option value="Neo4j">Neo4j</option>
                </select>
             </div>
-           <div class="main-filter input-container">
+           <div class="input-container">
                <label for="main-filter" class="label main-filter">Укажите child или parent</label>
-               <select class="select-mainFilter" id="main-filter" onchange="displayInput()" required>
+               <select class="select-mainFilter select" id="main-filter" onchange="displayInput()" required>
                    <option class="option-none" value="-">-</option>
                    <option value="Child">Child</option>
                    <option value="Parent">Parent</option>
@@ -38,22 +38,28 @@
             </div>
 
            <div class="filter-input">
-               <label for="child" class="label child-label">ID дочернего объекта</label>
-               <input class="child" id="child" type="text" placeholder="child...">
-               <label for="parent" class="label parent-label">ID родительского объекта</label>
-               <input class="parent" id="parent" type="text" placeholder="parent...">
+               <div class="input-container">
+                   <label for="child" class="label child-label">ID дочернего объекта</label>
+                   <input class="child select" id="child" type="text" placeholder="child...">
+               </div>
+               <div class="input-container">
+                   <label for="parent" class="label parent-label">ID родительского объекта</label>
+                   <input class="parent select" id="parent" type="text" placeholder="parent...">
+               </div>
            </div>
 
-           <label for="kind">Тип связи (необязательно)</label>
-           <select id="kind" class="select-kind">
-               <option value="-">-</option>
-               <option value="1">1</option>
-               <option value="2">2</option>
-               <option value="3">3</option>
-               <option value="4">4</option>
-               <option value="5">5</option>
-               <option value="6">6</option>
-           </select>
+           <div class="filter-input">
+               <label for="kind" class="label">Тип связи (необязательно)</label>
+               <select id="kind" class="select-kind select">
+                   <option value="-">-</option>
+                   <option value="1">1</option>
+                   <option value="2">2</option>
+                   <option value="3">3</option>
+                   <option value="4">4</option>
+                   <option value="5">5</option>
+                   <option value="6">6</option>
+               </select>
+           </div>
 
            <label for="date-begin">Дата начала (необязательно)</label>
            <input type="date" class="date-begin" id="date-begin">
