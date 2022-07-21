@@ -179,9 +179,9 @@
                 for (let i = 1; i <= page_count; i++) {
                     let page_btn = document.createElement("button");
                     page_btn.addEventListener("click", () =>{
-                        let btns = document.querySelectorAll(".page-btn");
-                        btns.forEach(btn => {
-                            btn.style.display = "none";
+                        let blocks = document.querySelectorAll(".block-of-records");
+                        blocks.forEach( b => {
+                            b.style.display = "none";
                         })
                         document.getElementById(i.toString()).style.display = "block";
                     })
@@ -191,6 +191,7 @@
 
                     let records = document.createElement("div");
                     records.setAttribute("id", i.toString());
+                    records.setAttribute("class", "block-of-records");
 
                     for (let j = (i-1)*25; j < 25 + (i-1)*25; j++) {
                         if (j === data.result.length){
