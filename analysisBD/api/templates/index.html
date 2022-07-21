@@ -36,9 +36,9 @@
 
 
            <div class="filter-input">
-               <label for="child">ID дочернего объекта</label>
+               <label for="child" class="label child-label">ID дочернего объекта</label>
                <input class="child" id="child" type="text" placeholder="child...">
-               <label for="parent">ID родительского объекта</label>
+               <label for="parent" class="label parent-label">ID родительского объекта</label>
                <input class="parent" id="parent" type="text" placeholder="parent...">
            </div>
 
@@ -89,17 +89,21 @@
 
             if (selectedValue === "Child") {
                 let parent = document.querySelector(".parent")
+                document.querySelector(".parent-label").style.display = "none"
                 parent.style.display = "none";
                 parent.value = ""
                 document.querySelector(".child").style.display = "block";
             }else if (selectedValue === "Parent"){
                 let child = document.querySelector(".child")
+                document.querySelector(".child-label").style.display = "none"
                 document.querySelector(".parent").style.display = "block";
                 child.style.display = "none";
                 child.value = ""
             }else if (selectedValue === "All"){
                 document.querySelector(".child").style.display = "block";
+                document.querySelector(".child-label").style.display = "block"
                 document.querySelector(".parent").style.display = "block";
+                document.querySelector(".parent-label").style.display = "block";
             }
         }
 
