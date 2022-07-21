@@ -48,7 +48,7 @@
                </div>
            </div>
 
-           <div class="filter-input">
+           <div class="input-container">
                <label for="kind" class="label">Тип связи (необязательно)</label>
                <select id="kind" class="select-kind select">
                    <option value="-">-</option>
@@ -61,24 +61,34 @@
                </select>
            </div>
 
-           <label for="date-begin">Дата начала (необязательно)</label>
-           <input type="date" class="date-begin" id="date-begin">
+           <div class="input-container">
+               <label for="date-begin" class="label">Дата начала (необязательно)</label>
+               <input type="date" class="date-begin select" id="date-begin">
+           </div>
 
-           <label for="date-end">Дата конца (необязательно)</label>
-           <input type="date" class="date-end" id="date-end">
+           <div class="input-container">
+               <label for="date-end" class="label">Дата конца (необязательно)</label>
+               <input type="date" class="date-end select" id="date-end">
+           </div>
 
-           <label for="cost">Стоимость (необязательно)</label>
-           <input type="text" class="cost" placeholder="cost" id="cost">
+           <div class="input-container">
+               <label for="cost" class="label">Стоимость (необязательно)</label>
+               <input type="text" class="cost select" placeholder="cost" id="cost">
+           </div>
 
-           <label for="share">Доля (необязательно)</label>
-           <input type="text" class="share" placeholder="share" id="share">
+           <div class="input-container">
+               <label for="share" class="label">Доля (необязательно)</label>
+               <input type="text" class="share select" placeholder="share" id="share">
+           </div>
 
-           <label for="child-liq">Ликвидация (необязательно)</label>
-           <select class="select-childLiquidated" id="child-liq">
-               <option selected value="-">-</option>
-               <option value="false">Нет</option>
-               <option value="true">Да</option>
-           </select>
+           <div class="input-container">
+               <label for="child-liq" class="label">Ликвидация (необязательно)</label>
+               <select class="select-childLiquidated select" id="child-liq">
+                   <option selected value="-">-</option>
+                   <option value="false">Нет</option>
+                   <option value="true">Да</option>
+               </select>
+           </div>
 
            <button type="button" value="Отправить" onclick="sendRequest()">Отправить</button>
 
