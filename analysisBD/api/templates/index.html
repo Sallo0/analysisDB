@@ -19,21 +19,23 @@
       <a href="neo4j"><button type="button">Neo4j</button></a>
       -->
        <form class="requestForm">
-           <label for="db-type">База данных</label>
-           <select class="select-db" id="db-type" required>
-               <option selected value="PostgreSQL">PostgreSQL</option>
-               <option value="OrientDB">OrientDB</option>
-               <option value="Neo4j">Neo4j</option>
-           </select>
-
-           <label for="main-filter">Укажите child или parent</label>
-           <select class="select-mainFilter" id="main-filter" onchange="displayInput()" required>
-               <option class="option-none" value="-">-</option>
-               <option value="Child">Child</option>
-               <option value="Parent">Parent</option>
-               <option value="All">All</option>
-           </select>
-
+           <div class="db-type input-container">
+               <label class="label db-type-label" for="db-type">База данных</label>
+               <select class="select-db" id="db-type" required>
+                   <option selected value="PostgreSQL">PostgreSQL</option>
+                   <option value="OrientDB">OrientDB</option>
+                   <option value="Neo4j">Neo4j</option>
+               </select>
+            </div>
+           <div class="main-filter input-container">
+               <label for="main-filter" class="label main-filter">Укажите child или parent</label>
+               <select class="select-mainFilter" id="main-filter" onchange="displayInput()" required>
+                   <option class="option-none" value="-">-</option>
+                   <option value="Child">Child</option>
+                   <option value="Parent">Parent</option>
+                   <option value="All">All</option>
+               </select>
+            </div>
 
            <div class="filter-input">
                <label for="child" class="label child-label">ID дочернего объекта</label>

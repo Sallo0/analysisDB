@@ -104,6 +104,18 @@ body {
     display: inline-block;
 }
 
+.input-container{
+    display: inline-block;
+}
+
+.db-type-label, .main-filter{
+    display: block;
+}
+.select-db, .select-mainFilter{
+    display: block;
+}
+
+
 @keyframes changeContent {
   10% { content: "⠙"; }
   20% { content: "⠹"; }
