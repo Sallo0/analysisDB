@@ -108,16 +108,16 @@
             if (selectedValue === "Child") {
                 let parent = document.querySelector(".parent")
                 document.querySelector(".parent-container").style.display = "none"
-                document.querySelector(".child-container").style.display = "block"
+                document.querySelector(".child-container").style.display = "inline-block"
                 parent.value = ""
             }else if (selectedValue === "Parent"){
                 let child = document.querySelector(".child")
                 document.querySelector(".child-container").style.display = "none"
-                document.querySelector(".parent-container").style.display = "block"
+                document.querySelector(".parent-container").style.display = "inline-block"
                 child.value = ""
             }else if (selectedValue === "All"){
-                document.querySelector(".child-container").style.display = "block";
-                document.querySelector(".parent-container").style.display = "block";
+                document.querySelector(".child-container").style.display = "inline-block";
+                document.querySelector(".parent-container").style.display = "inline-block";
             }
         }
 
