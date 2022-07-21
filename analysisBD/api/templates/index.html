@@ -90,12 +90,14 @@
             if (selectedValue === "Child") {
                 let parent = document.querySelector(".parent")
                 document.querySelector(".parent-label").style.display = "none"
+                document.querySelector(".child-label").style.display = "block"
                 parent.style.display = "none";
                 parent.value = ""
                 document.querySelector(".child").style.display = "block";
             }else if (selectedValue === "Parent"){
                 let child = document.querySelector(".child")
                 document.querySelector(".child-label").style.display = "none"
+                document.querySelector(".parent-label").style.display = "block"
                 document.querySelector(".parent").style.display = "block";
                 child.style.display = "none";
                 child.value = ""
