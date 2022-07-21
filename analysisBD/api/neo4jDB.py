@@ -7,7 +7,7 @@ t = time
 timer = 0
 
 connection = GraphDatabase.driver(
-        "bolt://localhost:5334",
+        "bolt://localhost:5332",
         auth=basic_auth("neo4j", "12345678"))
 
 
