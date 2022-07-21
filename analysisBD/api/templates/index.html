@@ -19,78 +19,84 @@
       <a href="neo4j"><button type="button">Neo4j</button></a>
       -->
        <form class="requestForm">
-           <div class="db-type input-container">
-               <label class="label db-type-label" for="db-type">База данных</label>
-               <select class="select-db select" id="db-type" required>
-                   <option selected value="PostgreSQL">PostgreSQL</option>
-                   <option value="OrientDB">OrientDB</option>
-                   <option value="Neo4j">Neo4j</option>
-               </select>
-            </div>
-           <div class="input-container">
-               <label for="main-filter" class="label main-filter">Укажите child или parent</label>
-               <select class="select-mainFilter select" id="main-filter" onchange="displayInput()" required>
-                   <option class="option-none" value="-">-</option>
-                   <option value="Child">Child</option>
-                   <option value="Parent">Parent</option>
-                   <option value="All">All</option>
-               </select>
-            </div>
+           <div>
+               <div class="db-type input-container">
+                   <label class="label db-type-label" for="db-type">База данных</label>
+                   <select class="select-db select" id="db-type" required>
+                       <option selected value="PostgreSQL">PostgreSQL</option>
+                       <option value="OrientDB">OrientDB</option>
+                       <option value="Neo4j">Neo4j</option>
+                   </select>
+                </div>
+               <div class="input-container">
+                   <label for="main-filter" class="label main-filter">Укажите child или parent</label>
+                   <select class="select-mainFilter select" id="main-filter" onchange="displayInput()" required>
+                       <option class="option-none" value="-">-</option>
+                       <option value="Child">Child</option>
+                       <option value="Parent">Parent</option>
+                       <option value="All">All</option>
+                   </select>
+                </div>
 
-           <div class="filter-input ">
-               <div class="input-container child-container">
-                   <label for="child" class="label child-label">ID дочернего объекта</label>
-                   <input class="child select" id="child" type="text" placeholder="child...">
+               <div class="filter-input ">
+                   <div class="input-container child-container">
+                       <label for="child" class="label child-label">ID дочернего объекта</label>
+                       <input class="child select" id="child" type="text" placeholder="child...">
+                   </div>
+                   <div class="input-container parent-container">
+                       <label for="parent" class="label parent-label">ID родительского объекта</label>
+                       <input class="parent select" id="parent" type="text" placeholder="parent...">
+                   </div>
                </div>
-               <div class="input-container parent-container">
-                   <label for="parent" class="label parent-label">ID родительского объекта</label>
-                   <input class="parent select" id="parent" type="text" placeholder="parent...">
+           </div>
+
+           <div>
+               <div class="input-container">
+                   <label for="kind" class="label">Тип связи (необязательно)</label>
+                   <select id="kind" class="select-kind select">
+                       <option value="-">-</option>
+                       <option value="1">1</option>
+                       <option value="2">2</option>
+                       <option value="3">3</option>
+                       <option value="4">4</option>
+                       <option value="5">5</option>
+                       <option value="6">6</option>
+                   </select>
+               </div>
+
+               <div class="input-container">
+                   <label for="date-begin" class="label">Дата начала (необязательно)</label>
+                   <input type="date" class="date-begin select" id="date-begin">
+               </div>
+
+               <div class="input-container">
+                   <label for="date-end" class="label">Дата конца (необязательно)</label>
+                   <input type="date" class="date-end select" id="date-end">
+               </div>
+
+               <div class="input-container">
+                   <label for="cost" class="label">Стоимость (необязательно)</label>
+                   <input type="text" class="cost select" placeholder="cost" id="cost">
+               </div>
+
+               <div class="input-container">
+                   <label for="share" class="label">Доля (необязательно)</label>
+                   <input type="text" class="share select" placeholder="share" id="share">
+               </div>
+
+               <div class="input-container">
+                   <label for="child-liq" class="label">Ликвидация (необязательно)</label>
+                   <select class="select-childLiquidated select" id="child-liq">
+                       <option selected value="-">-</option>
+                       <option value="false">Нет</option>
+                       <option value="true">Да</option>
+                   </select>
                </div>
            </div>
 
-           <div class="input-container">
-               <label for="kind" class="label">Тип связи (необязательно)</label>
-               <select id="kind" class="select-kind select">
-                   <option value="-">-</option>
-                   <option value="1">1</option>
-                   <option value="2">2</option>
-                   <option value="3">3</option>
-                   <option value="4">4</option>
-                   <option value="5">5</option>
-                   <option value="6">6</option>
-               </select>
+           <div>
+               <button type="button" value="Отправить" onclick="sendRequest()">Отправить</button>
            </div>
-
-           <div class="input-container">
-               <label for="date-begin" class="label">Дата начала (необязательно)</label>
-               <input type="date" class="date-begin select" id="date-begin">
-           </div>
-
-           <div class="input-container">
-               <label for="date-end" class="label">Дата конца (необязательно)</label>
-               <input type="date" class="date-end select" id="date-end">
-           </div>
-
-           <div class="input-container">
-               <label for="cost" class="label">Стоимость (необязательно)</label>
-               <input type="text" class="cost select" placeholder="cost" id="cost">
-           </div>
-
-           <div class="input-container">
-               <label for="share" class="label">Доля (необязательно)</label>
-               <input type="text" class="share select" placeholder="share" id="share">
-           </div>
-
-           <div class="input-container">
-               <label for="child-liq" class="label">Ликвидация (необязательно)</label>
-               <select class="select-childLiquidated select" id="child-liq">
-                   <option selected value="-">-</option>
-                   <option value="false">Нет</option>
-                   <option value="true">Да</option>
-               </select>
-           </div>
-
-           <button type="button" value="Отправить" onclick="sendRequest()">Отправить</button>
 
        </form>
   </div>
