@@ -53,7 +53,7 @@ with connection_Neo.session(database="neo4j") as session:
 
     #query_create_links = "USING PERIODIC COMMIT 10000 LOAD CSV WITH HEADERS FROM 'file:///links2.csv' as line MATCH (p:Exemplar {pk: line.parent}), (c:Exemplar {pk:r {pk: line.child}) MERGE (p)-[:Properties{kind:line.kind, date_begin:line.date_begin, date_end:coalesce(line.date_end, '-'),cost:coalesce(line.cost, '-'),share:coare:coalesce(line.share, '-'), child_liquidated:coalesce(line.child_liquidated, '-')}]->(c);"
 
-    query_create_link = 'Match (n:Example {face_id:"11721855"})<-[r:Properties]-(b)-[t:Properties]-> (m) Return m,n,b,r,t LIMIT 10'
+    query_create_link = 'Match (n{face_id:"11721855"})<-[r]-(b)-[t]->(m) Return m,n,b,r,t LIMIT 10'
     res = session.run(query_create_link)
     print(res.data())
     time_end = time_obj.perf_counter()
