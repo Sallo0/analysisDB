@@ -101,10 +101,11 @@ def getDataPostgreSQL(request):
             to_json = json.dumps(
                 result,
                 cls=DjangoJSONEncoder)
-            for record in to_json.split("}"):
-                i1 = record.find("child")
-                i2 = record.find("kind")
-                id = record[i1+8:i2-3]
+            temp = to_json.split("}")
+            for i in range(len(temp) - 1):
+                i1 = temp[i].find("child")
+                i2 = temp[i].find("kind")
+                id = temp[i][i1+8:i2-3]
                 cursor.execute(f'SELECT * FROM face_info WHERE face_id={int(id)} LIMIT 1')
                 node = cursor.fetchall()
                 json_node = json.dumps(node)
