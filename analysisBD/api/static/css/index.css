@@ -126,6 +126,7 @@ body {
 .nodes-container{
     display: inline-block;
     margin-bottom: 15px;
+    margin-right: 10px;
     padding: 3px;
     border: 2px solid #355780;
     background-color: #79A3D4;
