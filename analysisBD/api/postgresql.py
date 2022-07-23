@@ -99,6 +99,7 @@ def getDataPostgreSQL(request):
             time_end = t.perf_counter()
             result = cursor.fetchall()
             timer = time_end - time_start
+            print(result)
             to_json = json.dumps(
                 result,
                 cls=DjangoJSONEncoder)

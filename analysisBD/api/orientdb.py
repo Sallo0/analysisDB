@@ -17,4 +17,5 @@ class OrientDBRepository():
         return json.dumps(list(map(lambda x: x.oRecordData, a)))
 
 def getDataOrientDB(request):
+
     return OrientDBRepository().query("select name, out('Owning').name from Organization where name != 'EvilOrg' limit 25")
