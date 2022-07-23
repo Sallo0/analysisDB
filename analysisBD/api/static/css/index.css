@@ -133,12 +133,15 @@ body {
 }
 
 .node-item{
-    display: inline-block;
     border: 2px solid #153f6f;
     background-color: #2562aa;
     color: #fff1eb;
     border-radius: 5px;
     padding: 5px;
+}
+
+.record-container{
+    white-space: nowrap;
 }
 
 @keyframes changeContent {
