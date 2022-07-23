@@ -282,6 +282,7 @@
                 let timer = document.createElement("div");
                 timer.classList.add("time");
                 timer.innerHTML = `Найдено за ${temp[1]} сек`;
+                document.querySelector('.data').append(timer);
 
                 let records = temp[0].split("{");
                 records.splice(0,1);
@@ -289,44 +290,64 @@
 
                 document.querySelector('.data').innerHTML = "";
 
-                for (let i = 0; i < records.length; i++)
-                {
-                    let record_container = document.createElement("div");
-                    record_container.classList.add("record-container");
+                let page_count = Math.ceil(records.length / 25)
+                for (let i = 1; i <= page_count; i++) {
+                    let page_btn = document.createElement("button");
+                    page_btn.addEventListener("click", () => {
+                        let blocks = document.querySelectorAll(".block-of-records");
+                        blocks.forEach(b => {
+                            b.style.display = "none";
+                        })
+                        document.getElementById(i.toString()).style.display = "block";
+                    })
+                    page_btn.setAttribute("class", `page-btn`);
+                    page_btn.innerHTML = `${i}`;
+                    document.querySelector(".pages").append(page_btn);
 
-                    let link_container = document.createElement("div");
-                    link_container.classList.add("link-container");
-                    let record_arr = records[i].split(",");
+                    let r = document.createElement("div");
+                    r.setAttribute("id", i.toString());
+                    r.setAttribute("class", "block-of-records");
 
-                    if (data["nodes_type"] !== '') {
-                        let node_container = document.createElement("div")
-                        node_container.classList.add("nodes-container")
-                        let node_field = nodes[i].substring(2, nodes[i].length - 2)
-                        node_field = node_field.split(",")
-                        for (let j = 0; j < node_field.length; j++) {
-                            let node_item = document.createElement("div");
-                            node_item.classList.add("node-item");
-                            node_item.innerHTML = node_field[j];
-                            node_container.append(node_item);
+                    for (let j = (i-1)*25; j < 25 + (i-1)*25; j++) {
+                        if (j === data.result.length){
+                            break;
                         }
-                        record_container.append(node_container);
-                    }
+                        let record_container = document.createElement("div");
+                        record_container.classList.add("record-container");
 
-                    for (let j = 1; j < record_arr.length; j++)
-                    {
-                        if (record_arr[j] !== " "){
-                            let block = document.createElement("div");
-                            block.classList.add("recordItem");
-                            block.innerHTML = record_arr[j];
-                            link_container.append(block);
+                        let link_container = document.createElement("div");
+                        link_container.classList.add("link-container");
+                        let record_arr = records[j].split(",");
+
+                        if (data["nodes_type"] !== '') {
+                            let node_container = document.createElement("div")
+                            node_container.classList.add("nodes-container")
+                            let node_field = nodes[j].substring(2, nodes[j].length - 2)
+                            node_field = node_field.split(",")
+                            for (let k = 0; k < node_field.length; k++) {
+                                let node_item = document.createElement("div");
+                                node_item.classList.add("node-item");
+                                node_item.innerHTML = node_field[k];
+                                node_container.append(node_item);
+                            }
+                            record_container.append(node_container);
                         }
-                    }
-                    record_container.append(link_container);
 
-                    all_records.append(record_container);
+                        for (let k = 1; k < record_arr.length; k++) {
+                            if (record_arr[k] !== " ") {
+                                let block = document.createElement("div");
+                                block.classList.add("recordItem");
+                                block.innerHTML = record_arr[k];
+                                link_container.append(block);
+                            }
+                        }
+                        record_container.append(link_container);
+
+                        r.append(record_container);
+                    }
+                    all_records.append(r)
                 }
 
-                document.querySelector('.data').append(timer);
                 document.querySelector('.data').append(all_records);
                 document.getElementById("spinner").remove()
             }
