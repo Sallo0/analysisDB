@@ -14,7 +14,10 @@ body {
 .parent{
     display: none;
 }
-.recordContainer{
+.link-container{
+    position: relative;
+    bottom: 30px;
+    display: inline-block;
     margin-bottom: 15px;
     padding: 3px;
     border: 2px solid #355780;
@@ -71,7 +74,7 @@ body {
     border: solid black 2px;
     border-radius: 4px;
     padding: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 40px;
 }
 
 .spinner {
@@ -86,6 +89,67 @@ body {
   display: block;
   content: "⠋";
   font-size: 35px;
+}
+
+.img-urfu{
+    max-height: 50px;
+    position: absolute;
+    right: 150px;
+}
+
+.img-sbis{
+    max-height: 50px;
+    position: absolute;
+    right: 0;
+}
+
+.title{
+    display: inline-block;
+}
+
+.input-container{
+    display: inline-block;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    background-color: lightgray;
+    border: solid 2px black;
+    border-radius: 4px;
+}
+
+.label{
+    display: block;
+}
+.select{
+    display: block;
+    width: 100%;
+}
+
+.nodes-container{
+    display: inline-block;
+    margin-bottom: 15px;
+    margin-right: 10px;
+    padding: 3px;
+    border: 2px solid #355780;
+    background-color: #79A3D4;
+    border-radius: 5px;
+}
+
+.node-item{
+    border: 2px solid #153f6f;
+    background-color: #2562aa;
+    color: #fff1eb;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.node-title{
+    padding: 3px 0 3px 0;
+    color: white;
+}
+
+.record-container{
+    white-space: nowrap;
 }
 
 @keyframes changeContent {

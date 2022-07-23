@@ -50,7 +50,7 @@ def queryConstructor(data):
         query.append(",".join(filters))
         query.append("}]->(c) return PROPERTIES(r), c")
 
-    query.append(" LIMIT 25")
+    #query.append(" LIMIT 25")
 
     return "".join(query)
 

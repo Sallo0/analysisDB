@@ -7,8 +7,11 @@
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
  </head>
  <body>
-  <h1>Анализ баз данных</h1>
-  <!-- Комментарий -->
+ <header>
+     <h1 class="title">Анализ баз данных</h1>
+     <img class="img-urfu" src="{% static 'css/urfu.png'%}" alt="лого УрФУ">
+     <img class="img-sbis" src="{% static 'css/sbis.png'%}" alt="лого СБИС">
+  </header>
   <div>
       <!-- Пока отказались от этой реализации
       <a href="postgresql"><button type="button">PostgreSQL</button></a>
@@ -16,50 +19,89 @@
       <a href="neo4j"><button type="button">Neo4j</button></a>
       -->
        <form class="requestForm">
-           <select class="select-db" required>
-               <option selected value="PostgreSQL">PostgreSQL</option>
-               <option value="OrientDB">OrientDB</option>
-               <option value="Neo4j">Neo4j</option>
-           </select>
+           <div>
+               <div class="db-type input-container">
+                   <label class="label db-type-label" for="db-type">База данных</label>
+                   <select class="select-db select" id="db-type" required>
+                       <option selected value="PostgreSQL">PostgreSQL</option>
+                       <option value="OrientDB">OrientDB</option>
+                       <option value="Neo4j">Neo4j</option>
+                   </select>
+                </div>
+               <div class="input-container">
+                   <label for="main-filter" class="label main-filter">Укажите child или parent</label>
+                   <select class="select-mainFilter select" id="main-filter" onchange="displayInput()" required>
+                       <option class="option-none" value="-">-</option>
+                       <option value="Child">Child</option>
+                       <option value="Parent">Parent</option>
+                       <option value="All">All</option>
+                   </select>
+                </div>
 
-           <select class="select-mainFilter" onchange="displayInput()" required>
-               <option class="option-none" value="-">-</option>
-               <option value="Child">Child</option>
-               <option value="Parent">Parent</option>
-               <option value="All">All</option>
-           </select>
-
-           <div class="filter-input">
-               <input class="child" type="text" placeholder="child...">
-               <input class="parent" type="text" placeholder="parent...">
+               <div class="filter-input ">
+                   <div class="input-container child-container">
+                       <label for="child" class="label child-label">ID дочернего объекта</label>
+                       <input class="child select" id="child" type="text" placeholder="child...">
+                   </div>
+                   <div class="input-container parent-container">
+                       <label for="parent" class="label parent-label">ID родительского объекта</label>
+                       <input class="parent select" id="parent" type="text" placeholder="parent...">
+                   </div>
+               </div>
            </div>
 
-           <select class="select-kind">
-               <option value="-">-</option>
-               <option value="1">1</option>
-               <option value="2">2</option>
-               <option value="3">3</option>
-               <option value="4">4</option>
-               <option value="5">5</option>
-               <option value="6">6</option>
-           </select>
+           <div>
+               <div class="input-container">
+                   <label for="kind" class="label">Тип связи (необязательно)</label>
+                   <select id="kind" class="select-kind select">
+                       <option value="-">-</option>
+                       <option value="1">1</option>
+                       <option value="2">2</option>
+                       <option value="3">3</option>
+                       <option value="4">4</option>
+                       <option value="5">5</option>
+                       <option value="6">6</option>
+                   </select>
+               </div>
 
-           <input type="date" class="date-begin">
-           <input type="date" class="date-end">
-           <input type="text" class="cost" placeholder="cost">
-           <input type="text" class="share" placeholder="share">
+               <div class="input-container">
+                   <label for="date-begin" class="label">Дата начала (необязательно)</label>
+                   <input type="date" class="date-begin select" id="date-begin">
+               </div>
 
-           <select class="select-childLiquidated">
-               <option selected value="-">-</option>
-               <option value="false">Нет</option>
-               <option value="true">Да</option>
-           </select>
+               <div class="input-container">
+                   <label for="date-end" class="label">Дата конца (необязательно)</label>
+                   <input type="date" class="date-end select" id="date-end">
+               </div>
 
-           <button type="button" value="Отправить" onclick="sendRequest()">Отправить</button>
+               <div class="input-container">
+                   <label for="cost" class="label">Стоимость (необязательно)</label>
+                   <input type="text" class="cost select" placeholder="cost" id="cost">
+               </div>
+
+               <div class="input-container">
+                   <label for="share" class="label">Доля (необязательно)</label>
+                   <input type="text" class="share select" placeholder="share" id="share">
+               </div>
+
+               <div class="input-container">
+                   <label for="child-liq" class="label">Ликвидация (необязательно)</label>
+                   <select class="select-childLiquidated select" id="child-liq">
+                       <option selected value="-">-</option>
+                       <option value="false">Нет</option>
+                       <option value="true">Да</option>
+                   </select>
+               </div>
+           </div>
+
+           <div>
+               <button type="button" value="Отправить" onclick="sendRequest()">Отправить</button>
+           </div>
 
        </form>
   </div>
   <div class="data"></div>
+  <div class="pages"></div>
     <script>
         function displayInput(){
             let selectBox = document.querySelector(".select-mainFilter");
@@ -71,17 +113,17 @@
 
             if (selectedValue === "Child") {
                 let parent = document.querySelector(".parent")
-                parent.style.display = "none";
+                document.querySelector(".parent-container").style.display = "none"
+                document.querySelector(".child-container").style.display = "inline-block"
                 parent.value = ""
-                document.querySelector(".child").style.display = "block";
             }else if (selectedValue === "Parent"){
                 let child = document.querySelector(".child")
-                document.querySelector(".parent").style.display = "block";
-                child.style.display = "none";
+                document.querySelector(".child-container").style.display = "none"
+                document.querySelector(".parent-container").style.display = "inline-block"
                 child.value = ""
             }else if (selectedValue === "All"){
-                document.querySelector(".child").style.display = "block";
-                document.querySelector(".parent").style.display = "block";
+                document.querySelector(".child-container").style.display = "inline-block";
+                document.querySelector(".parent-container").style.display = "inline-block";
             }
         }
 
@@ -152,32 +194,67 @@
 
             });
 
+            function setPage(id){
+                let btns = document.querySelectorAll(".page-btn");
+                btns.forEach(btn => {
+                    btn.style.display = "none";
+                })
+                document.getElementById(id).style.display = "block";
+            }
+
             function parserDataNeo4j(data){
-                console.log(data)
-                document.querySelector('.data').innerHTML = ""
+                console.log(data);
+                document.querySelector('.data').innerHTML = "";
+                document.querySelector('.pages').innerHTML = "";
 
-                let records = document.createElement("div");
+                let time_block = document.createElement("div");
+                time_block.classList.add("time");
+                time_block.innerHTML = `Найдено за ${data['time']} сек`
+                document.querySelector('.data').append(time_block)
 
-                data['result'].forEach(record => {
-                    let node_type = ''
 
-                    let record_container = document.createElement("div");
+                let page_count = Math.ceil(data['result'].length / 25)
+                for (let i = 1; i <= page_count; i++) {
+                    let page_btn = document.createElement("button");
+                    page_btn.addEventListener("click", () =>{
+                        let blocks = document.querySelectorAll(".block-of-records");
+                        blocks.forEach( b => {
+                            b.style.display = "none";
+                        })
+                        document.getElementById(i.toString()).style.display = "block";
+                    })
+                    page_btn.setAttribute("class", `page-btn`);
+                    page_btn.innerHTML = `${i}`;
+                    document.querySelector(".pages").append(page_btn);
 
-                    if (Object.keys(record).length !== 1) {
-                        node_type = Object.keys(record)[1]
-                        let parent_container = document.createElement("div");
-                        parent_container.classList.add("parentContainer")
-                        parent_container.innerHTML = `
+                    let records = document.createElement("div");
+                    records.setAttribute("id", i.toString());
+                    records.setAttribute("class", "block-of-records");
+
+                    for (let j = (i-1)*25; j < 25 + (i-1)*25; j++) {
+                        if (j === data.result.length){
+                            break;
+                        }
+                        let record = data['result'][j]
+                        let node_type = ''
+
+                        let record_container = document.createElement("div");
+
+                        if (Object.keys(record).length !== 1) {
+                            node_type = Object.keys(record)[1]
+                            let parent_container = document.createElement("div");
+                            parent_container.classList.add("parentContainer")
+                            parent_container.innerHTML = `
                             <div class="parentItem pk">pk: ${record[node_type]['pk']}</div>
                             <div class="parentItem face-name">name: ${record[node_type]['face_name']}</div>
                             <div class="parentItem face-type">type: ${record[node_type]['face_type']}</div>
                         `
-                        record_container.append(parent_container)
-                    }
+                            record_container.append(parent_container);
+                        }
 
-                    let properties = document.createElement("div");
-                    properties.classList.add("propertiesContainer")
-                    properties.innerHTML = `
+                        let properties = document.createElement("div");
+                        properties.classList.add("propertiesContainer");
+                        properties.innerHTML = `
                         <div class="propertiesItem kind">тип связи: ${record['PROPERTIES(r)']['kind']}</div>
                         <div class="propertiesItem date-begin">начало: ${record['PROPERTIES(r)']['date_begin']}</div>
                         <div class="propertiesItem date-end">конец: ${record['PROPERTIES(r)']['date_end']}</div>
@@ -186,51 +263,105 @@
                         <div class="propertiesItem child-liquidated">child-liquidated: ${record['PROPERTIES(r)']['child_liquidated']}</div>
 
                     `
-                    record_container.append(properties)
+                        record_container.append(properties);
+                        records.append(record_container);
+                        if (i > 1){
+                            records.style.display = "none";
+                        }
+                    }
+                    document.querySelector('.data').append(records);
 
-                    records.append(record_container)
-                })
-
-                let time_block = document.createElement("div");
-                time_block.classList.add("time");
-                time_block.innerHTML =`Найдено за ${data['time']} сек`
-
-                document.querySelector('.data').append(time_block)
-                document.querySelector('.data').append(records)
-
-                document.getElementById("spinner").remove()
+                }
+                document.getElementById("spinner").remove();
             }
 
             function parserDataPostgres(data){
-                let records = document.createElement("div");
-                let temp = data.split(']')
-                let timer = temp[1]
+                document.querySelector('.data').innerHTML = "";
+                let all_records = document.createElement("div");
+                let temp = data["result"].split(']');
+                let nodes = data["nodes"];
+                let timer = document.createElement("div");
+                timer.classList.add("time");
+                timer.innerHTML = `Найдено за ${temp[1]} сек`;
+                document.querySelector('.data').append(timer);
 
-                records = temp[0].split("{")
+                let records = temp[0].split("{");
                 records.splice(0,1);
 
-                document.querySelector('.data').innerHTML = ""
-
-                records.forEach(record => {
-                    let record_container = document.createElement("div");
-                    record_container.classList.add("recordContainer");
-                    let record_arr = record.split(",");
-                    record_arr.forEach(e =>{
-                        if (e != " "){
-                            let block = document.createElement("div");
-                            block.classList.add("recordItem");
-                            block.innerHTML = e;
-                            record_container.append(block);
-                        }
+                let page_count = Math.ceil(records.length / 25)
+                for (let i = 1; i <= page_count; i++) {
+                    let page_btn = document.createElement("button");
+                    page_btn.addEventListener("click", () => {
+                        let blocks = document.querySelectorAll(".block-of-records");
+                        blocks.forEach(b => {
+                            b.style.display = "none";
+                        })
+                        document.getElementById(i.toString()).style.display = "block";
                     })
+                    page_btn.setAttribute("class", `page-btn`);
+                    page_btn.innerHTML = `${i}`;
+                    document.querySelector(".pages").append(page_btn);
 
-                    document.querySelector('.data').append(record_container)
-                })
+                    let r = document.createElement("div");
+                    r.setAttribute("id", i.toString());
+                    r.setAttribute("class", "block-of-records");
 
-                document.querySelector('.data').append(timer);
+                    for (let j = (i-1)*25; j < 25 + (i-1)*25; j++) {
+                        if (j === records.length){
+                            break;
+                        }
+                        let record_container = document.createElement("div");
+                        record_container.classList.add("record-container");
+
+                        let link_container = document.createElement("div");
+                        link_container.classList.add("link-container");
+                        let record_arr = records[j].split(",");
+
+                        if (data["nodes_type"] !== '') {
+                            let node_container = document.createElement("div")
+                            node_container.classList.add("nodes-container")
+                            if (data["nodes_type"] === 'child'){
+                                node_container.innerHTML = `
+                                    <div class="node-title">Child</div>
+                                `
+                            }
+                            else {
+                                node_container.innerHTML = `
+                                    <div class="node-title">Parent</div>
+                                `
+                            }
+                            let node_field = nodes[j].substring(2, nodes[j].length - 2)
+                            node_field = node_field.split(",")
+                            for (let k = 0; k < node_field.length; k++) {
+                                let node_item = document.createElement("div");
+                                node_item.classList.add("node-item");
+                                node_item.innerHTML = node_field[k];
+                                node_container.append(node_item);
+                            }
+                            record_container.append(node_container);
+                        }
+
+                        for (let k = 1; k < record_arr.length; k++) {
+                            if (record_arr[k] !== " ") {
+                                let block = document.createElement("div");
+                                block.classList.add("recordItem");
+                                block.innerHTML = record_arr[k];
+                                link_container.append(block);
+                            }
+                        }
+                        record_container.append(link_container);
+
+                        r.append(record_container);
+                    }
+                    if (i > 1){
+                        r.style.display = "none"
+                    }
+                    all_records.append(r)
+                }
+
+                document.querySelector('.data').append(all_records);
+                document.getElementById("spinner").remove()
             }
-
-
         }
     </script>
  </body>

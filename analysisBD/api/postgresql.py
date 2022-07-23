@@ -57,7 +57,7 @@ def queryConstructor(data):
 
     query.append(" AND ".join(sql_args))
 
-    query.append(" LIMIT 25")
+    #query.append(" LIMIT 3")
 
     return "".join(query)
 
@@ -84,7 +84,6 @@ def getDataPostgreSQL(request):
     user = os.getenv('postgres_user')
     password = os.getenv('postgres_password')
     db_name = os.getenv('postgres_db_name')
-    print("ok")
     try:
         connection = psycopg2.connect(
             host=host,
@@ -102,6 +101,26 @@ def getDataPostgreSQL(request):
             to_json = json.dumps(
                 result,
                 cls=DjangoJSONEncoder)
+            all_data = {"result": to_json, "nodes": [], "nodes_type": ''}
+            temp = to_json.split("}")
+            for i in range(len(temp) - 1):
+                i1, i2 = 0, 0
+                if data['mainfilter']['Child'] != "" and data['mainfilter']['Parent'] != "":
+                    break
+                elif data['mainfilter']['Child'] != "":
+                    i1 = temp[i].find("parent") + 9
+                    i2 = temp[i].find("child") - 3
+                    all_data["nodes_type"] = "parent"
+                elif data['mainfilter']['Parent'] != "":
+                    i1 = temp[i].find("child") + 8
+                    i2 = temp[i].find("kind") - 3
+                    all_data["nodes_type"] = "child"
+                id = temp[i][i1:i2]
+                cursor.execute(f'SELECT * FROM face_info WHERE face_id={int(id)} LIMIT 1')
+                node = cursor.fetchall()
+                json_node = json.dumps(node)
+                all_data["nodes"].append(json_node)
+
     except Exception as _ex:
         print("Error : ", _ex)
     finally:
@@ -109,6 +128,6 @@ def getDataPostgreSQL(request):
             connection.close()
             print("connection closed")
 
-    to_json += str(timer)
+    all_data['result'] += str(timer)
 
-    return to_json
+    return all_data
