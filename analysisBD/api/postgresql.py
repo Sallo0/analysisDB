@@ -112,6 +112,6 @@ def getDataPostgreSQL(request):
             connection.close()
             print("connection closed")
 
-    to_json += str(timer)
+    #to_json += str(timer)
 
     return to_json
