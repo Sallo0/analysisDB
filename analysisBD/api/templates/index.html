@@ -303,8 +303,8 @@
                             record_container.append(block);
                         }
                     })
-
-                    let node_field = nodes[i].split(",")
+                    let node_field = nodes[i].substring(2, nodes[i].length - 2)
+                    node_field = nodes[i].split(",")
                     node_field.forEach(e => {
                         console.log(e)
                     })
