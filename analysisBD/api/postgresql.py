@@ -57,7 +57,7 @@ def queryConstructor(data):
 
     query.append(" AND ".join(sql_args))
 
-    query.append(" LIMIT 25")
+    query.append(" LIMIT 3")
 
     return "".join(query)
 
@@ -103,7 +103,7 @@ def getDataPostgreSQL(request):
                 cls=DjangoJSONEncoder)
             for record in to_json.split("}"):
                 for el in record.split(","):
-                    print(el[2].split(" ")[1])
+                    print(el[2])
                 #cursor.execute(f'SELECT * FROM face_info WHERE face_id={record["child"]} LIMIT 1')
                 #node = cursor.fetchall()
                 #json_node = json.dumps(node, cls=DjangoJSONEncoder)
