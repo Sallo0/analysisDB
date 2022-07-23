@@ -279,13 +279,13 @@
                 let all_records = document.createElement("div");
                 let temp = data["result"].split(']');
                 let nodes = data["nodes"];
-                console.log(data['nodes'])
                 let timer = document.createElement("div");
                 timer.classList.add("time");
                 timer.innerHTML = `Найдено за ${temp[1]} сек`;
 
                 let records = temp[0].split("{");
                 records.splice(0,1);
+                console.log(records)
 
                 document.querySelector('.data').innerHTML = "";
 
