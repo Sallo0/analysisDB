@@ -98,10 +98,10 @@ def getDataPostgreSQL(request):
             time_end = t.perf_counter()
             result = cursor.fetchall()
             timer = time_end - time_start
-            print(result[0])
             to_json = json.dumps(
                 result,
                 cls=DjangoJSONEncoder)
+            print(to_json)
     except Exception as _ex:
         print("Error : ", _ex)
     finally:
