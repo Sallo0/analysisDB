@@ -278,7 +278,7 @@
             function parserDataPostgres(data){
                 let all_records = document.createElement("div");
                 let records = document.createElement("div");
-                let temp = data.split(']');
+                let temp = data["result"].split(']');
                 let timer = document.createElement("div");
                 timer.classList.add("time");
                 timer.innerHTML = `Найдено за ${temp[1]} сек`;

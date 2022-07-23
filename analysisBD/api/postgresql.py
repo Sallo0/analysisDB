@@ -101,6 +101,7 @@ def getDataPostgreSQL(request):
             to_json = json.dumps(
                 result,
                 cls=DjangoJSONEncoder)
+            all_data = {"result": to_json, "nodes": []}
             temp = to_json.split("}")
             for i in range(len(temp) - 1):
                 i1 = temp[i].find("child")
@@ -109,7 +110,7 @@ def getDataPostgreSQL(request):
                 cursor.execute(f'SELECT * FROM face_info WHERE face_id={int(id)} LIMIT 1')
                 node = cursor.fetchall()
                 json_node = json.dumps(node)
-                print(json_node)
+                all_data["nodes"].append(json_node)
     except Exception as _ex:
         print("Error : ", _ex)
     finally:
@@ -117,6 +118,6 @@ def getDataPostgreSQL(request):
             connection.close()
             print("connection closed")
 
-    to_json += str(timer)
+    all_data['result'] += str(timer)
 
-    return to_json
+    return all_data
