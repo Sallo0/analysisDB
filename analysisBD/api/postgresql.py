@@ -100,7 +100,7 @@ def getDataPostgreSQL(request):
             timer = time_end - time_start
             to_json = json.dumps(result)
             #for i in range(len(to_json)):
-            print(type(to_json))
+            print(to_json)
                 #cursor.execute(f'SELECT * FROM face_info WHERE face_id={record["child"]} LIMIT 1')
                 #node = cursor.fetchall()
                 #json_node = json.dumps(node, cls=DjangoJSONEncoder)
