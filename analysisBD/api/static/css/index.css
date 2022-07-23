@@ -143,6 +143,11 @@ body {
     padding: 5px;
 }
 
+.node-title{
+    padding: 3px 0 3px 0;
+    color: white;
+}
+
 .record-container{
     white-space: nowrap;
 }

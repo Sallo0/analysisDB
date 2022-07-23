@@ -320,6 +320,16 @@
                         if (data["nodes_type"] !== '') {
                             let node_container = document.createElement("div")
                             node_container.classList.add("nodes-container")
+                            if (data["nodes_type"] === 'child'){
+                                node_container.innerHTML = `
+                                    <div class="node-title">Child</div>
+                                `
+                            }
+                            else {
+                                node_container.innerHTML = `
+                                    <div class="node-title">Parent</div>
+                                `
+                            }
                             let node_field = nodes[j].substring(2, nodes[j].length - 2)
                             node_field = node_field.split(",")
                             for (let k = 0; k < node_field.length; k++) {
