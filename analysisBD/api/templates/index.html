@@ -276,6 +276,7 @@
             }
 
             function parserDataPostgres(data){
+                document.querySelector('.data').innerHTML = "";
                 let all_records = document.createElement("div");
                 let temp = data["result"].split(']');
                 let nodes = data["nodes"];
@@ -286,9 +287,6 @@
 
                 let records = temp[0].split("{");
                 records.splice(0,1);
-                console.log(records)
-
-                document.querySelector('.data').innerHTML = "";
 
                 let page_count = Math.ceil(records.length / 25)
                 for (let i = 1; i <= page_count; i++) {
