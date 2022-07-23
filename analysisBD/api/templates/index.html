@@ -300,21 +300,23 @@
                     let record_arr = records[i].split(",");
 
                     node_field = node_field.split(",")
-                    node_field.forEach(e => {
+                    for (let j = 0; j < node_field.length; j++)
+                    {
                         let node_item = document.createElement("div");
                         node_item.classList.add("node-item");
-                        node_item.innerHTML = e;
+                        node_item.innerHTML = node_field[j];
                         node_container.append(node_item);
-                    })
+                    }
 
-                    record_arr.forEach(e =>{
-                        if (e != " "){
+                    for (let j = 1; j < record_arr.length; j++)
+                    {
+                        if (record_arr[j] !== " "){
                             let block = document.createElement("div");
                             block.classList.add("recordItem");
-                            block.innerHTML = e;
+                            block.innerHTML = record_arr[j];
                             link_container.append(block);
                         }
-                    })
+                    }
                     record_container.append(node_container);
                     record_container.append(link_container);
                     all_records.append(record_container);
