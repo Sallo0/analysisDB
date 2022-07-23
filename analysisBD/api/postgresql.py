@@ -98,9 +98,11 @@ def getDataPostgreSQL(request):
             time_end = t.perf_counter()
             result = cursor.fetchall()
             timer = time_end - time_start
-            to_json = json.dumps(result)
-            #for i in range(len(to_json)):
-            print(to_json)
+            to_json = json.dumps(
+                result,
+                cls=DjangoJSONEncoder)
+            for record in to_json.split("}"):
+                print(record)
                 #cursor.execute(f'SELECT * FROM face_info WHERE face_id={record["child"]} LIMIT 1')
                 #node = cursor.fetchall()
                 #json_node = json.dumps(node, cls=DjangoJSONEncoder)
@@ -112,6 +114,6 @@ def getDataPostgreSQL(request):
             connection.close()
             print("connection closed")
 
-    #to_json += str(timer)
+    to_json += str(timer)
 
     return to_json
