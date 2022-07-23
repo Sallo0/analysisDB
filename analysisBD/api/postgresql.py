@@ -108,12 +108,12 @@ def getDataPostgreSQL(request):
                 if data['mainfilter']['Child'] != "" and data['mainfilter']['Parent'] != "":
                     break
                 elif data['mainfilter']['Child'] != "":
-                    i1 = temp[i].find("child") + 8
-                    i2 = temp[i].find("kind") - 3
-                    all_data["nodes_type"] = "child"
-                elif data['mainfilter']['Parent'] != "":
                     i1 = temp[i].find("parent") + 9
                     i2 = temp[i].find("child") - 3
+                    all_data["nodes_type"] = "child"
+                elif data['mainfilter']['Parent'] != "":
+                    i1 = temp[i].find("child") + 8
+                    i2 = temp[i].find("kind") - 3
                     all_data["nodes_type"] = "parent"
                 id = temp[i][i1:i2]
                 cursor.execute(f'SELECT * FROM face_info WHERE face_id={int(id)} LIMIT 1')
