@@ -57,7 +57,7 @@ def queryConstructor(data):
 
     query.append(" AND ".join(sql_args))
 
-    query.append(" LIMIT 3")
+    #query.append(" LIMIT 3")
 
     return "".join(query)
 
@@ -101,16 +101,26 @@ def getDataPostgreSQL(request):
             to_json = json.dumps(
                 result,
                 cls=DjangoJSONEncoder)
-            all_data = {"result": to_json, "nodes": []}
+            all_data = {"result": to_json, "nodes": [], "nodes_type": ''}
             temp = to_json.split("}")
             for i in range(len(temp) - 1):
-                i1 = temp[i].find("child")
-                i2 = temp[i].find("kind")
-                id = temp[i][i1+8:i2-3]
+                i1, i2 = 0, 0
+                if data['mainfilter']['Child'] != "" and data['mainfilter']['Parent'] != "":
+                    break
+                elif data['mainfilter']['Child'] != "":
+                    i1 = temp[i].find("child") + 8
+                    i2 = temp[i].find("kind") - 3
+                    all_data["nodes_type"] = "child"
+                elif data['mainfilter']['Parent'] != "":
+                    i1 = temp[i].find("parent") + 9
+                    i2 = temp[i].find("child") - 3
+                    all_data["nodes_type"] = "parent"
+                id = temp[i][i1:i2]
                 cursor.execute(f'SELECT * FROM face_info WHERE face_id={int(id)} LIMIT 1')
                 node = cursor.fetchall()
                 json_node = json.dumps(node)
                 all_data["nodes"].append(json_node)
+
     except Exception as _ex:
         print("Error : ", _ex)
     finally:
