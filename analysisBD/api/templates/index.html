@@ -291,24 +291,33 @@
 
                 for (let i = 0; i < records.length; i++)
                 {
-
                     let record_container = document.createElement("div");
-                    record_container.classList.add("recordContainer");
+                    let node_container = document.createElement("div")
+                    node_container.classList.add("nodes-container")
+                    let node_field = nodes[i].substring(2, nodes[i].length - 2)
+                    let link_container = document.createElement("div");
+                    link_container.classList.add("link-container");
                     let record_arr = records[i].split(",");
+
+                    node_field = node_field.split(",")
+                    node_field.forEach(e => {
+                        let node_item = document.createElement("div");
+                        node_item.classList.add("node-item");
+                        node_item.innerHTML = e;
+                        node_container.append(node_item);
+                    })
+
                     record_arr.forEach(e =>{
                         if (e != " "){
                             let block = document.createElement("div");
                             block.classList.add("recordItem");
                             block.innerHTML = e;
-                            record_container.append(block);
+                            link_container.append(block);
                         }
                     })
-                    let node_field = nodes[i].substring(2, nodes[i].length - 2)
-                    node_field = node_field.split(",")
-                    node_field.forEach(e => {
-                        console.log(e)
-                    })
-                    all_records.append(record_container)
+                    record_container.append(node_container);
+                    record_container.append(link_container);
+                    all_records.append(record_container);
                 }
 
                 document.querySelector('.data').append(timer);

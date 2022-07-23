@@ -14,7 +14,8 @@ body {
 .parent{
     display: none;
 }
-.recordContainer{
+.link-container{
+    display: inline-block;
     margin-bottom: 15px;
     padding: 3px;
     border: 2px solid #355780;
@@ -122,6 +123,9 @@ body {
     width: 100%;
 }
 
+.nodes-container{
+    display: inline-block;
+}
 
 @keyframes changeContent {
   10% { content: "⠙"; }
