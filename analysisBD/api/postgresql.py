@@ -101,7 +101,11 @@ def getDataPostgreSQL(request):
             to_json = json.dumps(
                 result,
                 cls=DjangoJSONEncoder)
-            print(to_json)
+            for record in to_json:
+                cursor.execute(f'SELECT * FROM face_info WHERE face_id={record["child"]} LIMIT 1')
+                node = cursor.fetchall()
+                json_node = json.dumps(node, cls=DjangoJSONEncoder)
+                print(json_node)
     except Exception as _ex:
         print("Error : ", _ex)
     finally:
