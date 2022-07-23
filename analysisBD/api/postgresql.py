@@ -84,7 +84,6 @@ def getDataPostgreSQL(request):
     user = os.getenv('postgres_user')
     password = os.getenv('postgres_password')
     db_name = os.getenv('postgres_db_name')
-    print("ok")
     try:
         connection = psycopg2.connect(
             host=host,
@@ -99,7 +98,7 @@ def getDataPostgreSQL(request):
             time_end = t.perf_counter()
             result = cursor.fetchall()
             timer = time_end - time_start
-            print(result)
+            print(result[0][0])
             to_json = json.dumps(
                 result,
                 cls=DjangoJSONEncoder)
