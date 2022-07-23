@@ -277,22 +277,24 @@
 
             function parserDataPostgres(data){
                 let all_records = document.createElement("div");
-                let records = document.createElement("div");
                 let temp = data["result"].split(']');
+                let nodes = data["nodes"];
                 console.log(data['nodes'])
                 let timer = document.createElement("div");
                 timer.classList.add("time");
                 timer.innerHTML = `Найдено за ${temp[1]} сек`;
 
-                records = temp[0].split("{");
+                let records = temp[0].split("{");
                 records.splice(0,1);
 
                 document.querySelector('.data').innerHTML = "";
 
-                records.forEach(record => {
+                for (let i = 0; i < records.length; i++)
+                {
+
                     let record_container = document.createElement("div");
                     record_container.classList.add("recordContainer");
-                    let record_arr = record.split(",");
+                    let record_arr = records[i].split(",");
                     record_arr.forEach(e =>{
                         if (e != " "){
                             let block = document.createElement("div");
@@ -302,8 +304,12 @@
                         }
                     })
 
+                    let node_field = nodes[i].split(",")
+                    node_field.forEach(e => {
+                        console.log(e)
+                    })
                     all_records.append(record_container)
-                })
+                }
 
                 document.querySelector('.data').append(timer);
                 document.querySelector('.data').append(all_records);
