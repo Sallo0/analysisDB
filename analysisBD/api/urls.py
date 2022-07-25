@@ -5,7 +5,7 @@ from django.http import HttpResponse
 
 urlpatterns = [
     path('', views.hello),
-    path('/deep', views.deep),
+    path('deep/', views.deep),
 
     #path('orientdb/', views.orient),
     #path('postgresql/', views.postgre),
