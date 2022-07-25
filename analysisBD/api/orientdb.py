@@ -1,89 +1,74 @@
 import pyorient as po
 import json
-import time
 import os
-from psycopg2.extras import RealDictCursor
-from django.core.serializers.json import DjangoJSONEncoder
+
+
+class OrientDBRepository():
+
+    client = None
+
+    def __init__(self):
+        self.client = po.OrientDB(os.getenv('orientdb_ip'), 2424)
+        self.client.set_session_token( True )
+        self.client.connect(os.getenv('orientdb_login'), os.getenv('orientdb_pass'))
+        self.client.db_open("analysis", os.getenv('orientdb_login'), os.getenv('orientdb_pass'))
+
+    def query(self, query):
+        a =self.client.query(query)
+        return json.dumps(list(map(lambda x: x.oRecordData, a)))
+
+    def over_knee(self, id):
+        raw_resp = self.client.query(f"select " \
+                                f"outV().id as parent, outV().out().id as parent_childs " \
+                                f"from (traverse inE() from (select from Face where id = {id}))")
+        childsDict = list(map(lambda x: x.oRecordData, raw_resp))
+        parentsDict = {}
+        for parent,childs in childsDict:
+            for child in childs:
+                if child not in parentsDict.keys():
+                    parentsDict[child] = []
+                parentsDict[child].append(parent)
+
+        return parentsDict
+
+    def flat_list(self, filter_data):
+        return list(map(lambda x: x.oRecordData, self.client.query(queryConstructor(filter_data))))
 
 
 def queryConstructor(data):
-    """Создаёт sql запрос в виде строки по полученным фильтрам с сайта
+        """Создаёт sql запрос в виде строки по полученным фильтрам с сайта
 
-    Args:
-        data (dict): Json словарь полученый с фронта.
-    Returns:
-        str: Готовый SQL запрос.
-    """
-    query = ["SELECT in.id,out.id,kind,date_begin,date_end,cost,share,child_liquidated FROM Link WHERE "]
-    sql_args = []
+        Args:
+            data (dict): Json словарь полученый с фронта.
+        Returns:
+            str: Готовый SQL запрос.
+        """
+        face_as_json = "{{'id': {0}.id, 'name': {0}}.name, 'type': {0}.face_type}}"
+        query = [
+            f"select {face_as_json.format('in')},{face_as_json.format('out')},kind,date_begin,date_end,cost,share,child_liquidated from Link where "]
+        sql_args = []
 
-    if data['mainfilter']['Child'] != "" and data['mainfilter']['Parent'] != "":
-        sql_args.append(f'in.id={data["mainfilter"]["Child"]}')
-        sql_args.append(f'out.id={data["mainfilter"]["Parent"]}')
+        for k, v in data:
+            if v == "" or v == "-":
+                continue
+            if k == "date_begin":
+                sql_args.append(f"{k}>={v}")
+            if k == "date_end":
+                sql_args.append(f"{k}<={v}")
+            if k == "mainfilter":
+                if v['Parent'] != "":
+                    sql_args.append(f"out.id={v['Parent']})")
+                if v['Child'] != "":
+                    sql_args.append(f"in.id={v['Child']})")
+            sql_args.append(f"{k}={v}")
 
-    elif data['mainfilter']['Parent'] != "":
-        sql_args.append(f'out.id={data["mainfilter"]["Parent"]}')
+        if len(data) == 0:
+            sql_args.append(f'pk=0')
 
-    elif data['mainfilter']['Child'] != "":
-        sql_args.append(f'in.id={data["mainfilter"]["Child"]}')
+        query.append(" AND ".join(sql_args))
 
-    else:
-        sql_args.append(f'pk=0')
-
-    if data['kind'] != "-":
-        sql_args.append(f'kind={data["kind"]}')
-
-    if data['date_begin'] != "":
-        sql_args.append(f"date_begin >= '{data['date_begin']}T18:00:00'")
-
-    if data['date_end'] != "":
-        sql_args.append(f"date_end <= '{data['date_end']}T18:00:00'")
-
-    if data['cost'] != "":
-        sql_args.append(f'cost={data["cost"]}')
-
-    if data['share'] != "":
-        sql_args.append(f'share={data["share"]}')
-
-    if data['child_liquidated'] != "-":
-        sql_args.append(f'child_liquidated={data["child_liquidated"]}')
-
-    query.append(" AND ".join(sql_args))
-
-    query.append(" LIMIT 25")
-
-    print("".join(query))
-    return "".join(query)
-
-data = {'dbtype': '', 'mainfilter': {'Child': "#16:513", 'Parent': ''}, 'kind': '-', 'date_begin': '', 'date_end': '', 'cost': '', 'share': '', 'child_liquidated': '-'}
+        return "".join(query)
 
 
 def getDataOrientDB(request):
-    """Получает данные по запросу request из базы данных postgres и возвращает их вместе с временем,
-         за которое он эти данные получил
-    Args:
-        request (object): Объект, в котором хранится json словарь с данными из запроса.
-    Keyword Args:
-        data (dict): Словарь с данными из запроса.
-        to_json (dict): Хранит результат обращения к базе данных в формате json.
-
-    Returns:
-        json: Возвращает данные из базы PostgreSQL по запросу.
-    """
-
-    data = request.data
-    print(data)
-    to_json = {}
-    username = "root"
-    password = "tensor"
-    client = po.OrientDB("localhost", 2424)
-    session_id = client.connect(username, password)
-    print("SessionID=", session_id)
-    db_name = "analysis"
-    client.db_open(db_name, username, password)
-    result = client.query(queryConstructor(data))
-    #result = client.query(f'SELECT id, name, face_type FROM Face LIMIT 20')
-    records = list(map(lambda x: x.oRecordData, result))
-    print(records)
-    return records
-
+    return OrientDBRepository().flat_list(request.data)
