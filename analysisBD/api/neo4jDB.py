@@ -91,6 +91,8 @@ def getGraphDataNeo4j(request):
         time_end = t.perf_counter()
         timer = time_end - time_start
         result_json = {'result': f(results), "time": timer}
+        print(results)
+        print(result_json)
         return result_json
 
 
