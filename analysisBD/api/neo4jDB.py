@@ -53,11 +53,30 @@ def queryConstructor(data):
     return "".join(query)
 
 
+def f (data):
+    res = {}
+    el = []
+    for i in data:
+        x = i['m']['pk']
+        if res.get(x) != None:
+            el = []
+            el = res.get(x)
+            if i['b'] not in el:
+                el.append(i['b'])
+                res.update({x: el})
+        else:
+            el = []
+            el.append(i['m'])
+            el.append(i['b'])
+            res.update({x: el})
+    return res
+
+
 def queryConstructorDeep(data):
     query = []
-    query.append("Match (n {pk:'")
+    query.append("Match (n:Example {face_id:'")
     query.append(data['mainfilter']['Child'])
-    query.append("'})<-[r:Properties]-(b)-[t:Properties]-> (m) Return m, b")
+    query.append("'})<-[r:Properties]-(b)-[t:Properties]-> (m) Return m t")
     return "".join(query)
 
 
@@ -71,8 +90,7 @@ def getGraphDataNeo4j(request):
         results = session.run(cypher_query).data()
         time_end = t.perf_counter()
         timer = time_end - time_start
-        result_json = {'result': results, "time": timer}
-        print(result_json)
+        result_json = {'result': f(results), "time": timer}
         return result_json
 
 
