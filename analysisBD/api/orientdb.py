@@ -52,6 +52,7 @@ def queryConstructor(data):
 
     query.append(" LIMIT 25")
 
+    print("".join(query))
     return "".join(query)
 
 data = {'dbtype': '', 'mainfilter': {'Child': "#16:513", 'Parent': ''}, 'kind': '-', 'date_begin': '', 'date_end': '', 'cost': '', 'share': '', 'child_liquidated': '-'}
@@ -80,8 +81,8 @@ def getDataOrientDB(request):
     print("SessionID=", session_id)
     db_name = "analysis"
     client.db_open(db_name, username, password)
-    #result = client.query(queryConstructor(data))
-    result = client.query(f'SELECT id, name, face_type FROM Face LIMIT 20')
+    result = client.query(queryConstructor(data))
+    #result = client.query(f'SELECT id, name, face_type FROM Face LIMIT 20')
     records = list(map(lambda x: x.oRecordData, result))
     print(records)
     return records
