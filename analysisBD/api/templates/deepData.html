@@ -36,6 +36,54 @@
                <button type="button" value="Отправить" onclick="sendRequest()">Отправить</button>
            </div>
 
-       </form>
+  </form>
+ <div class="data"></div>
+ <div class="pages"></div>
+ <script>
+     function sendRequest() {
+         let spinner = document.createElement("div")
+         spinner.classList.add("spinner");
+         spinner.setAttribute("id", "spinner")
+         document.querySelector(".requestForm").append(spinner)
+
+         let data = {
+             'dbtype': '',
+             'mainfilter': {
+                 'Child': 0,
+             },
+         }
+
+         let result = getInputValue(data)
+
+         fetch(`http://46.48.3.74:8000/` + "getdeepdata", {
+             method: 'POST',
+             headers: {
+                 'Content-Type': 'application/json;charset=utf-8'
+             },
+             body: JSON.stringify(result)
+         })
+             .then(response => {
+                 if (response.ok) {
+                     return response.json()
+                 }
+             })
+             .then(data => {
+
+                 console.log(data)
+
+             });
+     }
+
+     function getInputValue(data){
+            let result = data;
+            let selectDB = document.querySelector(".select-db");
+
+            result['dbtype'] = selectDB.options[selectDB.selectedIndex].value;
+            result['mainfilter']['Child'] = document.querySelector("#child").value;
+
+            return result
+        }
+ </script>
+
 </body>
 </html>
