@@ -5,15 +5,18 @@ from django.http import HttpResponse
 
 urlpatterns = [
     path('', views.hello),
-    path('orientdb/', views.orient),
-    path('postgresql/', views.postgre),
-    path('neo4j/', views.Neo4j),
+    path('', views.deep),
+
+    #path('orientdb/', views.orient),
+    #path('postgresql/', views.postgre),
+    #path('neo4j/', views.Neo4j),
 
     path('getdata', views.getData),
+    path('getdeepdata', views.getDeepData),
 
-    path('neo4j/getdata', views.getNeo4jData),
-    path('neo4j/createtestdata', views.createNeo4jTestData),
+    #path('neo4j/getdata', views.getNeo4jData),
+    #path('neo4j/createtestdata', views.createNeo4jTestData),
 
-    path('orientdb/getdata', views.getOrientDBData),
-    path('postgresql/getdata', views.getPostgreSQLData)
+    #path('orientdb/getdata', views.getOrientDBData),
+    #path('postgresql/getdata', views.getPostgreSQLData)
 ]
