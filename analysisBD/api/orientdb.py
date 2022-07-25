@@ -71,6 +71,7 @@ def getDataOrientDB(request):
     """
 
     data = request.data
+    print(data)
     to_json = {}
     username = "root"
     password = "tensor"
@@ -81,6 +82,6 @@ def getDataOrientDB(request):
     client.db_open(db_name, username, password)
     #result = client.query(queryConstructor(data))
     result = client.query(f'SELECT FROM Face WHERE id=1798')
-    print(result.oRecordData)
+    print(list(map(lambda x: x.oRecordData, result)))
     return result.oRecordData
 
