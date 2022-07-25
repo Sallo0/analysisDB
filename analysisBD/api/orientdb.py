@@ -77,7 +77,7 @@ def getDataOrientDB(request):
     client = po.OrientDB("localhost", 2424)
     session_id = client.connect(username, password)
     print("SessionID=", session_id)
-    db_name = "test"
+    db_name = "analysis"
     client.db_open(db_name, username, password)
     result = client.query(queryConstructor(data))
     return json.dumps(list(map(lambda x: x.oRecordData, result)), cls=DjangoJSONEncoder)
