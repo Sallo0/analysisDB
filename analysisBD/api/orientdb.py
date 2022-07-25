@@ -14,7 +14,7 @@ def queryConstructor(data):
     Returns:
         str: Готовый SQL запрос.
     """
-    query = ["SELECT in.id,out.id,kind,date_begin,date_end,cost,share,child_liquidated FROM Owning WHERE "]
+    query = ["SELECT in.id,out.id,kind,date_begin,date_end,cost,share,child_liquidated FROM Link WHERE "]
     sql_args = []
 
     if data['mainfilter']['Child'] != "" and data['mainfilter']['Parent'] != "":
