@@ -16,5 +16,59 @@ class OrientDBRepository():
         a =self.client.query(query)
         return json.dumps(list(map(lambda x: x.oRecordData, a)))
 
+    def over_knee(self, id):
+        raw_resp = self.client.query(f"select " \
+                                f"outV().id as parent, outV().out().id as parent_childs " \
+                                f"from (traverse inE() from (select from Face where id = {id}))")
+        childsDict = list(map(lambda x: x.oRecordData, raw_resp))
+        parentsDict = {}
+        for parent,childs in childsDict:
+            for child in childs:
+                if child not in parentsDict.keys():
+                    parentsDict[child] = []
+                parentsDict[child].append(parent)
+
+        return parentsDict
+
+    def flat_list(self, filter_data):
+        return list(map(lambda x: x.oRecordData, self.client.query(queryConstructor(filter_data))))
+
+
+def queryConstructor(data):
+        """Создаёт sql запрос в виде строки по полученным фильтрам с сайта
+
+        Args:
+            data (dict): Json словарь полученый с фронта.
+        Returns:
+            str: Готовый SQL запрос.
+        """
+        face_as_json = "{{'id': {0}.id, 'name': {0}}.name, 'type': {0}.face_type}}"
+        query = [
+            f"select {face_as_json.format('in')},{face_as_json.format('out')},kind,date_begin,date_end,cost,share,child_liquidated from Link where "]
+        sql_args = []
+
+        for k, v in data:
+            if v == "" or v == "-":
+                continue
+            if k == "date_begin":
+                sql_args.append(f"{k}>={v}")
+            if k == "date_end":
+                sql_args.append(f"{k}<={v}")
+            if k == "mainfilter":
+                if v['Parent'] != "":
+                    sql_args.append(f"out.id={v['Parent']})")
+                if v['Child'] != "":
+                    sql_args.append(f"in.id={v['Child']})")
+            sql_args.append(f"{k}={v}")
+
+        if len(data) == 0:
+            sql_args.append(f'pk=0')
+
+        query.append(" AND ".join(sql_args))
+
+        return "".join(query)
+
+
 def getDataOrientDB(request):
     return OrientDBRepository().query("select name, out('Owning').name from Organization where name != 'EvilOrg' limit 25")
+
