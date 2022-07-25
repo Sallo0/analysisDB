@@ -18,14 +18,14 @@ def queryConstructor(data):
     sql_args = []
 
     if data['mainfilter']['Child'] != "" and data['mainfilter']['Parent'] != "":
-        sql_args.append(f'in={data["mainfilter"]["Child"]}')
-        sql_args.append(f'out={data["mainfilter"]["Parent"]}')
+        sql_args.append(f'in.id={data["mainfilter"]["Child"]}')
+        sql_args.append(f'out.id={data["mainfilter"]["Parent"]}')
 
     elif data['mainfilter']['Parent'] != "":
-        sql_args.append(f'out={data["mainfilter"]["Parent"]}')
+        sql_args.append(f'out.id={data["mainfilter"]["Parent"]}')
 
     elif data['mainfilter']['Child'] != "":
-        sql_args.append(f'in={data["mainfilter"]["Child"]}')
+        sql_args.append(f'in.id={data["mainfilter"]["Child"]}')
 
     else:
         sql_args.append(f'pk=0')
