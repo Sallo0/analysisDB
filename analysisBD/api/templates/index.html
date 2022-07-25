@@ -190,7 +190,9 @@
                 else if (selectDB.options[selectDB.selectedIndex].value === "Neo4j"){
                     parserDataNeo4j(data)
                 }
-
+                else if (selectDB.options[selectDB.selectedIndex].value === "OrientDB"){
+                    parserDataOrientDB(data)
+                }
 
             });
 
@@ -200,6 +202,10 @@
                     btn.style.display = "none";
                 })
                 document.getElementById(id).style.display = "block";
+            }
+
+            function parserDataOrientDB(data){
+                console.log(data)
             }
 
             function parserDataNeo4j(data){

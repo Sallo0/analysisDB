@@ -74,7 +74,7 @@ def getDataOrientDB(request):
     to_json = {}
     username = "root"
     password = "tensor"
-    client = po.OrientDB("51.250.105.78", 2424)
+    client = po.OrientDB("localhost", 2424)
     session_id = client.connect(username, password)
     print("SessionID=", session_id)
     db_name = "test"
