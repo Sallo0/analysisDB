@@ -79,6 +79,7 @@ def getDataOrientDB(request):
     print("SessionID=", session_id)
     db_name = "analysis"
     client.db_open(db_name, username, password)
-    result = client.query(queryConstructor(data))
+    #result = client.query(queryConstructor(data))
+    result = client.query(f'SELECT FROM Face WHERE id=1798')
     return json.dumps(list(map(lambda x: x.oRecordData, result)), cls=DjangoJSONEncoder)
 
