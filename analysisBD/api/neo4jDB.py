@@ -57,7 +57,7 @@ def queryConstructorDeep(data):
     query = []
     query.append("Match (n {face_id:'")
     query.append(data['mainfilter']['Child'])
-    query.append("'})<-[r]-(b)-[t]-> (m) Return m, b")
+    query.append("'})<-[r:Properties]-(b)-[t:Properties]-> (m) Return m, b")
     return "".join(query)
 
 
@@ -72,6 +72,7 @@ def getGraphDataNeo4j(request):
         time_end = t.perf_counter()
         timer = time_end - time_start
         result_json = {'result': results, "time": timer}
+        print(result_json)
         return result_json
 
 
