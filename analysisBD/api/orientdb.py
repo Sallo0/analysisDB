@@ -34,10 +34,10 @@ def queryConstructor(data):
         sql_args.append(f'kind={data["kind"]}')
 
     if data['date_begin'] != "":
-        sql_args.append(f"date_begin >= '{data['date_begin']}'")
+        sql_args.append(f"date_begin >= '{data['date_begin']}T18:00:00'")
 
     if data['date_end'] != "":
-        sql_args.append(f"date_end <= '{data['date_end']}'")
+        sql_args.append(f"date_end <= '{data['date_end']}T18:00:00'")
 
     if data['cost'] != "":
         sql_args.append(f'cost={data["cost"]}')
