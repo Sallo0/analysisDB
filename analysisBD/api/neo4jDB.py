@@ -74,9 +74,9 @@ def f (data):
 
 def queryConstructorDeep(data):
     query = []
-    query.append("Match (n:Example {face_id:'")
+    query.append("Match (n {pk:'")
     query.append(data['mainfilter']['Child'])
-    query.append("'})<-[r:Properties]-(b)-[t:Properties]-> (m) Return m, t")
+    query.append("'})<-[r]-(b)-[t]-> (m) Return m, b")
     return "".join(query)
 
 
