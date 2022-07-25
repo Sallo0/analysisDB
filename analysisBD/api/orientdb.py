@@ -81,8 +81,8 @@ def getDataOrientDB(request):
     db_name = "analysis"
     client.db_open(db_name, username, password)
     #result = client.query(queryConstructor(data))
-    result = client.query(f'SELECT FROM Face WHERE id=1798')
+    result = client.query(f'SELECT FROM Face LIMIT 20')
     records = list(map(lambda x: x.oRecordData, result))
-    print(records[0]['id'])
-    return records[0]
+    print(records)
+    return records
 
