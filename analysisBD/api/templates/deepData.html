@@ -4,7 +4,7 @@
     {% load static %}
     <meta charset="UTF-8">
     <title>Поиск через колено</title>
-    <link rel="stylesheet" href="{% static 'css/deepData.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
 </head>
 <body>
  <header>
@@ -12,5 +12,36 @@
      <img class="img-urfu" src="{% static 'css/urfu.png'%}" alt="лого УрФУ">
      <img class="img-sbis" src="{% static 'css/sbis.png'%}" alt="лого СБИС">
   </header>
+
+
+  <form class="requestForm">
+           <div>
+               <div class="db-type input-container">
+                   <label class="label db-type-label" for="db-type">База данных</label>
+                   <select class="select-db select" id="db-type" required>
+                       <option selected value="PostgreSQL">PostgreSQL</option>
+                       <option value="OrientDB">OrientDB</option>
+                       <option value="Neo4j">Neo4j</option>
+                   </select>
+                </div>
+               <div class="input-container">
+                   <select class="select-mainFilter select" id="main-filter" onchange="displayInput()" required>
+                       <option value="Child">Child</option>
+                   </select>
+                </div>
+
+               <div class="filter-input ">
+                   <div class="input-container child-container">
+                       <label for="child" class="label child-label">ID дочернего объекта</label>
+                       <input class="child select" id="child" type="text" placeholder="child...">
+                   </div>
+               </div>
+           </div>
+
+           <div>
+               <button type="button" value="Отправить" onclick="sendRequest()">Отправить</button>
+           </div>
+
+       </form>
 </body>
 </html>

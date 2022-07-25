@@ -13,3 +13,6 @@ body {
     position: absolute;
     right: 0;
 }
+.title{
+    display: inline-block;
+}
