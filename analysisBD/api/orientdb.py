@@ -1,21 +1,84 @@
 import pyorient as po
 import json
-import analysisBD.settings as config
+import time
+import os
+from psycopg2.extras import RealDictCursor
+from django.core.serializers.json import DjangoJSONEncoder
 
-class OrientDBRepository():
 
-    client = None
+def queryConstructor(data):
+    """Создаёт sql запрос в виде строки по полученным фильтрам с сайта
 
-    def __init__(self):
-        self.client = po.OrientDB(config.ORIENTDB_IP, 2424)
-        self.client.set_session_token( True )
-        self.client.connect(config.ORIENTDB_LOGIN, config.ORIENTDB_PASS)
-        self.client.db_open("dbforanal", config.ORIENTDB_LOGIN, config.ORIENTDB_PASS)
+    Args:
+        data (dict): Json словарь полученый с фронта.
+    Returns:
+        str: Готовый SQL запрос.
+    """
+    query = ["SELECT in.id,out.id,kind,date_begin,date_end,cost,share,child_liquidated FROM Owning WHERE "]
+    sql_args = []
 
-    def query(self, query):
-        a =self.client.query(query)
-        return json.dumps(list(map(lambda x: x.oRecordData, a)))
+    if data['mainfilter']['Child'] != "" and data['mainfilter']['Parent'] != "":
+        sql_args.append(f'in={data["mainfilter"]["Child"]}')
+        sql_args.append(f'out={data["mainfilter"]["Parent"]}')
+
+    elif data['mainfilter']['Parent'] != "":
+        sql_args.append(f'out={data["mainfilter"]["Parent"]}')
+
+    elif data['mainfilter']['Child'] != "":
+        sql_args.append(f'in={data["mainfilter"]["Child"]}')
+
+    else:
+        sql_args.append(f'pk=0')
+
+    if data['kind'] != "-":
+        sql_args.append(f'kind={data["kind"]}')
+
+    if data['date_begin'] != "":
+        sql_args.append(f"date_begin >= '{data['date_begin']}'")
+
+    if data['date_end'] != "":
+        sql_args.append(f"date_end <= '{data['date_end']}'")
+
+    if data['cost'] != "":
+        sql_args.append(f'cost={data["cost"]}')
+
+    if data['share'] != "":
+        sql_args.append(f'share={data["share"]}')
+
+    if data['child_liquidated'] != "-":
+        sql_args.append(f'child_liquidated={data["child_liquidated"]}')
+
+    query.append(" AND ".join(sql_args))
+
+    query.append(" LIMIT 25")
+
+    return "".join(query)
+
+data = {'dbtype': '', 'mainfilter': {'Child': "#16:513", 'Parent': ''}, 'kind': '-', 'date_begin': '', 'date_end': '', 'cost': '', 'share': '', 'child_liquidated': '-'}
+
 
 def getDataOrientDB(request):
+    """Получает данные по запросу request из базы данных postgres и возвращает их вместе с временем,
+         за которое он эти данные получил
+    Args:
+        request (object): Объект, в котором хранится json словарь с данными из запроса.
+    Keyword Args:
+        data (dict): Словарь с данными из запроса.
+        to_json (dict): Хранит результат обращения к базе данных в формате json.
 
-    return OrientDBRepository().query("select name, out('Owning').name from Organization where name != 'EvilOrg' limit 25")
+    Returns:
+        json: Возвращает данные из базы PostgreSQL по запросу.
+    """
+
+    data = request.data
+    to_json = {}
+    username = "root"
+    password = "tensor"
+    client = po.OrientDB("51.250.105.78", 2424)
+    session_id = client.connect(username, password)
+    print("SessionID=", session_id)
+    db_name = "test"
+    client.db_open(db_name, username, password)
+    result = client.query(queryConstructor(data))
+    return json.dumps(list(map(lambda x: x.oRecordData, result)), cls=DjangoJSONEncoder)
+
