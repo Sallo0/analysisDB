@@ -1,6 +1,11 @@
 import pyorient as po
 import json
 import os
+import time
+
+
+t = time
+
 
 class OrientDBRepository():
 
@@ -30,7 +35,11 @@ class OrientDBRepository():
 
     def flat_list(self, filter_data):
         query = queryConstructor(filter_data)
-        return list(map(lambda x: x.oRecordData, self.client.query(query)))
+        time_start = t.perf_counter()
+        result = list(map(lambda x: x.oRecordData, self.client.query(query)))
+        time_end = t.perf_counter()
+        timer = time_end - time_start
+        return {"result": result, "time": timer}
 
 
 def queryConstructor(data):
