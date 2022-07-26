@@ -155,10 +155,13 @@ def colenoSQL(request):
         result = {}
         for i in res:
             if i["child"] in result.keys():
-                if [i["face_id"], i["face_type"], i["face_name"]] not in result[i["child"]]:
-                    result[i["child"]].append([i["face_id"], i["face_type"], i["face_name"]])
+                if {"face_id": i["face_id"], "face_type": i["face_type"], "face_name": i["face_name"]} not in result[
+                    i["child"]]:
+                    result[i["child"]].append(
+                        {"face_id": i["face_id"], "face_type": i["face_type"], "face_name": i["face_name"]})
             else:
-                result[i["child"]] = [[i["face_id"], i["face_type"], i["face_name"]]]
+                result[i["child"]] = [
+                    {"face_id": i["face_id"], "face_type": i["face_type"], "face_name": i["face_name"]}]
     cursor.close()
     connection.close()
     return json.dumps(result)
