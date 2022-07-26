@@ -15,19 +15,18 @@ class OrientDBRepository():
         a = self.client.query(query)
         return json.dumps(list(map(lambda x: x.oRecordData, a)))
 
-    def over_knee(self, id):
-        raw_resp = self.client.query(f"select " \
-                                     f"outV().id as parent, outV().out().id as parent_childs " \
-                                     f"from (traverse inE() from (select from Face where id = {id}))")
-        childsDict = list(map(lambda x: x.oRecordData, raw_resp))
-        parentsDict = {}
-        for parent, childs in childsDict:
-            for child in childs:
-                if child not in parentsDict.keys():
-                    parentsDict[child] = []
-                parentsDict[child].append(parent)
-
-        return parentsDict
+    def over_knee(self, id, offset, limit):
+        query = ''.join([f"select childs.id as child, intersect(childs.in(), parents).id as parents ",
+                         f"from (select in().out() as childs, in() as parents ",
+                         f"        from Face ",
+                         f"        where id = {id} ",
+                         f"        unwind childs) ",
+                         f"where childs.id != {id} ",
+                         f"order by child ",
+                         f"skip {offset} ",
+                         f"limit {limit} "])
+        print(query)
+        return list(map(lambda x: x.oRecordData, self.client.query(query)))
 
     def flat_list(self, filter_data):
         query = queryConstructor(filter_data)
@@ -90,3 +89,6 @@ def getDataOrientDB(request):
     data = request.data
     data.pop("dbtype")
     return OrientDBRepository().flat_list(request.data)
+
+def getDeepSearchResult(id, limit, offset):
+    return OrientDBRepository().over_knee(id, limit, offset)
