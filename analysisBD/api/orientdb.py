@@ -8,7 +8,7 @@ class OrientDBRepository():
         self.client = po.OrientDB(os.getenv('orientdb_ip'), 2424)
         self.client.set_session_token( True )
         self.client.connect(os.getenv('orientdb_login'), os.getenv('orientdb_pass'))
-        self.client.db_open("dbforanal", os.getenv('orientdb_login'), os.getenv('orientdb_pass'))
+        self.client.db_open("analysis", os.getenv('orientdb_login'), os.getenv('orientdb_pass'))
 
     def query(self, query):
         a =self.client.query(query)
@@ -41,13 +41,10 @@ def queryConstructor(data):
     Returns:
         str: Готовый SQL запрос.
     """
-    face_as_json = "{{id: {0}.id, name: {0}.name, type: {0}.face_type}}"
-    query = [
-        f"select {face_as_json.format('out')},kind,date_begin,date_end,cost,share,child_liquidated from Link where "
-        #f"select out.name as name,out.id as id,out.face_type as type,kind,date_begin,date_end,cost,share,child_liquidated from Link where "
-    ]
     sql_args = []
 
+    is_par_set = False
+    is_ch_set = False
     for k, v in data.items():
         if v == "" or v == "-":
             continue
@@ -58,15 +55,20 @@ def queryConstructor(data):
         elif k == "mainfilter":
             if v['Parent'] != "":
                 sql_args.append(f"out.id={v['Parent']}")
+                is_par_set = True
             if v['Child'] != "":
                 sql_args.append(f"in.id={v['Child']}")
+                is_ch_set = True
         else:
             sql_args.append(f"{k}={v}")
 
     if len(data) == 0:
         sql_args.append(f'pk=0')
 
-    query.append(" AND ".join(sql_args))
+    pattern = "{0}.name as name,{0}.id as id,{0}.face_type as type,"
+    projection = "" if is_par_set and is_ch_set else pattern.format("in") if is_par_set else pattern.format("out")
+    query = [f"select {projection}kind,date_begin,date_end,cost,share,child_liquidated from Link where ",
+             " AND ".join(sql_args)]
 
     return "".join(query)
 
