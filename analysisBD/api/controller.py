@@ -13,7 +13,7 @@ def getData(request):
 
 def getDeepData(request):
     if request.data['dbtype'] == "PostgreSQL":
-        return postgresql.getDataPostgreSQL(request)
+        return postgresql.colenoSQL(request)
     elif request.data['dbtype'] == "OrientDB":
         return orientdb.getDataOrientDB(request)
     elif request.data['dbtype'] == "Neo4j":

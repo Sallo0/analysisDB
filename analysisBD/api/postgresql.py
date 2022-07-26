@@ -131,3 +131,33 @@ def getDataPostgreSQL(request):
     all_data['result'] += str(timer)
 
     return all_data
+
+
+def colenoSQL(request):
+    connection = psycopg2.connect(
+                host='46.48.3.74',
+                user='postgres',
+                password='postgres',
+                database='postgres'
+                )
+    with connection.cursor(cursor_factory=RealDictCursor) as cursor:
+        query = f""" 
+    WITH
+    query1 AS
+    (
+    Select a.*, b.* from links a, face_info b Where child = {request.data["mainfilter"]["Child"]} and b.face_id = a.parent 
+    )
+    SELECT b.child,query1.face_id,query1.face_type,query1.face_name FROM query1, links b where query1.parent = b.parent and b.child != {request.data["mainfilter"]["Child"]} OFFSET {request.data["page"]} LIMIT 25
+    """
+        cursor.execute(query)
+        res = cursor.fetchall()
+        result = {}
+        for i in res:
+            if i["child"] in result.keys():
+                if [i["face_id"], i["face_type"], i["face_name"]] not in result[i["child"]]:
+                    result[i["child"]].append([i["face_id"], i["face_type"], i["face_name"]])
+            else:
+                result[i["child"]] = [[i["face_id"], i["face_type"], i["face_name"]]]
+    cursor.close()
+    connection.close()
+    return json.dumps(result)
