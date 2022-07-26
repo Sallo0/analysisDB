@@ -136,10 +136,10 @@ def getDataPostgreSQL(request):
 def colenoSQL(request):
     print("postgres")
     connection = psycopg2.connect(
-                host='46.48.3.74',
-                user='postgres',
-                password='postgres',
-                database='postgres'
+                host=os.getenv('postgres_host'),
+                user=os.getenv('postgres_user'),
+                password=os.getenv('postgres_password'),
+                database=os.getenv('postgres_db_name'),
                 )
     with connection.cursor(cursor_factory=RealDictCursor) as cursor:
         query = f""" 
