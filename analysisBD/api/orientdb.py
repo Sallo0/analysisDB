@@ -93,6 +93,7 @@ def queryConstructor(data):
     return "".join(query)
 
 
+
 def getDataOrientDB(request):
     data = request.data
     data.pop("dbtype")

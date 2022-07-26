@@ -143,17 +143,20 @@ def colenoSQL(request):
                 )
     with connection.cursor(cursor_factory=RealDictCursor) as cursor:
         query = f""" 
-    WITH
-    query1 AS
-    (
-    Select a.*, b.* from links a, face_info b Where child = {request.data["mainfilter"]["Child"]} and b.face_id = a.parent LIMIT 25
-    )
-    SELECT query1.face_id as parent_id,query1.face_type as parent_type,query1.face_name as parent_name, a.* FROM query1, links b,face_info a where query1.parent = b.parent and b.child != {request.data["mainfilter"]["Child"]} and a.face_id = b.child
-    """
+                WITH
+                query1 AS
+                (
+                Select a.*, b.* from links a, face_info b Where child = {request.data['mainfilter']['Child']} and b.face_id = a.parent 
+                )
+                SELECT query1.face_id as parent_id,query1.face_type as parent_type,query1.face_name as parent_name, a.* 
+                FROM query1, links b,face_info a where query1.parent = b.parent and b.child != {request.data['mainfildter']['Child']} and a.face_id = b.child 
+                LIMIT 25 OFFSET {request.data['page']} 
+                """
         cursor.execute(query)
         res = cursor.fetchall()
         result = {}
         for i in res:
+            print(i)
             if i["face_id"] in result.keys():
                 if {"face_id":i["parent_id"], "face_type":i["parent_type"], "face_name":i["parent_name"]} not in result[i["face_id"]]:
                     result[i["face_id"]].append({"face_id":i["parent_id"], "face_type":i["parent_type"], "face_name":i["parent_name"]})
