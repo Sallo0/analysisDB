@@ -39,8 +39,6 @@ class OrientDBRepository():
         result = list(map(lambda x: x.oRecordData, self.client.query(query)))
         time_end = t.perf_counter()
         timer = time_end - time_start
-        #print(result)
-        print(timer)
         return {"result": result, "time": timer}
 
 

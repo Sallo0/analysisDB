@@ -146,7 +146,7 @@
             return result
         }
 
-        function sendRequest(){
+        function sendRequest() {
             let spinner = document.createElement("div")
             spinner.classList.add("spinner");
             spinner.setAttribute("id", "spinner")
@@ -175,26 +175,25 @@
                 },
                 body: JSON.stringify(result)
             })
-            .then(response => {
-                if (response.ok) {
+                .then(response => {
+                    if (response.ok) {
                         return response.json()
                     }
-            })
-            .then(data => {
+                })
+                .then(data => {
 
-                let selectDB = document.querySelector(".select-db");
+                    let selectDB = document.querySelector(".select-db");
 
-                if (selectDB.options[selectDB.selectedIndex].value === "PostgreSQL"){
-                    parserDataPostgres(data)
-                }
-                else if (selectDB.options[selectDB.selectedIndex].value === "Neo4j"){
-                    parserDataNeo4j(data)
-                }
-                else if (selectDB.options[selectDB.selectedIndex].value === "OrientDB"){
-                    parserDataOrientDB(data)
-                }
+                    if (selectDB.options[selectDB.selectedIndex].value === "PostgreSQL") {
+                        parserDataPostgres(data)
+                    } else if (selectDB.options[selectDB.selectedIndex].value === "Neo4j") {
+                        parserDataNeo4j(data)
+                    } else if (selectDB.options[selectDB.selectedIndex].value === "OrientDB") {
+                        parserDataOrientDB(data)
+                    }
 
-            });
+                });
+        }
 
             function setPage(id){
                 let btns = document.querySelectorAll(".page-btn");
@@ -206,6 +205,78 @@
 
             function parserDataOrientDB(data){
                 console.log(data)
+
+                document.querySelector('.data').innerHTML = "";
+                let all_records = document.createElement("div");
+
+                let timer = document.createElement("div");
+                timer.classList.add("time");
+                timer.innerHTML = `Найдено за ${data['time']} сек`;
+                document.querySelector('.data').append(timer);
+
+                let records = data['result']
+
+                let page_count = Math.ceil(records.length / 25)
+                for (let i = 1; i <= page_count; i++) {
+                    let page_btn = document.createElement("button");
+                    page_btn.addEventListener("click", () => {
+                        let blocks = document.querySelectorAll(".block-of-records");
+                        blocks.forEach(b => {
+                            b.style.display = "none";
+                        })
+                        document.getElementById(i.toString()).style.display = "block";
+                    })
+                    page_btn.setAttribute("class", `page-btn`);
+                    page_btn.innerHTML = `${i}`;
+                    document.querySelector(".pages").append(page_btn);
+
+                    let r = document.createElement("div");
+                    r.setAttribute("id", i.toString());
+                    r.setAttribute("class", "block-of-records");
+
+                    for (let j = (i - 1) * 25; j < 25 + (i - 1) * 25; j++) {
+                        if (j === records.length) {
+                            break;
+                        }
+                        let record_container = document.createElement("div");
+                        record_container.classList.add("record-container");
+
+                        let link_container = document.createElement("div");
+                        link_container.classList.add("link-container");
+
+                        let node_container = document.createElement("div");
+                        node_container.classList.add("nodes-container")
+
+                        node_container.innerHTML = `
+                            <div class="node-item">face_id: ${records[j]['id']}</div>
+                            <div class="node-item">face_name: ${records[j]['name']}</div>
+                            <div class="node-item">face_type: ${records[j]['type']}</div>
+                        `
+
+                        delete records[j].id;
+                        delete records[j].name;
+                        delete records[j].type;
+
+                        for (let e in records[j]){
+                            let item = document.createElement("div")
+                            item.classList.add("recordItem");
+                            item.innerHTML = `${e}: ${records[j][e]}`
+                            link_container.append(item)
+                        }
+
+                        record_container.append(node_container);
+                        record_container.append(link_container);
+
+                        r.append(record_container);
+                    }
+                    if (i > 1) {
+                        r.style.display = "none"
+                    }
+                    all_records.append(r)
+                }
+
+                document.querySelector('.data').append(all_records);
+                document.getElementById("spinner").remove()
             }
 
             function parserDataNeo4j(data){
@@ -280,7 +351,7 @@
                 document.getElementById("spinner").remove();
             }
 
-            function parserDataPostgres(data){
+            function parserDataPostgres(data) {
                 document.querySelector('.data').innerHTML = "";
                 let all_records = document.createElement("div");
                 let temp = data["result"].split(']');
@@ -291,7 +362,7 @@
                 document.querySelector('.data').append(timer);
 
                 let records = temp[0].split("{");
-                records.splice(0,1);
+                records.splice(0, 1);
 
                 let page_count = Math.ceil(records.length / 25)
                 for (let i = 1; i <= page_count; i++) {
@@ -311,8 +382,8 @@
                     r.setAttribute("id", i.toString());
                     r.setAttribute("class", "block-of-records");
 
-                    for (let j = (i-1)*25; j < 25 + (i-1)*25; j++) {
-                        if (j === records.length){
+                    for (let j = (i - 1) * 25; j < 25 + (i - 1) * 25; j++) {
+                        if (j === records.length) {
                             break;
                         }
                         let record_container = document.createElement("div");
@@ -325,12 +396,11 @@
                         if (data["nodes_type"] !== '') {
                             let node_container = document.createElement("div")
                             node_container.classList.add("nodes-container")
-                            if (data["nodes_type"] === 'child'){
+                            if (data["nodes_type"] === 'child') {
                                 node_container.innerHTML = `
                                     <div class="node-title">Child</div>
                                 `
-                            }
-                            else {
+                            } else {
                                 node_container.innerHTML = `
                                     <div class="node-title">Parent</div>
                                 `
@@ -358,7 +428,7 @@
 
                         r.append(record_container);
                     }
-                    if (i > 1){
+                    if (i > 1) {
                         r.style.display = "none"
                     }
                     all_records.append(r)
@@ -367,7 +437,7 @@
                 document.querySelector('.data').append(all_records);
                 document.getElementById("spinner").remove()
             }
-        }
+
     </script>
  </body>
 </html>
