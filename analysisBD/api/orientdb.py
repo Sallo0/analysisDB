@@ -36,12 +36,12 @@ class OrientDBRepository():
     def flat_list(self, filter_data):
         query = queryConstructor(filter_data)
         time_start = t.perf_counter()
-        #result = list(map(lambda x: x.oRecordData, self.client.query(query)))
+        result = list(map(lambda x: x.oRecordData, self.client.query(query)))
         time_end = t.perf_counter()
         timer = time_end - time_start
         #print(result)
         print(timer)
-        return list(map(lambda x: x.oRecordData, self.client.query(query)))
+        return result
 
 
 def queryConstructor(data):
