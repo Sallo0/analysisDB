@@ -51,7 +51,7 @@
      function getPage(flag){
          if (flag){
              window.localStorage['page'] += 1;
-             document.querySelector(".btn-preview").style.display = "block";
+             document.querySelector(".btn-preview").style.display = "inline-block";
          }
          else {
              window.localStorage['page'] -= 1;
@@ -63,7 +63,6 @@
      }
 
      function sendRequest(page) {
-         document.querySelector(".btn-next").style.display = "block";
          let spinner = document.createElement("div");
          spinner.classList.add("spinner");
          spinner.setAttribute("id", "spinner")
@@ -104,6 +103,7 @@
                     parserDataOrientDB(data)
                 }
 
+                document.querySelector(".btn-next").style.display = "inline-block";
              });
      }
 
