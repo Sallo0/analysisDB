@@ -4,7 +4,6 @@ import time
 from neo4j import GraphDatabase, basic_auth
 
 t = time
-timer = 0
 
 connection = GraphDatabase.driver(
         "bolt://localhost:5332",
@@ -53,7 +52,7 @@ def queryConstructor(data):
     return "".join(query)
 
 
-def f (data):
+def f(data):
     res = {}
     el = []
     for i in data:
@@ -73,62 +72,29 @@ def f (data):
 
 
 def queryConstructorDeep(data):
-    query = []
-    query.append("Match (n {pk:'")
-    query.append(data['mainfilter']['Child'])
-    query.append("'})<-[r]-(b)-[t]-> (m) Return m, b ")
-    query.append("SKIP ")
-    query.append(str((data['page'] - 1)*25))
-    query.append(" LIMIT 25")
+    query = ["Match (n {pk:'", data['mainfilter']['Child'], "'})<-[r]-(b)-[t]-> (m) Return m, b ", "SKIP ",
+             str((data['page'] - 1) * 25), " LIMIT 25"]
     return "".join(query)
 
 
 def getGraphDataNeo4j(request):
-    data = request.data
-    cypher_query = queryConstructorDeep(data)
-
-
-    with connection.session(database="neo4j") as session:
-        time_start = t.perf_counter()
-        results = session.run(cypher_query).data()
-        time_end = t.perf_counter()
-        timer = time_end - time_start
-        result_json = {'result': f(results), "time": timer}
-
-        return result_json
+    query = queryConstructorDeep(request.data)
+    return runQuery(query)
 
 
 def getDataNeo4j(request):
-    data = request.data
-    cypher_query = queryConstructor(data)
-    print(cypher_query)
+    query = queryConstructor(request.data)
+    return runQuery(query)
 
+
+def runQuery(query):
     with connection.session(database="neo4j") as session:
         time_start = t.perf_counter()
-        results = session.run(cypher_query).data()
+        results = session.run(query).data()
         time_end = t.perf_counter()
         timer = time_end - time_start
         result_json = {'result': results, "time": timer}
         return result_json
-
-
-def createTestDataNe04j(request):
-    driver = connection
-
-    def create_node_tx(tx, name):
-        time_start = t.perf_counter()
-        for i in range(int(10)):
-            tx.run("CREATE (ee:Person {name: 'Emil', from: 'Sweden', kloutScore: " + str(i) + "})", name=name)
-        time_end = t.perf_counter()
-        return time_end - time_start
-
-    with driver.session(database="neo4j") as session:
-        results = session.write_transaction(create_node_tx, "name")
-
-    driver.close()
-    connection.close()
-
-    return results
 
 
 connection.close()
