@@ -2,25 +2,26 @@ import pyorient as po
 import json
 import os
 
+
 class OrientDBRepository():
 
     def __init__(self):
         self.client = po.OrientDB(os.getenv('orientdb_ip'), 2424)
-        self.client.set_session_token( True )
+        self.client.set_session_token(True)
         self.client.connect(os.getenv('orientdb_login'), os.getenv('orientdb_pass'))
         self.client.db_open("analysis", os.getenv('orientdb_login'), os.getenv('orientdb_pass'))
 
     def query(self, query):
-        a =self.client.query(query)
+        a = self.client.query(query)
         return json.dumps(list(map(lambda x: x.oRecordData, a)))
 
     def over_knee(self, id):
         raw_resp = self.client.query(f"select " \
-                                f"outV().id as parent, outV().out().id as parent_childs " \
-                                f"from (traverse inE() from (select from Face where id = {id}))")
+                                     f"outV().id as parent, outV().out().id as parent_childs " \
+                                     f"from (traverse inE() from (select from Face where id = {id}))")
         childsDict = list(map(lambda x: x.oRecordData, raw_resp))
         parentsDict = {}
-        for parent,childs in childsDict:
+        for parent, childs in childsDict:
             for child in childs:
                 if child not in parentsDict.keys():
                     parentsDict[child] = []
@@ -49,26 +50,38 @@ def queryConstructor(data):
         if v == "" or v == "-":
             continue
         elif k == "date_begin":
-            sql_args.append(f"{k}>=date('{v}', 'yyyy-MM-dd')")
+            sql_args.append(f"parentEdge.{k}>=date('{v}', 'yyyy-MM-dd')")
         elif k == "date_end":
-            sql_args.append(f"{k}<=date('{v}', 'yyyy-MM-dd')")
+            sql_args.append(f"parentEdge.{k}<=date('{v}', 'yyyy-MM-dd')")
         elif k == "mainfilter":
             if v['Parent'] != "":
-                sql_args.append(f"out.id={v['Parent']}")
+                sql_args.append(f"parentEdge.out.id={v['Parent']}")
                 is_par_set = True
             if v['Child'] != "":
-                sql_args.append(f"in.id={v['Child']}")
+                sql_args.append(f"parentEdge.in.id={v['Child']}")
                 is_ch_set = True
         else:
-            sql_args.append(f"{k}={v}")
+            sql_args.append(f"parentEdge.{k}={v}")
 
     if len(data) == 0:
         sql_args.append(f'pk=0')
 
-    pattern = "{0}.name as name,{0}.id as id,{0}.face_type as type,"
+    pattern = "parentEdge.{0}.name as name,parentEdge.{0}.id as id,parentEdge.{0}.face_type as type,"
     projection = "" if is_par_set and is_ch_set else pattern.format("in") if is_par_set else pattern.format("out")
-    query = [f"select {projection}kind,date_begin,date_end,cost,share,child_liquidated from Link where ",
-             " AND ".join(sql_args)]
+    query = [f"select ",
+             projection,
+             f"parentEdge.cost as cost,",
+             f"parentEdge.share as share,",
+             f"parentEdge.kind as kind,",
+             f"parentEdge.date_begin as date_begin,",
+             f"parentEdge.date_end as date_end,",
+             f"parentEdge.child_liquidated as child_liquidated "
+             f"from (select {'inE()' if is_ch_set else 'outE()'} as parentEdge",
+             f"      from Face ",
+             f"      where id = {data['mainfilter']['Child'] if is_ch_set else data['mainfilter']['Parent']} ",
+             f"      unwind parentEdge)",
+             f" where ",
+             " and ".join(sql_args)]
 
     return "".join(query)
 
@@ -77,4 +90,3 @@ def getDataOrientDB(request):
     data = request.data
     data.pop("dbtype")
     return OrientDBRepository().flat_list(request.data)
-
