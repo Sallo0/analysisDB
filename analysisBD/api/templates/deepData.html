@@ -89,6 +89,7 @@
          document.querySelector('.pages').innerHTML = "";
          console.log(data)
 
+         let result = data['result']
          let time_block = document.createElement("div");
          time_block.classList.add("time");
          time_block.innerHTML = `Найдено за ${data['time']} сек`;
@@ -97,18 +98,18 @@
          let records_container = document.createElement("div");
          records_container.classList.add("deep-records-container");
 
-         data['result'].forEach(record =>{
+         for (let record in result){
              let record_container = document.createElement("div")
              record_container.classList.add("deep-record-container");
 
-             for (let i = 0; i < record.length; i++){
+             for (let i = 0; i < result[record].length; i++){
                  if (i === 0){
                      let child = document.createElement("div")
                      child.classList.add("deep-child-container")
                      child.innerHTML = `
-                        <div class="deep-child-item">Face_id: ${record[i]['pk']}</div>
-                        <div class="deep-child-item">Face_name: ${record[i]['face_name']}</div>
-                        <div class="deep-child-item">Face_type: ${record[i]['face_type']}</div>
+                        <div class="deep-child-item">Face_id: ${result[record][i]['pk']}</div>
+                        <div class="deep-child-item">Face_name: ${result[record][i]['face_name']}</div>
+                        <div class="deep-child-item">Face_type: ${result[record][i]['face_type']}</div>
                      `
                      record_container.append(child)
                  }
@@ -116,15 +117,15 @@
                      let parent = document.createElement("div")
                      parent.classList.add("deep-parent-container")
                      parent.innerHTML = `
-                        <div class="deep-parent-item">Face_id: ${record[i]['pk']}</div>
-                        <div class="deep-parent-item">Face_name: ${record[i]['face_name']}</div>
-                        <div class="deep-parent-item">Face_type: ${record[i]['face_type']}</div>
+                        <div class="deep-parent-item">Face_id: ${result[record][i]['pk']}</div>
+                        <div class="deep-parent-item">Face_name: ${result[record][i]['face_name']}</div>
+                        <div class="deep-parent-item">Face_type: ${result[record][i]['face_type']}</div>
                      `
                      record_container.append(parent);
                  }
              }
              records_container.append(record_container);
-         })
+         }
          document.querySelector('.data').append(records_container)
      }
 
