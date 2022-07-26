@@ -78,7 +78,7 @@ def queryConstructorDeep(data):
     query.append(data['mainfilter']['Child'])
     query.append("'})<-[r]-(b)-[t]-> (m) Return m, b ")
     query.append("SKIP ")
-    query.append(str(data['page']))
+    query.append(str((data['page'] - 1)*25))
     query.append(" LIMIT 25")
     return "".join(query)
 

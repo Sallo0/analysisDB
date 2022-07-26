@@ -61,7 +61,7 @@
                 document.querySelector(".btn-preview").style.display = "none";
              }
          }
-         sendRequest(window.localStorage['page'])
+         sendRequest(parseInt(window.localStorage['page']));
      }
 
      function sendRequest(page) {
