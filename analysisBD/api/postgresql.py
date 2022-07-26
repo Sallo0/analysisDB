@@ -154,7 +154,6 @@ def colenoSQL(request):
         res = cursor.fetchall()
         result = {}
         for i in res:
-            print(i)
             if i["face_id"] in result.keys():
                 if {"face_id":i["parent_id"], "face_type":i["parent_type"], "face_name":i["parent_name"]} not in result[i["face_id"]]:
                     result[i["face_id"]].append({"face_id":i["parent_id"], "face_type":i["parent_type"], "face_name":i["parent_name"]})
