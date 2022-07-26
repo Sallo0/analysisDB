@@ -38,8 +38,19 @@
 
   </form>
  <div class="data"></div>
- <div class="pages"></div>
+ <div class="pages">
+     <button type="button" value="Отправить" class="btn-preview" onclick="getPage(false)">Предыдущая</button>
+     <button type="button" value="Отправить" class="btn-next" onclick="getPage(true)">Следующая</button>
+ </div>
  <script>
+     window.localStorage['page'] = 1;
+ </script>
+ <script>
+     function getPage(flag){
+         flag ? window.localStorage['page'] += 1: window.localStorage['page'] -= 1
+         sendRequest(window.localStorage['page'])
+     }
+
      function sendRequest(page) {
          let spinner = document.createElement("div");
          spinner.classList.add("spinner");
@@ -86,7 +97,9 @@
 
      function parserDataNeo4j(data) {
          document.querySelector('.data').innerHTML = "";
-         document.querySelector('.pages').innerHTML = "";
+         let pages = document.querySelector('.pages');
+         //pages.innerHTML = "";
+
          console.log(data)
 
          let result = data['result']
@@ -127,6 +140,9 @@
              records_container.append(record_container);
          }
          document.querySelector('.data').append(records_container)
+
+
+         document.getElementById("spinner").remove();
      }
 
      function getInputValue(data){

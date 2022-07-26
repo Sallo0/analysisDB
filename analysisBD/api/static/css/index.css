@@ -162,6 +162,10 @@ body {
     border: 2px solid black;
 }
 
+.btn-preview{
+
+}
+
 @keyframes changeContent {
   10% { content: "⠙"; }
   20% { content: "⠹"; }
