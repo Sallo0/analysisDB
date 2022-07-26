@@ -97,7 +97,8 @@
                  let selectDB = document.querySelector(".select-db");
 
                  if (selectDB.options[selectDB.selectedIndex].value === "PostgreSQL"){
-                    parserDataPostgres(data)
+                     console.log("ok")
+                     parserDataPostgres(data)
                 }
                 else if (selectDB.options[selectDB.selectedIndex].value === "Neo4j"){
                     parserDataNeo4j(data)
@@ -111,6 +112,7 @@
      }
 
      function parserDataPostgres(data){
+
          console.log(data)
      }
 

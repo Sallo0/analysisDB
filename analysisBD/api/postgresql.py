@@ -134,6 +134,7 @@ def getDataPostgreSQL(request):
 
 
 def colenoSQL(request):
+    print("postgres")
     connection = psycopg2.connect(
                 host='46.48.3.74',
                 user='postgres',
