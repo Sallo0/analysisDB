@@ -162,10 +162,10 @@ def colenoSQL(request):
         for i in res:
             if i["face_id"] in result.keys():
                 if {"face_id":i["parent_id"], "face_type":i["parent_type"], "face_name":i["parent_name"]} not in result[i["face_id"]]:
-                    result[i["face_id"]].append({"face_id":i["parent_id"], "face_type":i["parent_type"], "face_name":i["parent_name"]})
+                    result[i["pk"]].append({"face_id":i["parent_id"], "face_type":i["parent_type"], "face_name":i["parent_name"]})
             else:
-                result[i["face_id"]] = [{"face_id":i["face_id"], "face_type":i["face_type"], "face_name":i["face_name"]}]
-                result[i["face_id"]].append({"face_id":i["parent_id"], "face_type":i["parent_type"], "face_name":i["parent_name"]})
+                result[i["pk"]] = [{"face_id":i["face_id"], "face_type":i["face_type"], "face_name":i["face_name"]}]
+                result[i["pk"]].append({"face_id":i["parent_id"], "face_type":i["parent_type"], "face_name":i["parent_name"]})
     cursor.close()
     connection.close()
     return {"result": result, "time": timer}
