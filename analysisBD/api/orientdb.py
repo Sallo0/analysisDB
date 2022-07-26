@@ -41,7 +41,7 @@ class OrientDBRepository():
         timer = time_end - time_start
         #print(result)
         print(timer)
-        return {"result": result}
+        return {"result": result, "time": timer}
 
 
 def queryConstructor(data):
