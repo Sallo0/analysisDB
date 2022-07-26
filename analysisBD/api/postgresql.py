@@ -146,7 +146,7 @@ def colenoSQL(request):
     WITH
     query1 AS
     (
-    Select a.*, b.* from links a, face_info b Where child = {request.data["mainfilter"]["Child"]} and b.face_id = a.parent 
+    Select a.*, b.* from links a, face_info b Where child = {request.data["mainfilter"]["Child"]} and b.face_id = a.parent LIMIT 25
     )
     SELECT query1.face_id as parent_id,query1.face_type as parent_type,query1.face_name as parent_name, a.* FROM query1, links b,face_info a where query1.parent = b.parent and b.child != {request.data["mainfilter"]["Child"]} and a.face_id = b.child
     """
