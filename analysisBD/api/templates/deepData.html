@@ -65,6 +65,7 @@
      }
 
      function sendRequest(page) {
+         document.querySelector('.data').innerHTML = "";
          let spinner = document.createElement("div");
          spinner.classList.add("spinner");
          spinner.setAttribute("id", "spinner")
@@ -110,7 +111,6 @@
      }
 
      function parserDataNeo4j(data) {
-         document.querySelector('.data').innerHTML = "";
          let pages = document.querySelector('.pages');
          //pages.innerHTML = "";
 
