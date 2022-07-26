@@ -44,14 +44,26 @@
  </div>
  <script>
      window.localStorage['page'] = 1;
+     document.querySelector(".btn-preview").style.display = "none";
+     document.querySelector(".btn-next").style.display = "none";
  </script>
  <script>
      function getPage(flag){
-         flag ? window.localStorage['page'] += 1: window.localStorage['page'] -= 1
+         if (flag){
+             window.localStorage['page'] += 1;
+             document.querySelector(".btn-preview").style.display = "block";
+         }
+         else {
+             window.localStorage['page'] -= 1;
+             if (window.localStorage['page'] === 1){
+                document.querySelector(".btn-preview").style.display = "none";
+             }
+         }
          sendRequest(window.localStorage['page'])
      }
 
      function sendRequest(page) {
+         document.querySelector(".btn-next").style.display = "block";
          let spinner = document.createElement("div");
          spinner.classList.add("spinner");
          spinner.setAttribute("id", "spinner")
