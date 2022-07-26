@@ -132,7 +132,7 @@ def getDataPostgreSQL(request):
 
     return all_data
 
-
+#request.data["mainfilter"]["Child"]
 def colenoSQL(request):
     print("postgres")
     connection = psycopg2.connect(
@@ -148,20 +148,18 @@ def colenoSQL(request):
     (
     Select a.*, b.* from links a, face_info b Where child = {request.data["mainfilter"]["Child"]} and b.face_id = a.parent 
     )
-    SELECT b.child,query1.face_id,query1.face_type,query1.face_name FROM query1, links b where query1.parent = b.parent and b.child != {request.data["mainfilter"]["Child"]} OFFSET {request.data["page"]} LIMIT 25
+    SELECT query1.face_id as parent_id,query1.face_type as parent_type,query1.face_name as parent_name, a.* FROM query1, links b,face_info a where query1.parent = b.parent and b.child != {request.data["mainfilter"]["Child"]} and a.face_id = b.child
     """
         cursor.execute(query)
         res = cursor.fetchall()
         result = {}
         for i in res:
-            if i["child"] in result.keys():
-                if {"face_id": i["face_id"], "face_type": i["face_type"], "face_name": i["face_name"]} not in result[
-                    i["child"]]:
-                    result[i["child"]].append(
-                        {"face_id": i["face_id"], "face_type": i["face_type"], "face_name": i["face_name"]})
+            print(i)
+            if i["face_id"] in result.keys():
+                if {"face_id":i["parent_id"], "face_type":i["parent_type"], "face_name":i["parent_name"]} not in result[i["face_id"]]:
+                    result[i["face_id"]].append({"face_id":i["parent_id"], "face_type":i["parent_type"], "face_name":i["parent_name"]})
             else:
-                result[i["child"]] = [
-                    {"face_id": i["face_id"], "face_type": i["face_type"], "face_name": i["face_name"]}]
+                result[i["face_id"]] = [{"face_id":i["face_id"], "face_type":i["face_type"], "face_name":i["face_name"]}]
     cursor.close()
     connection.close()
-    return json.dumps(result)
+    return(result)
