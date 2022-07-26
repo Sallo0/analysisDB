@@ -33,24 +33,25 @@
            </div>
 
            <div>
-               <button type="button" value="Отправить" onclick="sendRequest()">Отправить</button>
+               <button type="button" value="Отправить" onclick="sendRequest(1)">Отправить</button>
            </div>
 
   </form>
  <div class="data"></div>
  <div class="pages"></div>
  <script>
-     function sendRequest() {
-         let spinner = document.createElement("div")
+     function sendRequest(page) {
+         let spinner = document.createElement("div");
          spinner.classList.add("spinner");
          spinner.setAttribute("id", "spinner")
-         document.querySelector(".requestForm").append(spinner)
+         document.querySelector(".requestForm").append(spinner);
 
          let data = {
              'dbtype': '',
              'mainfilter': {
                  'Child': 0,
              },
+             'page': page,
          }
 
          let result = getInputValue(data)
@@ -68,10 +69,63 @@
                  }
              })
              .then(data => {
+                 let selectDB = document.querySelector(".select-db");
 
-                 console.log(data)
+                 if (selectDB.options[selectDB.selectedIndex].value === "PostgreSQL"){
+                    parserDataPostgres(data)
+                }
+                else if (selectDB.options[selectDB.selectedIndex].value === "Neo4j"){
+                    parserDataNeo4j(data)
+                }
+                else if (selectDB.options[selectDB.selectedIndex].value === "OrientDB"){
+                    parserDataOrientDB(data)
+                }
 
              });
+     }
+
+     function parserDataNeo4j(data) {
+         document.querySelector('.data').innerHTML = "";
+         document.querySelector('.pages').innerHTML = "";
+         console.log(data)
+
+         let time_block = document.createElement("div");
+         time_block.classList.add("time");
+         time_block.innerHTML = `Найдено за ${data['time']} сек`;
+         document.querySelector('.data').append(time_block);
+
+         let records_container = document.createElement("div");
+         records_container.classList.add("deep-records-container");
+
+         data['result'].forEach(record =>{
+             let record_container = document.createElement("div")
+             record_container.classList.add("deep-record-container");
+
+             for (let i = 0; i < record.length; i++){
+                 if (i === 0){
+                     let child = document.createElement("div")
+                     child.classList.add("deep-child-container")
+                     child.innerHTML = `
+                        <div class="deep-child-item">Face_id: ${record[i]['pk']}</div>
+                        <div class="deep-child-item">Face_name: ${record[i]['face_name']}</div>
+                        <div class="deep-child-item">Face_type: ${record[i]['face_type']}</div>
+                     `
+                     record_container.append(child)
+                 }
+                 else {
+                     let parent = document.createElement("div")
+                     parent.classList.add("deep-parent-container")
+                     parent.innerHTML = `
+                        <div class="deep-parent-item">Face_id: ${record[i]['pk']}</div>
+                        <div class="deep-parent-item">Face_name: ${record[i]['face_name']}</div>
+                        <div class="deep-parent-item">Face_type: ${record[i]['face_type']}</div>
+                     `
+                     record_container.append(parent);
+                 }
+             }
+             records_container.append(record_container);
+         })
+         document.querySelector('.data').append(records_container)
      }
 
      function getInputValue(data){

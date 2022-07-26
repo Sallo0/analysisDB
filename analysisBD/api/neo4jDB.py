@@ -77,6 +77,9 @@ def queryConstructorDeep(data):
     query.append("Match (n {pk:'")
     query.append(data['mainfilter']['Child'])
     query.append("'})<-[r]-(b)-[t]-> (m) Return m, b")
+    query.append("skip ")
+    query.append(str(data['page']))
+    query.append("limit 25")
     return "".join(query)
 
 

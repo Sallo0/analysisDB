@@ -152,6 +152,16 @@ body {
     white-space: nowrap;
 }
 
+.deep-child-container{
+    display: inline-block;
+    border: 2px solid red;
+}
+
+.deep-parent-container{
+    display: inline-block;
+    border: 2px solid black;
+}
+
 @keyframes changeContent {
   10% { content: "⠙"; }
   20% { content: "⠹"; }
