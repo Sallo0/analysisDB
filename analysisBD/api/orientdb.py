@@ -2,13 +2,14 @@ import pyorient as po
 import json
 import os
 
+
 class OrientDBRepository():
 
     def __init__(self):
         self.client = po.OrientDB(os.getenv('orientdb_ip'), 2424)
         self.client.set_session_token( True )
         self.client.connect(os.getenv('orientdb_login'), os.getenv('orientdb_pass'))
-        self.client.db_open("dbforanal", os.getenv('orientdb_login'), os.getenv('orientdb_pass'))
+        self.client.db_open("analysis", os.getenv('orientdb_login'), os.getenv('orientdb_pass'))
 
     def query(self, query):
         a =self.client.query(query)
