@@ -153,7 +153,10 @@ def colenoSQL(request):
                 FROM query1, links b,face_info a where query1.parent = b.parent and b.child != {request.data['mainfilter']['Child']} and a.face_id = b.child 
                 LIMIT 25 OFFSET {(request.data['page'] - 1) * 25}
                 """
+        time_start = t.perf_counter()
         cursor.execute(query)
+        time_end = t.perf_counter()
+        timer = time_end - time_start
         res = cursor.fetchall()
         result = {}
         for i in res:
@@ -165,4 +168,4 @@ def colenoSQL(request):
                 result[i["face_id"]].append({"face_id":i["parent_id"], "face_type":i["parent_type"], "face_name":i["parent_name"]})
     cursor.close()
     connection.close()
-    return(result)
+    return {"result": result, "time": timer}
