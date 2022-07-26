@@ -149,8 +149,8 @@ def colenoSQL(request):
                 Select a.*, b.* from links a, face_info b Where child = {request.data['mainfilter']['Child']} and b.face_id = a.parent 
                 )
                 SELECT query1.face_id as parent_id,query1.face_type as parent_type,query1.face_name as parent_name, a.* 
-                FROM query1, links b,face_info a where query1.parent = b.parent and b.child != {request.data['mainfildter']['Child']} and a.face_id = b.child 
-                LIMIT 25 OFFSET {request.data['page']} 
+                FROM query1, links b,face_info a where query1.parent = b.parent and b.child != {request.data['mainfilter']['Child']} and a.face_id = b.child 
+                LIMIT 25 OFFSET {(request.data['page']-1)*25} 
                 """
         cursor.execute(query)
         res = cursor.fetchall()
