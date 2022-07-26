@@ -206,6 +206,7 @@
             function parserDataOrientDB(data){
                 console.log(data)
 
+                document.querySelector('.pages').innerHTML = "";
                 document.querySelector('.data').innerHTML = "";
                 let all_records = document.createElement("div");
 
@@ -352,6 +353,7 @@
             }
 
             function parserDataPostgres(data) {
+                document.querySelector('.pages').innerHTML = "";
                 document.querySelector('.data').innerHTML = "";
                 let all_records = document.createElement("div");
                 let temp = data["result"].split(']');
@@ -437,7 +439,6 @@
                 document.querySelector('.data').append(all_records);
                 document.getElementById("spinner").remove()
             }
-
     </script>
  </body>
 </html>
