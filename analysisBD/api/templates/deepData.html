@@ -51,10 +51,12 @@
      function getPage(flag){
          if (flag){
              window.localStorage['page'] += 1;
+             console.log(window.localStorage['page']);
              document.querySelector(".btn-preview").style.display = "inline-block";
          }
          else {
              window.localStorage['page'] -= 1;
+             console.log(window.localStorage['page']);
              if (window.localStorage['page'] === 1){
                 document.querySelector(".btn-preview").style.display = "none";
              }
