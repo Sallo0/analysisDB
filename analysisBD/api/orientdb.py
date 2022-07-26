@@ -43,8 +43,8 @@ def queryConstructor(data):
     """
     face_as_json = "{{id: {0}.id, name: {0}.name, type: {0}.face_type}}"
     query = [
-        f"select {face_as_json.format('out')},kind,date_begin,date_end,cost,share,child_liquidated from Link where "
-        #f"select out.name as name,out.id as id,out.face_type as type,kind,date_begin,date_end,cost,share,child_liquidated from Link where "
+        #f"select {face_as_json.format('out')},kind,date_begin,date_end,cost,share,child_liquidated from Link where "
+        f"select out.name as name,out.id as id,out.face_type as type,kind,date_begin,date_end,cost,share,child_liquidated from Link where "
     ]
     sql_args = []
 
