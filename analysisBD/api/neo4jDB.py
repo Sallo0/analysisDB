@@ -72,30 +72,33 @@ def f(data):
 
 
 def queryConstructorDeep(data):
-    query = []
-    query.append("Match (n {pk:'")
-    query.append(data['mainfilter']['Child'])
-    query.append("'})<-[r:Properties]-(b)-[t:Properties]-> (m) Return m, b ")
-    query.append("skip ")
-    query.append(str((data['page'] - 1)*25))
-    query.append(" limit 25")
+    query = ["Match (n {pk:'", data['mainfilter']['Child'], "'})<-[r]-(b)-[t]-> (m) Return m, b ", "SKIP ",
+             str((data['page'] - 1) * 25), " LIMIT 25"]
     return "".join(query)
 
 
 def getGraphDataNeo4j(request):
-    query = queryConstructorDeep(request.data)
-    return runQuery(query)
+    data = request.data
+    cypher_query = queryConstructorDeep(data)
+
+    with connection.session(database="neo4j") as session:
+        time_start = t.perf_counter()
+        results = session.run(cypher_query).data()
+        time_end = t.perf_counter()
+        timer = time_end - time_start
+        result_json = {'result': f(results), "time": timer}
+
+        return result_json
 
 
 def getDataNeo4j(request):
-    query = queryConstructor(request.data)
-    return runQuery(query)
+    data = request.data
+    cypher_query = queryConstructor(data)
+    print(cypher_query)
 
-
-def runQuery(query):
     with connection.session(database="neo4j") as session:
         time_start = t.perf_counter()
-        results = session.run(query).data()
+        results = session.run(cypher_query).data()
         time_end = t.perf_counter()
         timer = time_end - time_start
         result_json = {'result': results, "time": timer}
