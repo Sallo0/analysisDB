@@ -29,25 +29,25 @@ def queryConstructor(data):
         filters.append(f'child_liquidated: "f"')
 
     if data['mainfilter']['Child'] != "" and data['mainfilter']['Parent'] != "":
-        query.append("match (p{pk: '")
+        query.append("match (p:Exemplar{pk: '")
         query.append(data['mainfilter']['Parent'])
         query.append("'})-[r:Properties{")
         query.append(",".join(filters))
-        query.append("}]->(c{pk: '")
+        query.append("}]->(c:Exemplar{pk: '")
         query.append(data['mainfilter']['Child'])
         query.append("'}) return PROPERTIES(r) ")
     elif data['mainfilter']['Child'] != "":
-        query.append("match (p)-[r:Properties{")
+        query.append("match (p:Exemplar)-[r:Properties{")
         query.append(",".join(filters))
-        query.append("}]->(c{pk: '")
+        query.append("}]->(c:Exemplar{pk: '")
         query.append(data['mainfilter']['Child'])
         query.append("'}) return PROPERTIES(r), p")
     elif data['mainfilter']['Parent'] != "":
-        query.append("match (p{pk: '")
+        query.append("match (p:Exemplar{pk: '")
         query.append(data['mainfilter']['Parent'])
         query.append("'})-[r:Properties{")
         query.append(",".join(filters))
-        query.append("}]->(c) return PROPERTIES(r), c")
+        query.append("}]->(c:Exemplar) return PROPERTIES(r), c")
 
     return "".join(query)
 
