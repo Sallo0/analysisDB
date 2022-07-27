@@ -172,6 +172,15 @@ body {
 
 }
 
+.src-page-deep{
+    text-decoration: none;
+    margin-left: 40px;
+    color: #2562aa;
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 3px;
+}
+
 @keyframes changeContent {
   10% { content: "⠙"; }
   20% { content: "⠹"; }
