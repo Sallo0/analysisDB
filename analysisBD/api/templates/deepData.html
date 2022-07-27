@@ -9,6 +9,7 @@
 <body>
  <header>
      <h1 class="title">Поиск через колено</h1>
+     <a href="http://46.48.3.74:8000" class="src-page-deep">Главная</a>
      <img class="img-urfu" src="{% static 'css/urfu.png'%}" alt="лого УрФУ">
      <img class="img-sbis" src="{% static 'css/sbis.png'%}" alt="лого СБИС">
   </header>
@@ -157,7 +158,6 @@
      }
 
      function parserDataNeo4j(data) {
-         console.log(data)
 
          let result = data['result']
          let time_block = document.createElement("div");
