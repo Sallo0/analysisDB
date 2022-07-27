@@ -80,22 +80,16 @@ def queryConstructorDeep(data):
 def getGraphDataNeo4j(request):
     data = request.data
     cypher_query = queryConstructorDeep(data)
-
-    with connection.session(database="neo4j") as session:
-        time_start = t.perf_counter()
-        results = session.run(cypher_query).data()
-        time_end = t.perf_counter()
-        timer = time_end - time_start
-        result_json = {'result': f(results), "time": timer}
-
-        return result_json
+    runQuery(cypher_query)
 
 
 def getDataNeo4j(request):
     data = request.data
     cypher_query = queryConstructor(data)
-    print(cypher_query)
+    runQuery(cypher_query)
 
+
+def runQuery(cypher_query):
     with connection.session(database="neo4j") as session:
         time_start = t.perf_counter()
         results = session.run(cypher_query).data()
