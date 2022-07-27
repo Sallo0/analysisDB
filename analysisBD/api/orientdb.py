@@ -1,6 +1,7 @@
 import pyorient as po
 import json
 import os
+import time
 
 
 class OrientDBRepository():
@@ -26,12 +27,13 @@ class OrientDBRepository():
                          f"order by child ",
                          f"skip {offset} ",
                          f"limit {limit} "])
+        t = time.perf_counter()
         response = list(map(lambda x: x.oRecordData, self.client.query(query)))
         result = {}
         for row in response:
             result[row['child']['id']] = [row['child']]
             result[row['child']['id']] += row['parents']
-        return result
+        return {'result': result, "time": time.perf_counter() - t}
 
     def flat_list(self, filter_data):
         query = queryConstructor(filter_data)
