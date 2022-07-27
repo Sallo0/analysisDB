@@ -47,7 +47,7 @@ def queryConstructor(data):
         query.append(data['mainfilter']['Parent'])
         query.append("'})-[r:Properties{")
         query.append(",".join(filters))
-        query.append("}]->(c:Exemplar) return PROPERTIES(r), c ORDER BY r.cost")
+        query.append("}]->(c:Exemplar) return PROPERTIES(r), c ORDER BY r.share")
 
     return "".join(query)
 
