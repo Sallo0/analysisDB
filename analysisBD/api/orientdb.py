@@ -107,4 +107,4 @@ def getDeepSearchResult(request):
     data = request.data
     page = data['page']
     offset = (int(page) - 1)*25
-    return OrientDBRepository().over_knee(data['mainfilter']['Child'], 25, offset)
+    return OrientDBRepository().over_knee(data['mainfilter']['Child'], offset, 25)
