@@ -58,6 +58,41 @@ with connection_Neo.session(database="neo4j") as session:
     print(res.data())
     time_end = time_obj.perf_counter()
 
+    json = {
+        "result":{
+            "10901923": {
+                "0": {
+                    "pk": 123,
+                    "face_type": 0,
+                    "face_name": None,
+                },
+                "1": {
+                    "pk": 123,
+                    "face_type": 0,
+                    "face_name": None,
+                }
+            },
+            "10901924": {
+                "0": {
+                    "pk": 123,
+                    "face_type": 0,
+                    "face_name": None,
+                },
+                "1": {
+                    "pk": 123,
+                    "face_type": 0,
+                    "face_name": None,
+                },
+                "2": {
+                    "pk": 123,
+                    "face_type": 0,
+                    "face_name": None,
+                }
+            }
+        },
+        "time": 0
+    }
+
 """
 connection.close()
 """

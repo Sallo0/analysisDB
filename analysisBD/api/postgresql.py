@@ -131,3 +131,41 @@ def getDataPostgreSQL(request):
     all_data['result'] += str(timer)
 
     return all_data
+
+
+#request.data["mainfilter"]["Child"]
+def colenoSQL(request):
+    print("postgres")
+    connection = psycopg2.connect(
+                host=os.getenv('postgres_host'),
+                user=os.getenv('postgres_user'),
+                password=os.getenv('postgres_password'),
+                database=os.getenv('postgres_db_name'),
+                )
+    with connection.cursor(cursor_factory=RealDictCursor) as cursor:
+        query = f"""
+                WITH
+                query1 AS
+                (
+                Select a.*, b.* from links a, face_info b Where child = {request.data['mainfilter']['Child']} and b.face_id = a.parent 
+                )
+                SELECT query1.face_id as parent_id,query1.face_type as parent_type,query1.face_name as parent_name, a.* 
+                FROM query1, links b,face_info a where query1.parent = b.parent and b.child != {request.data['mainfilter']['Child']} and a.face_id = b.child 
+                ORDER BY query1.date_end asc nulls first, b.child LIMIT 25 OFFSET {(request.data['page'] - 1) * 25}
+                """
+        time_start = t.perf_counter()
+        cursor.execute(query)
+        time_end = t.perf_counter()
+        timer = time_end - time_start
+        res = cursor.fetchall()
+        result = {}
+        for i in res:
+            if i["face_id"] in result.keys():
+                if {"pk":i["parent_id"], "face_type": i["parent_type"], "face_name":i["parent_name"]} not in result[i["face_id"]]:
+                    result[i["face_id"]].append({"pk": i["parent_id"], "face_type":i["parent_type"], "face_name":i["parent_name"]})
+            else:
+                result[i["face_id"]] = [{"pk": i["face_id"], "face_type":i["face_type"], "face_name":i["face_name"]}]
+                result[i["face_id"]].append({"pk": i["parent_id"], "face_type":i["parent_type"], "face_name":i["parent_name"]})
+    cursor.close()
+    connection.close()
+    return {"result": result, "time": timer}

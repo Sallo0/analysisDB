@@ -152,6 +152,35 @@ body {
     white-space: nowrap;
 }
 
+.deep-child-container{
+    display: inline-block;
+    border: 2px solid red;
+    margin: 0 10px 25px 0;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.deep-parent-container{
+    display: inline-block;
+    border: 2px solid black;
+    margin: 0 10px 25px 0;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.btn-preview{
+
+}
+
+.src-page-deep{
+    text-decoration: none;
+    margin-left: 40px;
+    color: #2562aa;
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 3px;
+}
+
 @keyframes changeContent {
   10% { content: "⠙"; }
   20% { content: "⠹"; }

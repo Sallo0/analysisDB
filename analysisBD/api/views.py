@@ -8,6 +8,10 @@ def hello(request):
     return render(request, 'index.html')
 
 
+def deep(request):
+    return render(request, 'deepData.html')
+
+
 def orient(request):
     return render(request, 'orientdb.html')
 
@@ -43,3 +47,8 @@ def getPostgreSQLData(request):
 @api_view(['POST'])
 def getData(request):
     return Response(data=controller.getData(request), status=200)
+
+
+@api_view(['POST'])
+def getDeepData(request):
+    return Response(data=controller.getDeepData(request), status=200)

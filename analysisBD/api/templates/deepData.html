@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Поиск через колено</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+<body>
+ <header>
+     <h1 class="title">Поиск через колено</h1>
+     <a href="http://46.48.3.74:8000" class="src-page-deep">Главная</a>
+     <img class="img-urfu" src="{% static 'css/urfu.png'%}" alt="лого УрФУ">
+     <img class="img-sbis" src="{% static 'css/sbis.png'%}" alt="лого СБИС">
+  </header>
+
+
+  <form class="requestForm">
+           <div>
+               <div class="db-type input-container">
+                   <label class="label db-type-label" for="db-type">База данных</label>
+                   <select class="select-db select" id="db-type" required>
+                       <option selected value="PostgreSQL">PostgreSQL</option>
+                       <option value="OrientDB">OrientDB</option>
+                       <option value="Neo4j">Neo4j</option>
+                   </select>
+                </div>
+               <div>
+                   <div class="input-container child-container">
+                       <label for="child" class="label child-label">ID дочернего объекта</label>
+                       <input class="select" id="child" type="text" placeholder="child...">
+                   </div>
+               </div>
+           </div>
+
+           <div>
+               <button type="button" value="Отправить" onclick="sendRequest(1, true)">Отправить</button>
+           </div>
+
+  </form>
+ <div class="data"></div>
+ <div class="pages">
+     <button type="button" value="Отправить" class="btn-preview" onclick="getPage(false)">Предыдущая</button>
+     <button type="button" value="Отправить" class="btn-next" onclick="getPage(true)">Следующая</button>
+ </div>
+ <script src="{% static 'js/deepData.js' %}"></script>
+
+</body>
+</html>
