@@ -11,6 +11,19 @@ connection = GraphDatabase.driver(
 
 
 def queryConstructor(data):
+    """Конструирует запрос на языке cypher для получения плоского списка вершин и связей в БД neo4j.
+
+        Args:
+            data (object): Объект, в котором хранится json словарь с данными из запроса.
+
+        Keyword Args:
+            query (list): Лист, который хранит cypher-запрос по частям
+            filters (list): Лист, который хранит часть cypher-запроса, содержащую фильтры
+
+        Returns:
+            str: Возвращает cypher-запрос в формате строки
+
+        """
     query = []
     filters = []
     if data['kind'] != "-":
@@ -72,12 +85,42 @@ def f(data):
 
 
 def queryConstructorDeep(data):
-    query = ["Match (n:Exemplar {pk:'", data['mainfilter']['Child'], "'})<-[r]-(b:Exemplar)-[t]-> (m:Exemplar) WHERE m.pk<>'", data['mainfilter']['Child'],"' Return m, b ORDER BY r.date_end, toInteger(m.pk) ", "SKIP ",
+    """Конструирует запрос на языке cypher для получения вершин, которые связаны с текущей через parent (поиск через
+        колено).
+
+            Args:
+                data (object): Объект, в котором хранится json словарь с данными из запроса.
+
+            Keyword Args:
+                query (list): Лист, который хранит cypher-запрос по частям
+
+            Returns:
+                str: Возвращает cypher-запрос в формате строки
+
+    """
+    query = ["Match (n:Exemplar {pk:'", data['mainfilter']['Child'],
+             "'})<-[r]-(b:Exemplar)-[t]-> (m:Exemplar) WHERE m.pk<>'",
+             data['mainfilter']['Child'], "' Return m, b ORDER BY r.date_end, toInteger(m.pk) ", "SKIP ",
              str((data['page'] - 1) * 25), " LIMIT 25"]
     return "".join(query)
 
 
 def getGraphDataNeo4j(request):
+    """Выполняет запрос на получение данных (поиск через колено) из neo4j .
+
+            Args:
+                request (object): Объект, в котором хранится json-словарь с данными, полученный в POST-запросе.
+
+            Keyword Args:
+                data (object): Непосредственно сам json-словарь с данными из запроса
+                cypher_query (str): Строка запроса получения данных из neo4j (на языке cypher)
+                timer (int): Время, за которое выполняется запрос
+                results (list): Список с данными, полученными из neo4j по запросу cypher_query
+
+            Returns:
+                result_json: Возвращает Объект с данными из БД neo4j и временем, за которое они были получены
+
+    """
     data = request.data
     cypher_query = queryConstructorDeep(data)
 
