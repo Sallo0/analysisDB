@@ -4,42 +4,40 @@ import os
 import time
 
 
-t = time
-
-
 class OrientDBRepository():
 
     def __init__(self):
         self.client = po.OrientDB(os.getenv('orientdb_ip'), 2424)
-        self.client.set_session_token( True )
+        self.client.set_session_token(True)
         self.client.connect(os.getenv('orientdb_login'), os.getenv('orientdb_pass'))
         self.client.db_open("analysis", os.getenv('orientdb_login'), os.getenv('orientdb_pass'))
 
     def query(self, query):
-        a =self.client.query(query)
+        a = self.client.query(query)
         return json.dumps(list(map(lambda x: x.oRecordData, a)))
 
-    def over_knee(self, id):
-        raw_resp = self.client.query(f"select " \
-                                f"outV().id as parent, outV().out().id as parent_childs " \
-                                f"from (traverse inE() from (select from Face where id = {id}))")
-        childsDict = list(map(lambda x: x.oRecordData, raw_resp))
-        parentsDict = {}
-        for parent,childs in childsDict:
-            for child in childs:
-                if child not in parentsDict.keys():
-                    parentsDict[child] = []
-                parentsDict[child].append(parent)
-
-        return parentsDict
+    def over_knee(self, id, offset, limit):
+        query = ''.join([f"select childs.include('name', 'face_type', 'id') as child, ",
+                         f"intersect(childs.in(), parents).include('id', 'name', 'face_type') as parents  ",
+                         f"from (select in().out() as childs, in() as parents ",
+                         f"        from Face ",
+                         f"        where id = {id} ",
+                         f"        unwind childs) ",
+                         f"where childs.id != {id} ",
+                         f"order by child ",
+                         f"skip {offset} ",
+                         f"limit {limit} "])
+        t = time.perf_counter()
+        response = list(map(lambda x: x.oRecordData, self.client.query(query)))
+        result = {}
+        for row in response:
+            result[row['child']['id']] = [row['child']]
+            result[row['child']['id']] += row['parents']
+        return {'result': result, "time": time.perf_counter() - t}
 
     def flat_list(self, filter_data):
         query = queryConstructor(filter_data)
-        time_start = t.perf_counter()
-        result = list(map(lambda x: x.oRecordData, self.client.query(query)))
-        time_end = t.perf_counter()
-        timer = time_end - time_start
-        return {"result": result, "time": timer}
+        return list(map(lambda x: x.oRecordData, self.client.query(query)))
 
 
 def queryConstructor(data):
@@ -97,3 +95,6 @@ def getDataOrientDB(request):
     data = request.data
     data.pop("dbtype")
     return OrientDBRepository().flat_list(request.data)
+
+def getDeepSearchResult(id, limit, offset):
+    return OrientDBRepository().over_knee(id, limit, offset)
