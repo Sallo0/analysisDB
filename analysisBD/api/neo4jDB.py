@@ -72,7 +72,7 @@ def f(data):
 
 
 def queryConstructorDeep(data):
-    query = ["Match (n:Exemplar {pk:'", data['mainfilter']['Child'], "'})<-[r]-(b:Exemplar)-[t]-> (m:Exemplar) Return m, b ORDER BY r.date_end ", "SKIP ",
+    query = ["Match (n:Exemplar {pk:'", data['mainfilter']['Child'], "'})<-[r]-(b:Exemplar)-[t]-> (m:Exemplar) Return m, b ORDER BY r.date_end, m.pk ", "SKIP ",
              str((data['page'] - 1) * 25), " LIMIT 25"]
     return "".join(query)
 
