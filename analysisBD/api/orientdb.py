@@ -91,7 +91,8 @@ def queryConstructor(data):
              f"      where id = {data['mainfilter']['Child'] if is_ch_set else data['mainfilter']['Parent']} ",
              f"      unwind parentEdge)",
              f" where ",
-             " and ".join(sql_args)]
+             " and ".join(sql_args),
+             " LIMIT 1000000"]
 
     return "".join(query)
 
