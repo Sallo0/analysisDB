@@ -109,9 +109,51 @@
              });
      }
 
-     function parserDataOrientDB(data){
-         console.log(data)
+     function parseData(data, id_name, type_name, name_name){
+        let result = data['result']
+         let time_block = document.createElement("div");
+         time_block.classList.add("time");
+         time_block.innerHTML = `Найдено за ${data['time']} сек`;
+         document.querySelector('.data').append(time_block);
 
+         let records_container = document.createElement("div");
+         records_container.classList.add("deep-records-container");
+
+         for (let record in result){
+             let record_container = document.createElement("div")
+             record_container.classList.add("deep-record-container");
+
+             for (let i = 0; i < result[record].length; i++){
+                 if (i === 0){
+                     let child = document.createElement("div")
+                     child.classList.add("deep-child-container")
+                     child.innerHTML = `
+                        <div class="deep-child-item">Face_id: ${result[record][i][id_name]}</div>
+                        <div class="deep-child-item">Face_name: ${result[record][i][name_name]}</div>
+                        <div class="deep-child-item">Face_type: ${result[record][i][type_name]}</div>
+                     `
+                     record_container.append(child)
+                 }
+                 else {
+                     let parent = document.createElement("div")
+                     parent.classList.add("deep-parent-container")
+                     parent.innerHTML = `
+                        <div class="deep-parent-item">Face_id: ${result[record][i][id_name]}</div>
+                        <div class="deep-parent-item">Face_name: ${result[record][i][name_name]}</div>
+                        <div class="deep-parent-item">Face_type: ${result[record][i][type_name]}</div>
+                     `
+                     record_container.append(parent);
+                 }
+             }
+             records_container.append(record_container);
+         }
+         document.querySelector('.data').append(records_container)
+         document.getElementById("spinner").remove();
+     }
+
+     function parserDataOrientDB(data){
+         parseData(data, 'id', 'face_type', 'name')
+         /*
          let result = data['result']
          let time_block = document.createElement("div");
          time_block.classList.add("time");
@@ -151,10 +193,13 @@
          }
          document.querySelector('.data').append(records_container)
          document.getElementById("spinner").remove();
+
+          */
      }
 
      function parserDataPostgres(data){
-
+         parseData(data, 'pk', 'face_type', 'face_name')
+         /*
          let result = data['result']
          let time_block = document.createElement("div");
          time_block.classList.add("time");
@@ -194,6 +239,8 @@
          }
          document.querySelector('.data').append(records_container)
          document.getElementById("spinner").remove();
+
+          */
      }
 
      function parserDataNeo4j(data) {
