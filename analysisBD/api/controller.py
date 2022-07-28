@@ -15,6 +15,6 @@ def getDeepData(request):
     if request.data['dbtype'] == "PostgreSQL":
         return postgresql.colenoSQL(request)
     elif request.data['dbtype'] == "OrientDB":
-        return orientdb.getDataOrientDB(request)
+        return orientdb.getDeepSearchResult(request)
     elif request.data['dbtype'] == "Neo4j":
         return neo4jDB.getGraphDataNeo4j(request)
