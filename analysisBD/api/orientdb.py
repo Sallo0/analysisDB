@@ -37,7 +37,12 @@ class OrientDBRepository():
 
     def flat_list(self, filter_data):
         query = queryConstructor(filter_data)
-        return list(map(lambda x: x.oRecordData, self.client.query(query)))
+        t = time
+        t_start = t.perf_counter()
+        result = list(map(lambda x: x.oRecordData, self.client.query(query)))
+        t_end = t.perf_counter()
+        query_time = t_end - t_start
+        return {"result": result, "time": query_time}
 
 
 def queryConstructor(data):
@@ -95,6 +100,7 @@ def getDataOrientDB(request):
     data = request.data
     data.pop("dbtype")
     return OrientDBRepository().flat_list(request.data)
+
 
 def getDeepSearchResult(id, limit, offset):
     return OrientDBRepository().over_knee(id, limit, offset)
