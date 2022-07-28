@@ -130,8 +130,8 @@
                      let child = document.createElement("div")
                      child.classList.add("deep-child-container")
                      child.innerHTML = `
-                        <div class="deep-child-item">Face_id: ${result[record][i]['pk']}</div>
-                        <div class="deep-child-item">Face_name: ${result[record][i]['face_name']}</div>
+                        <div class="deep-child-item">Face_id: ${result[record][i]['id']}</div>
+                        <div class="deep-child-item">Face_name: ${result[record][i]['name']}</div>
                         <div class="deep-child-item">Face_type: ${result[record][i]['face_type']}</div>
                      `
                      record_container.append(child)
@@ -140,8 +140,8 @@
                      let parent = document.createElement("div")
                      parent.classList.add("deep-parent-container")
                      parent.innerHTML = `
-                        <div class="deep-parent-item">Face_id: ${result[record][i]['pk']}</div>
-                        <div class="deep-parent-item">Face_name: ${result[record][i]['face_name']}</div>
+                        <div class="deep-parent-item">Face_id: ${result[record][i]['id']}</div>
+                        <div class="deep-parent-item">Face_name: ${result[record][i]['name']}</div>
                         <div class="deep-parent-item">Face_type: ${result[record][i]['face_type']}</div>
                      `
                      record_container.append(parent);
