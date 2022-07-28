@@ -52,12 +52,10 @@
      function getPage(flag){
          if (flag){
              window.localStorage['page'] = parseInt(window.localStorage['page']) + 1;
-             console.log(window.localStorage['page']);
              document.querySelector(".btn-preview").style.display = "inline-block";
          }
          else {
              window.localStorage['page'] = parseInt(window.localStorage['page']) - 1;
-             console.log(window.localStorage['page']);
              if (window.localStorage['page'] == 1){
                 document.querySelector(".btn-preview").style.display = "none";
              }
@@ -98,7 +96,6 @@
                  let selectDB = document.querySelector(".select-db");
 
                  if (selectDB.options[selectDB.selectedIndex].value === "PostgreSQL"){
-                     console.log("ok")
                      parserDataPostgres(data)
                 }
                 else if (selectDB.options[selectDB.selectedIndex].value === "Neo4j"){
@@ -113,8 +110,6 @@
      }
 
      function parserDataPostgres(data){
-
-         console.log(data)
 
          let result = data['result']
          let time_block = document.createElement("div");
@@ -159,6 +154,8 @@
 
      function parserDataNeo4j(data) {
 
+
+         console.log(data)
          let result = data['result']
          let time_block = document.createElement("div");
          time_block.classList.add("time");
