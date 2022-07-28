@@ -35,19 +35,19 @@ def queryConstructor(data):
         query.append(",".join(filters))
         query.append("}]->(c:Exemplar{pk: '")
         query.append(data['mainfilter']['Child'])
-        query.append("'}) return PROPERTIES(r) ")
+        query.append("'}) return PROPERTIES(r) ORDER BY r.date_end, r.kind")
     elif data['mainfilter']['Child'] != "":
         query.append("match (p:Exemplar)-[r:Properties{")
         query.append(",".join(filters))
         query.append("}]->(c:Exemplar{pk: '")
         query.append(data['mainfilter']['Child'])
-        query.append("'}) return PROPERTIES(r), p ORDER BY p.pk")
+        query.append("'}) return PROPERTIES(r), p ORDER BY r.date_end, r.kind, p.pk")
     elif data['mainfilter']['Parent'] != "":
         query.append("match (p:Exemplar{pk: '")
         query.append(data['mainfilter']['Parent'])
         query.append("'})-[r:Properties{")
         query.append(",".join(filters))
-        query.append("}]->(c:Exemplar) return PROPERTIES(r), c ORDER BY c.pk")
+        query.append("}]->(c:Exemplar) return PROPERTIES(r), c ORDER BY r.date_end, r.kind, c.pk")
 
     return "".join(query)
 
