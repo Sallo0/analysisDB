@@ -143,7 +143,7 @@ def colenoSQL(request):
                 database=os.getenv('postgres_db_name'),
                 )
     with connection.cursor(cursor_factory=RealDictCursor) as cursor:
-        query = f""" 
+        query = f"""
                 WITH
                 query1 AS
                 (
