@@ -66,6 +66,15 @@ def queryConstructor(data):
 
 
 def f(data):
+    """Приводит данные, полученные из neo4j в json формат для отправки обратно на клиент.
+
+            Args:
+                data (object): Объект, в котором хранятся данные, полученные из neo4j
+
+            Returns:
+                res: Возвращает json-объект с данными из neo4j
+
+    """
     res = {}
     el = []
     for i in data:
@@ -135,6 +144,22 @@ def getGraphDataNeo4j(request):
 
 
 def getDataNeo4j(request):
+    """Выполняет запрос на получение данных (плоского списка) из neo4j.
+
+                Args:
+                    request (object): Объект, в котором хранится json-словарь с данными, полученный в POST-запросе.
+
+                Keyword Args:
+                    data (object): Непосредственно сам json-словарь с данными из запроса
+                    cypher_query (str): Строка запроса получения данных из neo4j (на языке cypher)
+                    timer (int): Время, за которое выполняется запрос
+                    results (list): Список с данными, полученными из neo4j по запросу cypher_query
+
+                Returns:
+                    result_json: Возвращает Объект с данными из БД neo4j и временем, за которое они были получены.
+                        Данные содержат информацию о вершине и связи.
+
+    """
     data = request.data
     cypher_query = queryConstructor(data)
 

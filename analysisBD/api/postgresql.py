@@ -12,10 +12,13 @@ load_dotenv()
 
 
 def queryConstructor(data):
-    """Создаёт sql запрос в виде строки по полученным фильтрам с сайта
+    """Создаёт sql запрос в виде строки по полученным с клиента фильтрам
          
     Args:
-        data (dict): Json словарь полученый с фронта.
+        data (dict): JSON-словарь полученный с клиента.
+
+    Keyword Args:
+        query (list): Лист, который хранит SQL-запрос по частям
 
     Returns:
         str: Готовый SQL запрос.
@@ -57,29 +60,27 @@ def queryConstructor(data):
 
     query.append(" AND ".join(sql_args))
 
-    #query.append(" LIMIT 3")
-
     return "".join(query)
 
 
 def getDataPostgreSQL(request):
-    """Получает данные по запросу request из базы данных postgres и возвращает их вместе с временем,
-         за которое он эти данные получил
+    """Получает данные (плоский список) по запросу (request) из базы данных postgres и возвращает их вместе с временем,
+         за которое он эти данные получил. Данные сортируются по date_end (сначала записи, у которых отсутствует
+         date_end), затем по типу связи kind, а затем по id (face_id).
 
     Args:
         request (object): Объект, в котором хранится json словарь с данными из запроса.
 
     Keyword Args:
         data (dict): Словарь с данными из запроса.
-        to_json (dict): Хранит результат обращения к базе данных в формате json.
+        result (RealDictCursor): Хранит результат обращения к базе данных.
+        timer (int): Время, за которое выполняется запрос.
         
     Returns:
-        json: Возвращает данные из базы PostgreSQL по запросу. 
+        all_data: Возвращает данные из PostgreSQL в виде JSON-строки, где в конце добавлено время выполнения запроса.
 
     """
-
     data = request.data
-    to_json = {}
     host = os.getenv('postgres_host')
     user = os.getenv('postgres_user')
     password = os.getenv('postgres_password')
@@ -133,9 +134,25 @@ def getDataPostgreSQL(request):
     return all_data
 
 
-#request.data["mainfilter"]["Child"]
 def colenoSQL(request):
-    print("postgres")
+    """Получает данные (поиск через колено) по запросу (request) из базы данных postgres и возвращает их вместе с
+    временем, за которое он эти данные получил. Данные сортируются по date_end (сначала записи, у которых отсутствует
+             date_end между искомой вершиной и её parent), а затем по id.
+
+    Args:
+        request (object): Объект, в котором хранится json словарь с данными из запроса.
+
+    Keyword Args:
+        query (str): Строка с SQL-запросом для получения данных
+        result (Dict): Хранит результат обращения к базе данных.
+        timer (int): Время, за которое выполняется запрос.
+
+    Returns:
+        {result, timer}: Возвращает данные из PostgreSQL в виде JSON-объекта. Result хранит лист словарей, где каждый
+        словарь содержит вершину child (брат искомой вершины) и всех parent этой вершины. Time хранит время, за
+        которое были получены данные.
+
+    """
     connection = psycopg2.connect(
                 host=os.getenv('postgres_host'),
                 user=os.getenv('postgres_user'),
