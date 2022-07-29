@@ -62,7 +62,7 @@ def queryConstructor(data):
         sql_args.append(f'child_liquidated={data["child_liquidated"]}')
 
     query.append(" AND ".join(sql_args))
-    query.append(f" ORDER BY date_end, kind, {type}")
+    query.append(f" ORDER BY date_end DESC, kind, {type}")
 
     return "".join(query)
 
