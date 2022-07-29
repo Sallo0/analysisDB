@@ -31,8 +31,7 @@ function getInputValue(data) {
     result['dbtype'] = selectDB.options[selectDB.selectedIndex].value;
     result['mainfilter']['Child'] = document.querySelector(".child").value;
     result['mainfilter']['Parent'] = document.querySelector(".parent").value;
-    console.log(parseInt(result['mainfilter']['Child']))
-    if ( parseInt(result['mainfilter']['Child']) == NaN && parseInt(result['mainfilter']['Parent']) == NaN){
+    if (!(isNumeric(result['mainfilter']['Child']) || isNumeric(result['mainfilter']['Parent']))){
         return false
     }
     result['kind'] = selectKind.options[selectKind.selectedIndex].value;
@@ -181,6 +180,10 @@ function parserDataOrientDB(data) {
 
     document.querySelector('.data').append(all_records);
     document.getElementById("spinner").remove()
+}
+
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
 function parserDataNeo4j(data) {
