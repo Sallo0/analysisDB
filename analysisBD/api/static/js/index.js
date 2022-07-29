@@ -45,11 +45,6 @@ function getInputValue(data) {
 }
 
 function sendRequest() {
-    let spinner = document.createElement("div")
-    spinner.classList.add("spinner");
-    spinner.setAttribute("id", "spinner")
-    document.querySelector(".requestForm").append(spinner)
-
     let data = {
         'dbtype': '',
         'mainfilter': {
@@ -69,6 +64,11 @@ function sendRequest() {
         alert("Поля parent или child пустые или содержат не число");
         return;
     }
+
+    let spinner = document.createElement("div")
+    spinner.classList.add("spinner");
+    spinner.setAttribute("id", "spinner")
+    document.querySelector(".requestForm").append(spinner)
 
     fetch(`http://46.48.3.74:8000/` + "getdata", {
         method: 'POST',
