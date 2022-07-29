@@ -31,6 +31,9 @@ function getInputValue(data) {
     result['dbtype'] = selectDB.options[selectDB.selectedIndex].value;
     result['mainfilter']['Child'] = document.querySelector(".child").value;
     result['mainfilter']['Parent'] = document.querySelector(".parent").value;
+    if ( parseInt(result['mainfilter']['Child']) == NaN && parseInt(result['mainfilter']['Parent']) == NaN){
+        return false
+    }
     result['kind'] = selectKind.options[selectKind.selectedIndex].value;
     result['date_begin'] = document.querySelector(".date-begin").value;
     result['date_end'] = document.querySelector(".date-end").value;
@@ -62,6 +65,10 @@ function sendRequest() {
     }
 
     let result = getInputValue(data)
+    if (!result){
+        alert("Поля parent или child пустые или содержат не число");
+        return;
+    }
 
     fetch(`http://46.48.3.74:8000/` + "getdata", {
         method: 'POST',
