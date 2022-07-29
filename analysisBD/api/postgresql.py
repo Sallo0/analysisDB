@@ -26,15 +26,18 @@ def queryConstructor(data):
     """
     query = ["SELECT * FROM links WHERE "]
     sql_args = []
+    type = ''
 
     if data['mainfilter']['Child'] != "" and data['mainfilter']['Parent'] != "":
         sql_args.append(f'child={data["mainfilter"]["Child"]}')
         sql_args.append(f'parent={data["mainfilter"]["Parent"]}')
 
     elif data['mainfilter']['Parent'] != "":
+        type = 'parent'
         sql_args.append(f'parent={data["mainfilter"]["Parent"]}')
 
     elif data['mainfilter']['Child'] != "":
+        type = 'child'
         sql_args.append(f'child={data["mainfilter"]["Child"]}')
 
     else:
@@ -59,6 +62,7 @@ def queryConstructor(data):
         sql_args.append(f'child_liquidated={data["child_liquidated"]}')
 
     query.append(" AND ".join(sql_args))
+    query.append(f" ORDER BY date_end, kind, {type}")
 
     return "".join(query)
 
