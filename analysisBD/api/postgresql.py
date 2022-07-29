@@ -33,11 +33,11 @@ def queryConstructor(data):
         sql_args.append(f'parent={data["mainfilter"]["Parent"]}')
 
     elif data['mainfilter']['Parent'] != "":
-        type = 'parent'
+        type = 'child'
         sql_args.append(f'parent={data["mainfilter"]["Parent"]}')
 
     elif data['mainfilter']['Child'] != "":
-        type = 'child'
+        type = 'parent'
         sql_args.append(f'child={data["mainfilter"]["Child"]}')
 
     else:
