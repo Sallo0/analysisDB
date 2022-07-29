@@ -31,6 +31,7 @@ function getInputValue(data) {
     result['dbtype'] = selectDB.options[selectDB.selectedIndex].value;
     result['mainfilter']['Child'] = document.querySelector(".child").value;
     result['mainfilter']['Parent'] = document.querySelector(".parent").value;
+    console.log(parseInt(result['mainfilter']['Child']))
     if ( parseInt(result['mainfilter']['Child']) == NaN && parseInt(result['mainfilter']['Parent']) == NaN){
         return false
     }
